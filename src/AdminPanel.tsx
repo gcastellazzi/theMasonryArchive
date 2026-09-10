@@ -1,4 +1,6 @@
-import { Check, Download, MapPin, Compass, Camera, X, Undo2, AlertCircle } from 'lucide-react';
+import {
+  AlertCircle, Camera, Check, Compass, Download, MapPin, Plus, Trash2, Undo2, X,
+} from 'lucide-react';
 import { useEffect, useMemo, useRef, useState } from 'react';
 
 import { Button } from '@/components/ui/button';
@@ -7,6 +9,7 @@ import {
   type MasonryRecord,
   type Suggestion,
 } from './types';
+import { knownTags, suggestionsFor } from './vocabulary';
 
 const BASE = import.meta.env.BASE_URL;
 
@@ -45,10 +48,12 @@ function download(filename: string, payload: unknown) {
 export function AdminPanel({
   initialRecords,
   initialSuggestions,
+  initialExcluded,
   tagVocabulary,
 }: {
   initialRecords: MasonryRecord[];
   initialSuggestions: Suggestion[];
+  initialExcluded: string[];
   tagVocabulary: string[];
 }) {
   const [records, setRecords] = useState(() => {
@@ -63,6 +68,8 @@ export function AdminPanel({
   const [filter, setFilter] = useState<Filter>('todo');
   const [selectedId, setSelectedId] = useState(initialRecords[0]?.id ?? '');
   const [dirty, setDirty] = useState(() => Object.keys(loadDraft()).length > 0);
+  const [tagDraft, setTagDraft] = useState('');
+  const [excluded, setExcluded] = useState<string[]>(initialExcluded);
   const stripRef = useRef<HTMLFieldSetElement>(null);
 
   // Dopo un'approvazione la selezione salta alla foto seguente: il rullino la
@@ -72,6 +79,17 @@ export function AdminPanel({
     const active = strip?.querySelector('[data-selected]');
     active?.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
   }, [selectedId]);
+
+  const vocabularies = useMemo(
+    () => ({
+      element: suggestionsFor('element', records),
+      technique: suggestionsFor('technique', records),
+      material: suggestionsFor('material', records),
+      period: suggestionsFor('period', records),
+    }),
+    [records],
+  );
+  const allTags = useMemo(() => knownTags(records), [records]);
 
   const visible = useMemo(() => {
     switch (filter) {
@@ -137,6 +155,37 @@ export function AdminPanel({
     setDirty(true);
   }
 
+  function addTag() {
+    const tag = tagDraft.trim();
+    if (!tag || !selected) return;
+    if (!selected.tags.includes(tag)) {
+      update(selected.id, { tags: [...selected.tags, tag] });
+    }
+    setTagDraft('');
+  }
+
+  function remove(record: MasonryRecord) {
+    const label = record.title || record.sourceFile || record.id;
+    if (!window.confirm(`Eliminare «${label}» dall'archivio?`)) return;
+
+    advance();
+    setRecords((current) => current.filter((item) => item.id !== record.id));
+    if (record.sourceHash) {
+      setExcluded((current) =>
+        current.includes(record.sourceHash!) ? current : [...current, record.sourceHash!],
+      );
+    }
+    setSuggestions((current) => current.filter((item) => item.recordId !== record.id));
+    setDirty(true);
+    try {
+      const draft = loadDraft();
+      delete draft[record.id];
+      localStorage.setItem(DRAFT_KEY, JSON.stringify(draft));
+    } catch {
+      // Storage non disponibile: la sessione corrente resta comunque coerente.
+    }
+  }
+
   /** Passa alla foto successiva ancora da catalogare. */
   function advance() {
     const queue = visible.filter((record) => record.id !== selected?.id);
@@ -198,6 +247,7 @@ export function AdminPanel({
             onClick={() => {
               download('records.json', records);
               download('suggestions.json', suggestions);
+              download('excluded.json', excluded);
               localStorage.removeItem(DRAFT_KEY);
               setDirty(false);
             }}
@@ -208,10 +258,12 @@ export function AdminPanel({
         </div>
       </header>
 
-      {/* Rullino: solo miniature da 160 px, caricate pigramente. */}
+      {/* Rullino: miniature da 160 px, caricate pigramente. Va a capo e
+          scorre in verticale: in fila unica 750 foto rendevano la pagina
+          larga decine di metri. */}
       <fieldset
         ref={stripRef}
-        className="flex gap-2 overflow-x-auto rounded-md border bg-card p-2"
+        className="grid max-h-[300px] grid-cols-[repeat(auto-fill,minmax(104px,1fr))] gap-2 overflow-y-auto rounded-md border bg-card p-2"
       >
         <legend className="sr-only">Rullino delle foto</legend>
         {visible.map((record) => {
@@ -224,7 +276,7 @@ export function AdminPanel({
               data-selected={isSelected || undefined}
               onClick={() => setSelectedId(record.id)}
               title={`${record.sourceFile ?? record.id} · ${record.location || 'senza posizione'}`}
-              className={`relative shrink-0 overflow-hidden rounded-md border-2 transition ${
+              className={`relative overflow-hidden rounded-md border-2 transition ${
                 isSelected ? 'border-primary' : 'border-transparent hover:border-muted-foreground/40'
               }`}
             >
@@ -236,7 +288,7 @@ export function AdminPanel({
                 decoding="async"
                 width={104}
                 height={78}
-                className="h-[78px] w-[104px] bg-muted object-cover"
+                className="h-[78px] w-full bg-muted object-cover"
               />
               <span
                 className={`status-dot absolute right-1 top-1 ${
@@ -344,19 +396,59 @@ export function AdminPanel({
             </p>
           )}
 
-          {(['title', 'period', 'technique', 'element', 'material'] as const).map((field) => (
+          <label className="field">
+            <span>Title</span>
+            <input
+              value={selected.title}
+              onChange={(event) => update(selected.id, { title: event.target.value })}
+              placeholder="es. Roughly coursed rubble wall with brick levelling"
+            />
+          </label>
+
+          {(['element', 'technique', 'material', 'period'] as const).map((field) => (
             <label className="field" key={field}>
               <span className="capitalize">{field}</span>
+              {/* Testo libero con suggerimenti: il browser completa mentre
+                  scrivi, ma nulla vieta di inserire un valore nuovo. */}
               <input
+                list={`vocab-${field}`}
                 value={selected[field]}
                 onChange={(event) => update(selected.id, { [field]: event.target.value })}
-                placeholder={field === 'period' ? 'es. XIII secolo' : ''}
+                placeholder={vocabularies[field][0]}
               />
+              <datalist id={`vocab-${field}`}>
+                {vocabularies[field].map((option) => (
+                  <option key={option} value={option} aria-label={option} />
+                ))}
+              </datalist>
             </label>
           ))}
 
           <div>
             <span className="mb-1 block text-sm font-medium">Tag</span>
+            <div className="mb-2 flex gap-1">
+              <input
+                list="vocab-tags"
+                value={tagDraft}
+                onChange={(event) => setTagDraft(event.target.value)}
+                onKeyDown={(event) => {
+                  if (event.key === 'Enter') {
+                    event.preventDefault();
+                    addTag();
+                  }
+                }}
+                placeholder="Aggiungi un tag e premi Invio"
+                className="h-9 min-w-0 flex-1 rounded-md border bg-background px-3 text-sm"
+              />
+              <Button size="sm" variant="outline" onClick={addTag} disabled={!tagDraft.trim()}>
+                <Plus />
+              </Button>
+              <datalist id="vocab-tags">
+                {allTags.map((tag) => (
+                  <option key={tag} value={tag} aria-label={tag} />
+                ))}
+              </datalist>
+            </div>
             <div className="flex flex-wrap gap-1">
               {[...new Set([...tagVocabulary, ...selected.tags])].map((tag) => {
                 const active = selected.tags.includes(tag);
@@ -410,6 +502,15 @@ export function AdminPanel({
                 Rimetti in attesa
               </Button>
             )}
+            <Button
+              size="sm"
+              variant="ghost"
+              className="ml-auto text-destructive hover:text-destructive"
+              onClick={() => remove(selected)}
+            >
+              <Trash2 />
+              Elimina
+            </Button>
           </div>
           {missing.length > 0 && (
             <p className="text-xs text-muted-foreground">

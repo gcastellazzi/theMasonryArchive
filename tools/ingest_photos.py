@@ -44,6 +44,7 @@ from photo_meta import IMAGE_SUFFIXES, PhotoMeta, read_photo  # noqa: E402
 
 ROOT = Path(__file__).resolve().parent.parent
 RECORDS = ROOT / "src" / "data" / "records.json"
+EXCLUDED = ROOT / "src" / "data" / "excluded.json"
 IMAGES = ROOT / "public" / "images"
 GEOCACHE = Path(__file__).resolve().parent / ".geocache.json"
 
@@ -250,6 +251,9 @@ def ingest(args: argparse.Namespace) -> int:
     records_path = Path(args.records).expanduser()
 
     existing = load_json(records_path, [])
+    # Foto eliminate dal pannello: senza questo elenco tornerebbero
+    # nell'archivio al primo reimport della stessa cartella.
+    excluded = set(load_json(EXCLUDED, []))
     by_hash = {record.get("sourceHash"): record for record in existing if record.get("sourceHash")}
     used_ids = {record["id"] for record in existing}
 
@@ -260,7 +264,7 @@ def ingest(args: argparse.Namespace) -> int:
     print(f"{len(photos)} immagini in {source}")
     geocoder = Geocoder(enabled=not args.no_geocode)
 
-    added, updated, without_position, duplicates = 0, 0, [], []
+    added, updated, without_position, duplicates, skipped = 0, 0, [], [], 0
     result: list[dict[str, Any]] = list(existing)
     seen_in_run: set[str] = set()
 
@@ -274,6 +278,10 @@ def ingest(args: argparse.Namespace) -> int:
             duplicates.append(photo.name)
             continue
         seen_in_run.add(digest)
+
+        if digest in excluded:
+            skipped += 1
+            continue
 
         meta = read_photo(photo)
         record = by_hash.get(digest)
@@ -343,6 +351,8 @@ def ingest(args: argparse.Namespace) -> int:
         f"  senza tag:        {untagged}\n"
         f"  chiamate geocode: {geocoder.calls} (le altre dalla cache)"
     )
+    if skipped:
+        print(f"  {skipped} foto ignorate perche' eliminate dall'archivio")
     if duplicates:
         print(f"\n  {len(duplicates)} copie identiche saltate:")
         for name in duplicates[:10]:

@@ -22,13 +22,27 @@ import {
 import { Button } from '@/components/ui/button';
 import { AdminPanel } from './AdminPanel';
 import { SuggestForm } from './SuggestForm';
+import { CitationPanel } from './CitationPanel';
 import rawRecords from './data/records.json';
 import rawSuggestions from './data/suggestions.json';
+import rawExcluded from './data/excluded.json';
 import type { MasonryRecord, ReviewStatus, Role, Suggestion } from './types';
 
 const records = rawRecords as unknown as MasonryRecord[];
 const suggestions = rawSuggestions as unknown as Suggestion[];
+const excluded = rawExcluded as string[];
 const BASE = import.meta.env.BASE_URL;
+
+// Il pannello di amministrazione esiste solo quando il sito gira in locale
+// (`npm run dev`). Nel build di produzione la voce di menu non viene generata
+// e il ramo che la rende viene eliminato dal bundle. Non e' autenticazione —
+// su un sito statico non puo' esserlo — ma toglie il pannello dal sito
+// pubblicato, dove chiunque potrebbe altrimenti aprirlo.
+const ADMIN_ENABLED = import.meta.env.DEV;
+
+const VIEWS = ADMIN_ENABLED
+  ? ['Explore', 'Suggest', 'Upload', 'Admin', 'Data model']
+  : ['Explore', 'Suggest', 'Upload', 'Data model'];
 
 const suggestedTags = [
   'arch',
@@ -190,7 +204,7 @@ function App() {
             </div>
           </div>
           <nav className="hidden items-center gap-1 md:flex">
-            {['Explore', 'Suggest', 'Upload', 'Admin', 'Data model'].map((item) => (
+            {VIEWS.map((item) => (
               <Button
                 key={item}
                 variant="ghost"
@@ -235,12 +249,14 @@ function App() {
 
       <div
         className={`mx-auto grid max-w-[1320px] gap-4 px-4 py-4 sm:px-6 ${
-          activeView === 'Admin' ? '' : 'lg:grid-cols-[minmax(0,1fr)_360px]'
+          ADMIN_ENABLED && activeView === 'Admin'
+            ? ''
+            : 'lg:grid-cols-[minmax(0,1fr)_360px]'
         }`}
       >
         <section
           className="min-h-[520px] overflow-hidden rounded-md border bg-card"
-          hidden={activeView === 'Admin'}
+          hidden={ADMIN_ENABLED && activeView === 'Admin'}
         >
           <div className="flex flex-wrap items-center justify-between gap-3 border-b px-4 py-3">
             <div>
@@ -289,6 +305,7 @@ function App() {
               <div className="space-y-3">
                 {visibleRecords.map((record) => (
                   <article key={record.id} className="record-card">
+                    {/* eslint-disable-next-line next/no-img-element */}
                     <img src={`${BASE}${record.thumbnail}`} alt="" loading="lazy" />
                     <div>
                       <div className="flex items-center gap-2">
@@ -314,6 +331,8 @@ function App() {
               </div>
             </section>
           )}
+
+          {activeView === 'Explore' && <CitationPanel />}
 
           {activeView === 'Suggest' && (
             <section className="rounded-md border bg-card p-4">
@@ -411,7 +430,7 @@ function App() {
             </section>
           )}
 
-          {activeView === 'Admin' && (
+          {ADMIN_ENABLED && activeView === 'Admin' && (
             <div className="space-y-3">
               <div className="rounded-md border bg-card p-4">
                 <h2 className="mb-1 font-semibold">Admin review queue</h2>
@@ -426,6 +445,7 @@ function App() {
               <AdminPanel
                 initialRecords={records}
                 initialSuggestions={liveSuggestions}
+                initialExcluded={excluded}
                 tagVocabulary={suggestedTags}
               />
             </div>

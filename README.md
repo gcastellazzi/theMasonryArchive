@@ -139,3 +139,64 @@ motivazione facoltativa. La proposta nasce in stato `pending` e non tocca il
 record: solo l'accettazione da parte dell'amministratore ne riporta il valore
 sul record. Le proposte vivono in `src/data/suggestions.json`, separate dai
 record, e la pipeline di ingest non le tocca mai.
+
+### Chi può accedere al pannello
+
+Il pannello esiste **solo quando il sito gira in locale** (`npm run dev`). Nel
+build di produzione la voce di menu non viene generata e il codice del pannello
+viene eliminato dal bundle: sul sito pubblicato non è raggiungibile, nemmeno
+conoscendo l'indirizzo.
+
+Non è autenticazione, ed è bene essere espliciti sul perché: **un sito statico
+non può autenticare nessuno**. Qualunque password messa nel JavaScript sarebbe
+leggibile aprendo il sorgente della pagina, e darebbe una falsa sicurezza. Una
+vera autenticazione — magic link, due fattori, ruoli — richiede il servizio di
+backend descritto più sopra: Supabase Auth o equivalente, con le operazioni di
+moderazione eseguite dal server e non dal browser.
+
+Va tenuto presente anche che tutto ciò che sta nel repository è pubblico,
+`records.json` compreso: chiunque può leggere i record non ancora approvati e le
+loro coordinate. Se questo diventa un problema, il passo successivo è generare
+in fase di build un `records.public.json` con i soli record approvati e tenere
+l'archivio completo fuori dal sito pubblicato.
+
+### Eliminare una foto
+
+Il pulsante **Elimina** toglie il record dall'archivio e ne registra l'impronta
+in `excluded.json`. Il file serve a rendere l'eliminazione definitiva: senza,
+il primo reimport della stessa cartella riporterebbe dentro la foto.
+L'esportazione dal pannello scarica quindi tre file — `records.json`,
+`suggestions.json` ed `excluded.json` — tutti da salvare in `src/data/`.
+
+Le immagini restano su disco finché non si esegue:
+
+```bash
+python3 tools/prune_images.py --dry-run   # mostra cosa toglierebbe
+python3 tools/prune_images.py             # rimuove
+```
+
+Lo stesso strumento ripulisce le derivate lasciate da un ingest interrotto.
+
+## Citare l'archivio
+
+Il file `CITATION.cff` alla radice del repository fornisce a GitHub il pulsante
+*Cite this repository*, e la home del sito mostra la citazione pronta da copiare,
+in testo semplice e in BibTeX, insieme alla licenza.
+
+Per rendere l'archivio **citabile in modo stabile serve un DOI**, che si ottiene
+gratuitamente così:
+
+1. Accedi a [zenodo.org](https://zenodo.org) con l'account GitHub.
+2. In *Account → GitHub*, attiva l'interruttore sul repository
+   `theMasonryArchive`.
+3. Crea una release su GitHub (`Releases → Draft a new release`, tag `v1.0.0`).
+   Zenodo la archivia e assegna un DOI.
+4. Riporta il DOI in due punti: il campo `DOI` in `src/CitationPanel.tsx` e la
+   sezione `identifiers` di `CITATION.cff` (righe già predisposte, commentate).
+
+Zenodo assegna anche un *concept DOI* che punta sempre all'ultima versione,
+oltre a un DOI specifico per ogni release: nella citazione conviene usare il
+primo, così il riferimento non invecchia a ogni aggiornamento dell'archivio.
+
+Licenza dei contenuti: **CC BY 4.0** per immagini, note e metadati; **MIT** per
+il codice dell'applicazione.

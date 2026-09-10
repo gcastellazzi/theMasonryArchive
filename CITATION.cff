@@ -1,0 +1,33 @@
+cff-version: 1.2.0
+title: The Masonry Archive
+message: >-
+  If you use images, records or metadata from this archive, please cite it
+  using the metadata below.
+type: dataset
+authors:
+  - family-names: Castellazzi
+    given-names: Giovanni
+    affiliation: >-
+      Department of Civil, Chemical, Environmental and Materials Engineering
+      (DICAM), University of Bologna
+    orcid: https://orcid.org/0000-0001-5870-5474
+repository-code: https://github.com/gcastellazzi/theMasonryArchive
+url: https://gcastellazzi.github.io/theMasonryArchive/
+abstract: >-
+  An open, moderated archive of geolocated photographs of masonry structures,
+  with construction metadata for teaching and research on the mechanics and
+  documentation of historical masonry.
+keywords:
+  - masonry
+  - historical structures
+  - built heritage
+  - structural documentation
+  - geolocated photographs
+  - open data
+license: CC-BY-4.0
+# Alla prima release taggata su GitHub, Zenodo assegna un DOI: aggiungere qui
+#   version: 1.0.0
+#   date-released: 'AAAA-MM-GG'
+#   identifiers:
+#     - type: doi
+#       value: 10.5281/zenodo.XXXXXXX
