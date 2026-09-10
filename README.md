@@ -125,9 +125,22 @@ La scheda **Admin** è il banco di lavoro: rullino di miniature, anteprima con i
 dati di scatto, campi di catalogazione, vocabolario dei tag e coda delle proposte
 arrivate dagli utenti.
 
-Il sito è statico e non può scrivere su disco: le modifiche restano in bozza nel
-browser (`localStorage`) finché non premi **Esporta JSON**, che scarica
-`records.json` e `suggestions.json` da salvare in `src/data/`.
+Le modifiche restano in bozza nel browser (`localStorage`) finché non premi
+**Salva le modifiche**, che le scrive direttamente in `src/data/`. Il pulsante
+funziona perché il pannello gira sul server di sviluppo: un plugin Vite
+(`tools/vite-admin-save.ts`) espone un endpoint di scrittura che esiste solo in
+locale e non finisce nel build di produzione. Accanto c'è un pulsante di
+download, se preferisci spostare i JSON a mano.
+
+Il salvataggio scrive i file ma **non li committa**: le modifiche diventano
+pubbliche solo dopo
+
+```bash
+git add src/data && git commit -m "Catalogazione" && git push
+```
+
+Finché non pushi, l'archivio online resta com'era: puoi catalogare per giorni e
+pubblicare quando sei pronto.
 
 Un record diventa approvabile solo quando ha titolo, elemento, tecnica, almeno un
 tag e una posizione. Sulla mappa pubblica compaiono unicamente i record

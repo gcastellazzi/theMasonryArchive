@@ -201,6 +201,16 @@ def make_derivatives(image: Path, record_id: str, images_dir: Path, force: bool)
     return paths
 
 
+def _number(value: float) -> float | int:
+    """Intero quando il valore lo e' davvero.
+
+    JavaScript serializza 78.0 come `78`, Python come `78.0`. Senza questa
+    normalizzazione ogni salvataggio dal pannello e ogni ingest si
+    rincorrerebbero producendo decine di righe di differenze inesistenti.
+    """
+    return int(value) if value == int(value) else value
+
+
 def blank_record(record_id: str, meta: PhotoMeta, place: dict[str, str], digest: str) -> dict[str, Any]:
     """Record nuovo: campi automatici compilati, campi di merito vuoti."""
     return {
@@ -226,7 +236,7 @@ def blank_record(record_id: str, meta: PhotoMeta, place: dict[str, str], digest:
         "lat": meta.lat,
         "lng": meta.lng,
         "altitude": round(meta.altitude) if meta.altitude is not None else None,
-        "bearing": round(meta.bearing, 1) if meta.bearing is not None else None,
+        "bearing": _number(round(meta.bearing, 1)) if meta.bearing is not None else None,
         "capturedAt": meta.captured_at,
         "camera": meta.camera,
         "width": meta.width,

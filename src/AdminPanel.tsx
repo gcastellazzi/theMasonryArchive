@@ -1,5 +1,5 @@
 import {
-  AlertCircle, Camera, Check, Compass, Download, MapPin, Plus, Trash2, Undo2, X,
+  AlertCircle, Camera, Check, Compass, Download, MapPin, Plus, Save, Trash2, Undo2, X,
 } from 'lucide-react';
 import { useEffect, useMemo, useRef, useState } from 'react';
 
@@ -70,6 +70,7 @@ export function AdminPanel({
   const [dirty, setDirty] = useState(() => Object.keys(loadDraft()).length > 0);
   const [tagDraft, setTagDraft] = useState('');
   const [excluded, setExcluded] = useState<string[]>(initialExcluded);
+  const [saving, setSaving] = useState<'idle' | 'busy' | 'done' | 'error'>('idle');
   const stripRef = useRef<HTMLFieldSetElement>(null);
 
   // Dopo un'approvazione la selezione salta alla foto seguente: il rullino la
@@ -153,6 +154,29 @@ export function AdminPanel({
       ),
     );
     setDirty(true);
+  }
+
+  async function saveToDisk() {
+    setSaving('busy');
+    try {
+      const response = await fetch(`${BASE}__admin/save`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          'records.json': records,
+          'suggestions.json': suggestions,
+          'excluded.json': excluded,
+        }),
+      });
+      if (!response.ok) throw new Error(await response.text());
+      localStorage.removeItem(DRAFT_KEY);
+      setDirty(false);
+      setSaving('done');
+      setTimeout(() => setSaving('idle'), 2500);
+    } catch (error) {
+      console.error('salvataggio non riuscito', error);
+      setSaving('error');
+    }
   }
 
   function addTag() {
@@ -244,18 +268,38 @@ export function AdminPanel({
           <Button
             size="sm"
             variant={dirty ? 'default' : 'outline'}
+            onClick={saveToDisk}
+            disabled={saving === 'busy'}
+          >
+            {saving === 'done' ? <Check /> : <Save />}
+            {saving === 'busy'
+              ? 'Salvataggio…'
+              : saving === 'done'
+                ? 'Salvato in src/data'
+                : dirty
+                  ? 'Salva le modifiche'
+                  : 'Salva'}
+          </Button>
+          <Button
+            size="sm"
+            variant="ghost"
+            title="Scarica i tre JSON, se preferisci spostarli a mano"
             onClick={() => {
               download('records.json', records);
               download('suggestions.json', suggestions);
               download('excluded.json', excluded);
-              localStorage.removeItem(DRAFT_KEY);
-              setDirty(false);
             }}
           >
             <Download />
-            Esporta JSON
           </Button>
         </div>
+        {saving === 'error' && (
+          <p className="w-full text-xs text-destructive">
+            Salvataggio non riuscito. Il server di sviluppo sta girando? In
+            alternativa scarica i JSON con il pulsante accanto e copiali in
+            <code className="mx-1">src/data/</code>.
+          </p>
+        )}
       </header>
 
       {/* Rullino: miniature da 160 px, caricate pigramente. Va a capo e
