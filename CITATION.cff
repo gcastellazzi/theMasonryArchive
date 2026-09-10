@@ -25,9 +25,15 @@ keywords:
   - geolocated photographs
   - open data
 license: CC-BY-4.0
-# Alla prima release taggata su GitHub, Zenodo assegna un DOI: aggiungere qui
-#   version: 1.0.0
-#   date-released: 'AAAA-MM-GG'
-#   identifiers:
-#     - type: doi
-#       value: 10.5281/zenodo.XXXXXXX
+version: 1.0.0
+date-released: '2026-09-11'
+doi: 10.5281/zenodo.22698617
+identifiers:
+  - type: doi
+    value: 10.5281/zenodo.22698617
+    description: >-
+      Concept DOI: always resolves to the latest release. Use this one unless
+      you need to point at a specific version.
+  - type: doi
+    value: 10.5281/zenodo.22698618
+    description: DOI of release v1.0.0.

@@ -4,26 +4,30 @@ import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 
 const YEAR = new Date().getFullYear();
-const SITE = 'https://gcastellazzi.github.io/theMasonryArchive/';
 
 /**
- * Il DOI arriva dalla prima release taggata, tramite l'integrazione
- * GitHub-Zenodo. Finche' e' vuoto la citazione rimanda al sito; appena c'e',
- * basta scriverlo qui e compare in tutte le forme di citazione.
+ * Zenodo assegna due DOI: uno per ogni release e un "concept DOI" che punta
+ * sempre all'ultima versione. Nella citazione va il secondo, cosi' il
+ * riferimento non invecchia a ogni aggiornamento dell'archivio; il primo
+ * resta disponibile per chi deve citare esattamente la versione usata.
  */
-const DOI: string = '';
+const CONCEPT_DOI = '10.5281/zenodo.22698617';
+const VERSION_DOI = '10.5281/zenodo.22698618';
+const VERSION = 'v1.0.0';
 
-const PLAIN = DOI
-  ? `Castellazzi, G. (${YEAR}). The Masonry Archive [Data set]. University of Bologna. https://doi.org/${DOI}`
-  : `Castellazzi, G. (${YEAR}). The Masonry Archive [Data set]. University of Bologna. ${SITE}`;
+const PLAIN =
+  `Castellazzi, G. (${YEAR}). The Masonry Archive [Data set]. ` +
+  `University of Bologna. https://doi.org/${CONCEPT_DOI}`;
 
 const BIBTEX = `@misc{castellazzi_masonry_archive,
   author       = {Castellazzi, Giovanni},
   title        = {The Masonry Archive},
   year         = {${YEAR}},
+  publisher    = {Zenodo},
   howpublished = {University of Bologna},
   note         = {Data set},
-  url          = {${DOI ? `https://doi.org/${DOI}` : SITE}}${DOI ? `,\n  doi          = {${DOI}}` : ''}
+  doi          = {${CONCEPT_DOI}},
+  url          = {https://doi.org/${CONCEPT_DOI}}
 }`;
 
 function CopyButton({ text, label }: { text: string; label: string }) {
@@ -93,12 +97,26 @@ export function CitationPanel() {
           </div>
         </div>
 
-        {!DOI && (
-          <p className="text-xs text-muted-foreground">
-            A DOI will be minted from the first tagged release through Zenodo,
-            and will replace the link above as the preferred citation.
-          </p>
-        )}
+        <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-muted-foreground">
+          {/* Badge reso in locale: nessuna richiesta a servizi esterni dalla
+              pagina pubblica. */}
+          <a
+            href={`https://doi.org/${CONCEPT_DOI}`}
+            target="_blank"
+            rel="noreferrer"
+            className="inline-flex overflow-hidden rounded font-mono text-[11px] no-underline"
+          >
+            <span className="bg-neutral-700 px-2 py-1 text-white">DOI</span>
+            <span className="bg-primary px-2 py-1 text-primary-foreground">{CONCEPT_DOI}</span>
+          </a>
+          <span>
+            Archived on Zenodo. To cite the exact version you consulted, use{' '}
+            <a href={`https://doi.org/${VERSION_DOI}`} target="_blank" rel="noreferrer">
+              {VERSION_DOI}
+            </a>{' '}
+            ({VERSION}); the DOI above always resolves to the latest release.
+          </span>
+        </div>
       </div>
     </section>
   );

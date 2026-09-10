@@ -1,5 +1,7 @@
 # The Masonry Archive
 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.22698617.svg)](https://doi.org/10.5281/zenodo.22698617)
+
 The Masonry Archive is an open, moderated web archive for geolocated masonry images. It is designed for public consultation, student teaching, and research-oriented documentation of masonry textures, structural details, construction periods, and optional aLoTiA JSON records.
 
 ## Current scope
@@ -183,20 +185,22 @@ Il file `CITATION.cff` alla radice del repository fornisce a GitHub il pulsante
 *Cite this repository*, e la home del sito mostra la citazione pronta da copiare,
 in testo semplice e in BibTeX, insieme alla licenza.
 
-Per rendere l'archivio **citabile in modo stabile serve un DOI**, che si ottiene
-gratuitamente così:
+L'archivio è archiviato su Zenodo e ha un DOI:
 
-1. Accedi a [zenodo.org](https://zenodo.org) con l'account GitHub.
-2. In *Account → GitHub*, attiva l'interruttore sul repository
-   `theMasonryArchive`.
-3. Crea una release su GitHub (`Releases → Draft a new release`, tag `v1.0.0`).
-   Zenodo la archivia e assegna un DOI.
-4. Riporta il DOI in due punti: il campo `DOI` in `src/CitationPanel.tsx` e la
-   sezione `identifiers` di `CITATION.cff` (righe già predisposte, commentate).
+| DOI | A cosa punta | Quando usarlo |
+|---|---|---|
+| [10.5281/zenodo.22698617](https://doi.org/10.5281/zenodo.22698617) | sempre l'ultima release | **citazione normale** |
+| [10.5281/zenodo.22698618](https://doi.org/10.5281/zenodo.22698618) | release v1.0.0 | per citare la versione esatta consultata |
 
-Zenodo assegna anche un *concept DOI* che punta sempre all'ultima versione,
-oltre a un DOI specifico per ogni release: nella citazione conviene usare il
-primo, così il riferimento non invecchia a ogni aggiornamento dell'archivio.
+Citazione:
+
+> Castellazzi, G. (2026). *The Masonry Archive* [Data set]. University of
+> Bologna. https://doi.org/10.5281/zenodo.22698617
+
+A ogni nuova release taggata su GitHub, Zenodo crea automaticamente un nuovo DOI
+di versione e aggiorna il concept DOI. Dopo una release vanno aggiornati
+`version` e `date-released` in `CITATION.cff`, e la costante `VERSION` in
+`src/CitationPanel.tsx`; il concept DOI resta invece sempre lo stesso.
 
 Licenza dei contenuti: **CC BY 4.0** per immagini, note e metadati; **MIT** per
 il codice dell'applicazione.
