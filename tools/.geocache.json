@@ -1,0 +1,1500 @@
+{
+  "-13.1633,-72.5456": {
+    "location": "Machupicchu",
+    "county": "",
+    "state": "Cusco",
+    "country": "Peru",
+    "countryCode": "PE"
+  },
+  "43.2809,10.5933": {
+    "location": "Bibbona",
+    "county": "Livorno",
+    "state": "Tuscany",
+    "country": "Italy",
+    "countryCode": "IT"
+  },
+  "42.8022,13.5734": {
+    "location": "Valle Castellana",
+    "county": "Teramo",
+    "state": "Abruzzo",
+    "country": "Italy",
+    "countryCode": "IT"
+  },
+  "42.8021,13.5734": {
+    "location": "Valle Castellana",
+    "county": "Teramo",
+    "state": "Abruzzo",
+    "country": "Italy",
+    "countryCode": "IT"
+  },
+  "43.8967,12.3431": {
+    "location": "San Leo",
+    "county": "Rimini",
+    "state": "Emilia-Romagna",
+    "country": "Italy",
+    "countryCode": "IT"
+  },
+  "43.8968,12.3435": {
+    "location": "San Leo",
+    "county": "Rimini",
+    "state": "Emilia-Romagna",
+    "country": "Italy",
+    "countryCode": "IT"
+  },
+  "43.8961,12.3434": {
+    "location": "San Leo",
+    "county": "Rimini",
+    "state": "Emilia-Romagna",
+    "country": "Italy",
+    "countryCode": "IT"
+  },
+  "43.8968,12.3430": {
+    "location": "San Leo",
+    "county": "Rimini",
+    "state": "Emilia-Romagna",
+    "country": "Italy",
+    "countryCode": "IT"
+  },
+  "43.8971,12.3424": {
+    "location": "San Leo",
+    "county": "Rimini",
+    "state": "Emilia-Romagna",
+    "country": "Italy",
+    "countryCode": "IT"
+  },
+  "43.8969,12.3427": {
+    "location": "San Leo",
+    "county": "Rimini",
+    "state": "Emilia-Romagna",
+    "country": "Italy",
+    "countryCode": "IT"
+  },
+  "43.8969,12.3426": {
+    "location": "San Leo",
+    "county": "Rimini",
+    "state": "Emilia-Romagna",
+    "country": "Italy",
+    "countryCode": "IT"
+  },
+  "43.8970,12.3424": {
+    "location": "San Leo",
+    "county": "Rimini",
+    "state": "Emilia-Romagna",
+    "country": "Italy",
+    "countryCode": "IT"
+  },
+  "43.8970,12.3427": {
+    "location": "San Leo",
+    "county": "Rimini",
+    "state": "Emilia-Romagna",
+    "country": "Italy",
+    "countryCode": "IT"
+  },
+  "43.8971,12.3428": {
+    "location": "San Leo",
+    "county": "Rimini",
+    "state": "Emilia-Romagna",
+    "country": "Italy",
+    "countryCode": "IT"
+  },
+  "43.8967,12.3429": {
+    "location": "San Leo",
+    "county": "Rimini",
+    "state": "Emilia-Romagna",
+    "country": "Italy",
+    "countryCode": "IT"
+  },
+  "43.8968,12.3428": {
+    "location": "San Leo",
+    "county": "Rimini",
+    "state": "Emilia-Romagna",
+    "country": "Italy",
+    "countryCode": "IT"
+  },
+  "43.8968,12.3432": {
+    "location": "San Leo",
+    "county": "Rimini",
+    "state": "Emilia-Romagna",
+    "country": "Italy",
+    "countryCode": "IT"
+  },
+  "46.0626,11.1149": {
+    "location": "Trento",
+    "county": "Provincia di Trento",
+    "state": "Trentino – Alto Adige/Südtirol",
+    "country": "Italy",
+    "countryCode": "IT"
+  },
+  "35.9097,14.4257": {
+    "location": "Mosta",
+    "county": "",
+    "state": "",
+    "country": "Malta",
+    "countryCode": "MT"
+  },
+  "35.9098,14.4258": {
+    "location": "Mosta",
+    "county": "",
+    "state": "",
+    "country": "Malta",
+    "countryCode": "MT"
+  },
+  "35.9098,14.4259": {
+    "location": "Mosta",
+    "county": "",
+    "state": "",
+    "country": "Malta",
+    "countryCode": "MT"
+  },
+  "35.9098,14.4253": {
+    "location": "Mosta",
+    "county": "",
+    "state": "",
+    "country": "Malta",
+    "countryCode": "MT"
+  },
+  "35.9099,14.4260": {
+    "location": "Mosta",
+    "county": "",
+    "state": "",
+    "country": "Malta",
+    "countryCode": "MT"
+  },
+  "35.9102,14.4255": {
+    "location": "Mosta",
+    "county": "",
+    "state": "",
+    "country": "Malta",
+    "countryCode": "MT"
+  },
+  "35.8931,14.5107": {
+    "location": "Floriana",
+    "county": "",
+    "state": "",
+    "country": "Malta",
+    "countryCode": "MT"
+  },
+  "35.8930,14.5107": {
+    "location": "Floriana",
+    "county": "",
+    "state": "",
+    "country": "Malta",
+    "countryCode": "MT"
+  },
+  "35.8928,14.5104": {
+    "location": "Floriana",
+    "county": "",
+    "state": "",
+    "country": "Malta",
+    "countryCode": "MT"
+  },
+  "35.8912,14.5093": {
+    "location": "Floriana",
+    "county": "",
+    "state": "",
+    "country": "Malta",
+    "countryCode": "MT"
+  },
+  "35.8973,14.5110": {
+    "location": "Valletta",
+    "county": "",
+    "state": "",
+    "country": "Malta",
+    "countryCode": "MT"
+  },
+  "35.8996,14.5125": {
+    "location": "Valletta",
+    "county": "",
+    "state": "",
+    "country": "Malta",
+    "countryCode": "MT"
+  },
+  "35.8999,14.5123": {
+    "location": "Valletta",
+    "county": "",
+    "state": "",
+    "country": "Malta",
+    "countryCode": "MT"
+  },
+  "35.9003,14.5119": {
+    "location": "Valletta",
+    "county": "",
+    "state": "",
+    "country": "Malta",
+    "countryCode": "MT"
+  },
+  "35.8978,14.5106": {
+    "location": "Valletta",
+    "county": "",
+    "state": "",
+    "country": "Malta",
+    "countryCode": "MT"
+  },
+  "35.8977,14.5106": {
+    "location": "Valletta",
+    "county": "",
+    "state": "",
+    "country": "Malta",
+    "countryCode": "MT"
+  },
+  "35.8972,14.5099": {
+    "location": "Valletta",
+    "county": "",
+    "state": "",
+    "country": "Malta",
+    "countryCode": "MT"
+  },
+  "35.8942,14.5089": {
+    "location": "Valletta",
+    "county": "",
+    "state": "",
+    "country": "Malta",
+    "countryCode": "MT"
+  },
+  "41.4037,2.1730": {
+    "location": "Barcelona",
+    "county": "Barcelonès",
+    "state": "Catalonia",
+    "country": "Spain",
+    "countryCode": "ES"
+  },
+  "41.4037,2.1733": {
+    "location": "Barcelona",
+    "county": "Barcelonès",
+    "state": "Catalonia",
+    "country": "Spain",
+    "countryCode": "ES"
+  },
+  "41.4041,2.1748": {
+    "location": "Barcelona",
+    "county": "Barcelonès",
+    "state": "Catalonia",
+    "country": "Spain",
+    "countryCode": "ES"
+  },
+  "41.4040,2.1749": {
+    "location": "Barcelona",
+    "county": "Barcelonès",
+    "state": "Catalonia",
+    "country": "Spain",
+    "countryCode": "ES"
+  },
+  "41.3847,2.1760": {
+    "location": "Barcelona",
+    "county": "Barcelonès",
+    "state": "Catalonia",
+    "country": "Spain",
+    "countryCode": "ES"
+  },
+  "41.3846,2.1760": {
+    "location": "Barcelona",
+    "county": "Barcelonès",
+    "state": "Catalonia",
+    "country": "Spain",
+    "countryCode": "ES"
+  },
+  "41.3844,2.1757": {
+    "location": "Barcelona",
+    "county": "Barcelonès",
+    "state": "Catalonia",
+    "country": "Spain",
+    "countryCode": "ES"
+  },
+  "41.3843,2.1756": {
+    "location": "Barcelona",
+    "county": "Barcelonès",
+    "state": "Catalonia",
+    "country": "Spain",
+    "countryCode": "ES"
+  },
+  "43.2960,5.3619": {
+    "location": "Marseille",
+    "county": "Bouches-du-Rhône",
+    "state": "Provence-Alpes-Côte d'Azur",
+    "country": "France",
+    "countryCode": "FR"
+  },
+  "43.2961,5.3621": {
+    "location": "Marseille",
+    "county": "Bouches-du-Rhône",
+    "state": "Provence-Alpes-Côte d'Azur",
+    "country": "France",
+    "countryCode": "FR"
+  },
+  "43.2961,5.3622": {
+    "location": "Marseille",
+    "county": "Bouches-du-Rhône",
+    "state": "Provence-Alpes-Côte d'Azur",
+    "country": "France",
+    "countryCode": "FR"
+  },
+  "43.2962,5.3621": {
+    "location": "Marseille",
+    "county": "Bouches-du-Rhône",
+    "state": "Provence-Alpes-Côte d'Azur",
+    "country": "France",
+    "countryCode": "FR"
+  },
+  "43.2951,5.3622": {
+    "location": "Marseille",
+    "county": "Bouches-du-Rhône",
+    "state": "Provence-Alpes-Côte d'Azur",
+    "country": "France",
+    "countryCode": "FR"
+  },
+  "43.2951,5.3621": {
+    "location": "Marseille",
+    "county": "Bouches-du-Rhône",
+    "state": "Provence-Alpes-Côte d'Azur",
+    "country": "France",
+    "countryCode": "FR"
+  },
+  "43.2952,5.3625": {
+    "location": "Marseille",
+    "county": "Bouches-du-Rhône",
+    "state": "Provence-Alpes-Côte d'Azur",
+    "country": "France",
+    "countryCode": "FR"
+  },
+  "43.2951,5.3626": {
+    "location": "Marseille",
+    "county": "Bouches-du-Rhône",
+    "state": "Provence-Alpes-Côte d'Azur",
+    "country": "France",
+    "countryCode": "FR"
+  },
+  "43.2955,5.3621": {
+    "location": "Marseille",
+    "county": "Bouches-du-Rhône",
+    "state": "Provence-Alpes-Côte d'Azur",
+    "country": "France",
+    "countryCode": "FR"
+  },
+  "43.2996,5.3648": {
+    "location": "Marseille",
+    "county": "Bouches-du-Rhône",
+    "state": "Provence-Alpes-Côte d'Azur",
+    "country": "France",
+    "countryCode": "FR"
+  },
+  "45.8574,11.8784": {
+    "location": "Possagno",
+    "county": "Province of Treviso",
+    "state": "Veneto",
+    "country": "Italy",
+    "countryCode": "IT"
+  },
+  "45.8582,11.8783": {
+    "location": "Possagno",
+    "county": "Province of Treviso",
+    "state": "Veneto",
+    "country": "Italy",
+    "countryCode": "IT"
+  },
+  "45.8582,11.8784": {
+    "location": "Possagno",
+    "county": "Province of Treviso",
+    "state": "Veneto",
+    "country": "Italy",
+    "countryCode": "IT"
+  },
+  "55.9526,-3.1929": {
+    "location": "City of Edinburgh",
+    "county": "",
+    "state": "Scotland",
+    "country": "United Kingdom",
+    "countryCode": "GB"
+  },
+  "45.3484,11.6788": {
+    "location": "Villa",
+    "county": "Province of Padua",
+    "state": "Veneto",
+    "country": "Italy",
+    "countryCode": "IT"
+  },
+  "45.3484,11.6787": {
+    "location": "Villa",
+    "county": "Province of Padua",
+    "state": "Veneto",
+    "country": "Italy",
+    "countryCode": "IT"
+  },
+  "45.2727,11.6569": {
+    "location": "Cinto Euganeo",
+    "county": "Province of Padua",
+    "state": "Veneto",
+    "country": "Italy",
+    "countryCode": "IT"
+  },
+  "45.2728,11.6569": {
+    "location": "Cinto Euganeo",
+    "county": "Province of Padua",
+    "state": "Veneto",
+    "country": "Italy",
+    "countryCode": "IT"
+  },
+  "45.2729,11.6571": {
+    "location": "Cinto Euganeo",
+    "county": "Province of Padua",
+    "state": "Veneto",
+    "country": "Italy",
+    "countryCode": "IT"
+  },
+  "45.2729,11.6572": {
+    "location": "Cinto Euganeo",
+    "county": "Province of Padua",
+    "state": "Veneto",
+    "country": "Italy",
+    "countryCode": "IT"
+  },
+  "45.2698,11.7195": {
+    "location": "Arquà Petrarca",
+    "county": "Province of Padua",
+    "state": "Veneto",
+    "country": "Italy",
+    "countryCode": "IT"
+  },
+  "45.2698,11.7194": {
+    "location": "Arquà Petrarca",
+    "county": "Province of Padua",
+    "state": "Veneto",
+    "country": "Italy",
+    "countryCode": "IT"
+  },
+  "45.2695,11.7197": {
+    "location": "Arquà Petrarca",
+    "county": "Province of Padua",
+    "state": "Veneto",
+    "country": "Italy",
+    "countryCode": "IT"
+  },
+  "45.2695,11.7198": {
+    "location": "Arquà Petrarca",
+    "county": "Province of Padua",
+    "state": "Veneto",
+    "country": "Italy",
+    "countryCode": "IT"
+  },
+  "45.2696,11.7202": {
+    "location": "Arquà Petrarca",
+    "county": "Province of Padua",
+    "state": "Veneto",
+    "country": "Italy",
+    "countryCode": "IT"
+  },
+  "45.2695,11.7202": {
+    "location": "Arquà Petrarca",
+    "county": "Province of Padua",
+    "state": "Veneto",
+    "country": "Italy",
+    "countryCode": "IT"
+  },
+  "45.2696,11.7201": {
+    "location": "Arquà Petrarca",
+    "county": "Province of Padua",
+    "state": "Veneto",
+    "country": "Italy",
+    "countryCode": "IT"
+  },
+  "48.8532,2.3468": {
+    "location": "Paris",
+    "county": "",
+    "state": "Ile-de-France",
+    "country": "France",
+    "countryCode": "FR"
+  },
+  "48.8536,2.3471": {
+    "location": "Paris",
+    "county": "",
+    "state": "Ile-de-France",
+    "country": "France",
+    "countryCode": "FR"
+  },
+  "48.8538,2.3479": {
+    "location": "Paris",
+    "county": "",
+    "state": "Ile-de-France",
+    "country": "France",
+    "countryCode": "FR"
+  },
+  "48.8529,2.3475": {
+    "location": "Paris",
+    "county": "",
+    "state": "Ile-de-France",
+    "country": "France",
+    "countryCode": "FR"
+  },
+  "48.8530,2.3483": {
+    "location": "Paris",
+    "county": "",
+    "state": "Ile-de-France",
+    "country": "France",
+    "countryCode": "FR"
+  },
+  "48.8529,2.3481": {
+    "location": "Paris",
+    "county": "",
+    "state": "Ile-de-France",
+    "country": "France",
+    "countryCode": "FR"
+  },
+  "48.8529,2.3482": {
+    "location": "Paris",
+    "county": "",
+    "state": "Ile-de-France",
+    "country": "France",
+    "countryCode": "FR"
+  },
+  "48.8531,2.3477": {
+    "location": "Paris",
+    "county": "",
+    "state": "Ile-de-France",
+    "country": "France",
+    "countryCode": "FR"
+  },
+  "48.8532,2.3476": {
+    "location": "Paris",
+    "county": "",
+    "state": "Ile-de-France",
+    "country": "France",
+    "countryCode": "FR"
+  },
+  "48.8533,2.3469": {
+    "location": "Paris",
+    "county": "",
+    "state": "Ile-de-France",
+    "country": "France",
+    "countryCode": "FR"
+  },
+  "48.8534,2.3469": {
+    "location": "Paris",
+    "county": "",
+    "state": "Ile-de-France",
+    "country": "France",
+    "countryCode": "FR"
+  },
+  "48.8523,2.3488": {
+    "location": "Paris",
+    "county": "",
+    "state": "Ile-de-France",
+    "country": "France",
+    "countryCode": "FR"
+  },
+  "48.8521,2.3489": {
+    "location": "Paris",
+    "county": "",
+    "state": "Ile-de-France",
+    "country": "France",
+    "countryCode": "FR"
+  },
+  "48.8515,2.3503": {
+    "location": "Paris",
+    "county": "",
+    "state": "Ile-de-France",
+    "country": "France",
+    "countryCode": "FR"
+  },
+  "48.8516,2.3502": {
+    "location": "Paris",
+    "county": "",
+    "state": "Ile-de-France",
+    "country": "France",
+    "countryCode": "FR"
+  },
+  "48.8516,2.3503": {
+    "location": "Paris",
+    "county": "",
+    "state": "Ile-de-France",
+    "country": "France",
+    "countryCode": "FR"
+  },
+  "48.8514,2.3514": {
+    "location": "Paris",
+    "county": "",
+    "state": "Ile-de-France",
+    "country": "France",
+    "countryCode": "FR"
+  },
+  "48.8513,2.3517": {
+    "location": "Paris",
+    "county": "",
+    "state": "Ile-de-France",
+    "country": "France",
+    "countryCode": "FR"
+  },
+  "48.8513,2.3519": {
+    "location": "Paris",
+    "county": "",
+    "state": "Ile-de-France",
+    "country": "France",
+    "countryCode": "FR"
+  },
+  "48.8515,2.3513": {
+    "location": "Paris",
+    "county": "",
+    "state": "Ile-de-France",
+    "country": "France",
+    "countryCode": "FR"
+  },
+  "48.8514,2.3513": {
+    "location": "Paris",
+    "county": "",
+    "state": "Ile-de-France",
+    "country": "France",
+    "countryCode": "FR"
+  },
+  "48.8514,2.3515": {
+    "location": "Paris",
+    "county": "",
+    "state": "Ile-de-France",
+    "country": "France",
+    "countryCode": "FR"
+  },
+  "48.8518,2.3518": {
+    "location": "Paris",
+    "county": "",
+    "state": "Ile-de-France",
+    "country": "France",
+    "countryCode": "FR"
+  },
+  "48.8518,2.3516": {
+    "location": "Paris",
+    "county": "",
+    "state": "Ile-de-France",
+    "country": "France",
+    "countryCode": "FR"
+  },
+  "48.8519,2.3517": {
+    "location": "Paris",
+    "county": "",
+    "state": "Ile-de-France",
+    "country": "France",
+    "countryCode": "FR"
+  },
+  "48.8512,2.3525": {
+    "location": "Paris",
+    "county": "",
+    "state": "Ile-de-France",
+    "country": "France",
+    "countryCode": "FR"
+  },
+  "48.8516,2.3523": {
+    "location": "Paris",
+    "county": "",
+    "state": "Ile-de-France",
+    "country": "France",
+    "countryCode": "FR"
+  },
+  "48.8517,2.3522": {
+    "location": "Paris",
+    "county": "",
+    "state": "Ile-de-France",
+    "country": "France",
+    "countryCode": "FR"
+  },
+  "48.8505,2.3543": {
+    "location": "Paris",
+    "county": "",
+    "state": "Ile-de-France",
+    "country": "France",
+    "countryCode": "FR"
+  },
+  "48.8505,2.3545": {
+    "location": "Paris",
+    "county": "",
+    "state": "Ile-de-France",
+    "country": "France",
+    "countryCode": "FR"
+  },
+  "48.8504,2.3547": {
+    "location": "Paris",
+    "county": "",
+    "state": "Ile-de-France",
+    "country": "France",
+    "countryCode": "FR"
+  },
+  "48.8503,2.3549": {
+    "location": "Paris",
+    "county": "",
+    "state": "Ile-de-France",
+    "country": "France",
+    "countryCode": "FR"
+  },
+  "48.8503,2.3553": {
+    "location": "Paris",
+    "county": "",
+    "state": "Ile-de-France",
+    "country": "France",
+    "countryCode": "FR"
+  },
+  "48.8519,2.3449": {
+    "location": "Paris",
+    "county": "",
+    "state": "Ile-de-France",
+    "country": "France",
+    "countryCode": "FR"
+  },
+  "48.8522,2.3455": {
+    "location": "Paris",
+    "county": "",
+    "state": "Ile-de-France",
+    "country": "France",
+    "countryCode": "FR"
+  },
+  "48.8523,2.3457": {
+    "location": "Paris",
+    "county": "",
+    "state": "Ile-de-France",
+    "country": "France",
+    "countryCode": "FR"
+  },
+  "48.8523,2.3458": {
+    "location": "Paris",
+    "county": "",
+    "state": "Ile-de-France",
+    "country": "France",
+    "countryCode": "FR"
+  },
+  "48.8523,2.3463": {
+    "location": "Paris",
+    "county": "",
+    "state": "Ile-de-France",
+    "country": "France",
+    "countryCode": "FR"
+  },
+  "48.8522,2.3461": {
+    "location": "Paris",
+    "county": "",
+    "state": "Ile-de-France",
+    "country": "France",
+    "countryCode": "FR"
+  },
+  "48.8522,2.3462": {
+    "location": "Paris",
+    "county": "",
+    "state": "Ile-de-France",
+    "country": "France",
+    "countryCode": "FR"
+  },
+  "48.8520,2.3462": {
+    "location": "Paris",
+    "county": "",
+    "state": "Ile-de-France",
+    "country": "France",
+    "countryCode": "FR"
+  },
+  "48.8521,2.3461": {
+    "location": "Paris",
+    "county": "",
+    "state": "Ile-de-France",
+    "country": "France",
+    "countryCode": "FR"
+  },
+  "48.8521,2.3462": {
+    "location": "Paris",
+    "county": "",
+    "state": "Ile-de-France",
+    "country": "France",
+    "countryCode": "FR"
+  },
+  "48.8521,2.3460": {
+    "location": "Paris",
+    "county": "",
+    "state": "Ile-de-France",
+    "country": "France",
+    "countryCode": "FR"
+  },
+  "48.8522,2.3458": {
+    "location": "Paris",
+    "county": "",
+    "state": "Ile-de-France",
+    "country": "France",
+    "countryCode": "FR"
+  },
+  "48.8523,2.3459": {
+    "location": "Paris",
+    "county": "",
+    "state": "Ile-de-France",
+    "country": "France",
+    "countryCode": "FR"
+  },
+  "48.8523,2.3456": {
+    "location": "Paris",
+    "county": "",
+    "state": "Ile-de-France",
+    "country": "France",
+    "countryCode": "FR"
+  },
+  "48.8518,2.3461": {
+    "location": "Paris",
+    "county": "",
+    "state": "Ile-de-France",
+    "country": "France",
+    "countryCode": "FR"
+  },
+  "48.8517,2.3460": {
+    "location": "Paris",
+    "county": "",
+    "state": "Ile-de-France",
+    "country": "France",
+    "countryCode": "FR"
+  },
+  "48.8522,2.3453": {
+    "location": "Paris",
+    "county": "",
+    "state": "Ile-de-France",
+    "country": "France",
+    "countryCode": "FR"
+  },
+  "48.8522,2.3454": {
+    "location": "Paris",
+    "county": "",
+    "state": "Ile-de-France",
+    "country": "France",
+    "countryCode": "FR"
+  },
+  "48.8519,2.3461": {
+    "location": "Paris",
+    "county": "",
+    "state": "Ile-de-France",
+    "country": "France",
+    "countryCode": "FR"
+  },
+  "48.8515,2.3459": {
+    "location": "Paris",
+    "county": "",
+    "state": "Ile-de-France",
+    "country": "France",
+    "countryCode": "FR"
+  },
+  "48.8516,2.3457": {
+    "location": "Paris",
+    "county": "",
+    "state": "Ile-de-France",
+    "country": "France",
+    "countryCode": "FR"
+  },
+  "48.8516,2.3455": {
+    "location": "Paris",
+    "county": "",
+    "state": "Ile-de-France",
+    "country": "France",
+    "countryCode": "FR"
+  },
+  "48.8517,2.3459": {
+    "location": "Paris",
+    "county": "",
+    "state": "Ile-de-France",
+    "country": "France",
+    "countryCode": "FR"
+  },
+  "48.8592,2.3506": {
+    "location": "Paris",
+    "county": "",
+    "state": "Ile-de-France",
+    "country": "France",
+    "countryCode": "FR"
+  },
+  "48.8592,2.3505": {
+    "location": "Paris",
+    "county": "",
+    "state": "Ile-de-France",
+    "country": "France",
+    "countryCode": "FR"
+  },
+  "48.8592,2.3504": {
+    "location": "Paris",
+    "county": "",
+    "state": "Ile-de-France",
+    "country": "France",
+    "countryCode": "FR"
+  },
+  "48.8590,2.3504": {
+    "location": "Paris",
+    "county": "",
+    "state": "Ile-de-France",
+    "country": "France",
+    "countryCode": "FR"
+  },
+  "48.8591,2.3504": {
+    "location": "Paris",
+    "county": "",
+    "state": "Ile-de-France",
+    "country": "France",
+    "countryCode": "FR"
+  },
+  "48.8589,2.3507": {
+    "location": "Paris",
+    "county": "",
+    "state": "Ile-de-France",
+    "country": "France",
+    "countryCode": "FR"
+  },
+  "48.8591,2.3505": {
+    "location": "Paris",
+    "county": "",
+    "state": "Ile-de-France",
+    "country": "France",
+    "countryCode": "FR"
+  },
+  "48.8590,2.3506": {
+    "location": "Paris",
+    "county": "",
+    "state": "Ile-de-France",
+    "country": "France",
+    "countryCode": "FR"
+  },
+  "48.8591,2.3507": {
+    "location": "Paris",
+    "county": "",
+    "state": "Ile-de-France",
+    "country": "France",
+    "countryCode": "FR"
+  },
+  "48.8591,2.3508": {
+    "location": "Paris",
+    "county": "",
+    "state": "Ile-de-France",
+    "country": "France",
+    "countryCode": "FR"
+  },
+  "48.8631,2.3460": {
+    "location": "Paris",
+    "county": "",
+    "state": "Ile-de-France",
+    "country": "France",
+    "countryCode": "FR"
+  },
+  "48.8629,2.3460": {
+    "location": "Paris",
+    "county": "",
+    "state": "Ile-de-France",
+    "country": "France",
+    "countryCode": "FR"
+  },
+  "48.8630,2.3450": {
+    "location": "Paris",
+    "county": "",
+    "state": "Ile-de-France",
+    "country": "France",
+    "countryCode": "FR"
+  },
+  "48.8630,2.3449": {
+    "location": "Paris",
+    "county": "",
+    "state": "Ile-de-France",
+    "country": "France",
+    "countryCode": "FR"
+  },
+  "48.8631,2.3449": {
+    "location": "Paris",
+    "county": "",
+    "state": "Ile-de-France",
+    "country": "France",
+    "countryCode": "FR"
+  },
+  "48.8630,2.3448": {
+    "location": "Paris",
+    "county": "",
+    "state": "Ile-de-France",
+    "country": "France",
+    "countryCode": "FR"
+  },
+  "48.8632,2.3448": {
+    "location": "Paris",
+    "county": "",
+    "state": "Ile-de-France",
+    "country": "France",
+    "countryCode": "FR"
+  },
+  "48.8631,2.3447": {
+    "location": "Paris",
+    "county": "",
+    "state": "Ile-de-France",
+    "country": "France",
+    "countryCode": "FR"
+  },
+  "48.8629,2.3448": {
+    "location": "Paris",
+    "county": "",
+    "state": "Ile-de-France",
+    "country": "France",
+    "countryCode": "FR"
+  },
+  "48.8629,2.3449": {
+    "location": "Paris",
+    "county": "",
+    "state": "Ile-de-France",
+    "country": "France",
+    "countryCode": "FR"
+  },
+  "48.8624,2.3447": {
+    "location": "Paris",
+    "county": "",
+    "state": "Ile-de-France",
+    "country": "France",
+    "countryCode": "FR"
+  },
+  "48.8615,2.3453": {
+    "location": "Paris",
+    "county": "",
+    "state": "Ile-de-France",
+    "country": "France",
+    "countryCode": "FR"
+  },
+  "48.8619,2.3468": {
+    "location": "Paris",
+    "county": "",
+    "state": "Ile-de-France",
+    "country": "France",
+    "countryCode": "FR"
+  },
+  "48.8618,2.3471": {
+    "location": "Paris",
+    "county": "",
+    "state": "Ile-de-France",
+    "country": "France",
+    "countryCode": "FR"
+  },
+  "48.8618,2.3473": {
+    "location": "Paris",
+    "county": "",
+    "state": "Ile-de-France",
+    "country": "France",
+    "countryCode": "FR"
+  },
+  "48.8618,2.3474": {
+    "location": "Paris",
+    "county": "",
+    "state": "Ile-de-France",
+    "country": "France",
+    "countryCode": "FR"
+  },
+  "48.8618,2.3475": {
+    "location": "Paris",
+    "county": "",
+    "state": "Ile-de-France",
+    "country": "France",
+    "countryCode": "FR"
+  },
+  "48.8617,2.3475": {
+    "location": "Paris",
+    "county": "",
+    "state": "Ile-de-France",
+    "country": "France",
+    "countryCode": "FR"
+  },
+  "44.8395,11.1401": {
+    "location": "San Felice sul Panaro",
+    "county": "Modena",
+    "state": "Emilia-Romagna",
+    "country": "Italy",
+    "countryCode": "IT"
+  },
+  "44.6930,12.1830": {
+    "location": "Comacchio",
+    "county": "Ferrara",
+    "state": "Emilia-Romagna",
+    "country": "Italy",
+    "countryCode": "IT"
+  },
+  "44.6930,12.1831": {
+    "location": "Comacchio",
+    "county": "Ferrara",
+    "state": "Emilia-Romagna",
+    "country": "Italy",
+    "countryCode": "IT"
+  },
+  "44.6929,12.1832": {
+    "location": "Comacchio",
+    "county": "Ferrara",
+    "state": "Emilia-Romagna",
+    "country": "Italy",
+    "countryCode": "IT"
+  },
+  "44.6929,12.1833": {
+    "location": "Comacchio",
+    "county": "Ferrara",
+    "state": "Emilia-Romagna",
+    "country": "Italy",
+    "countryCode": "IT"
+  },
+  "44.6930,12.1834": {
+    "location": "Comacchio",
+    "county": "Ferrara",
+    "state": "Emilia-Romagna",
+    "country": "Italy",
+    "countryCode": "IT"
+  },
+  "44.6947,12.1841": {
+    "location": "Comacchio",
+    "county": "Ferrara",
+    "state": "Emilia-Romagna",
+    "country": "Italy",
+    "countryCode": "IT"
+  },
+  "44.6947,12.1843": {
+    "location": "Comacchio",
+    "county": "Ferrara",
+    "state": "Emilia-Romagna",
+    "country": "Italy",
+    "countryCode": "IT"
+  },
+  "44.6956,12.1850": {
+    "location": "Comacchio",
+    "county": "Ferrara",
+    "state": "Emilia-Romagna",
+    "country": "Italy",
+    "countryCode": "IT"
+  },
+  "44.6947,12.1833": {
+    "location": "Comacchio",
+    "county": "Ferrara",
+    "state": "Emilia-Romagna",
+    "country": "Italy",
+    "countryCode": "IT"
+  },
+  "44.6935,12.1821": {
+    "location": "Comacchio",
+    "county": "Ferrara",
+    "state": "Emilia-Romagna",
+    "country": "Italy",
+    "countryCode": "IT"
+  },
+  "44.6932,12.1819": {
+    "location": "Comacchio",
+    "county": "Ferrara",
+    "state": "Emilia-Romagna",
+    "country": "Italy",
+    "countryCode": "IT"
+  },
+  "44.6934,12.1821": {
+    "location": "Comacchio",
+    "county": "Ferrara",
+    "state": "Emilia-Romagna",
+    "country": "Italy",
+    "countryCode": "IT"
+  },
+  "44.6931,12.1821": {
+    "location": "Comacchio",
+    "county": "Ferrara",
+    "state": "Emilia-Romagna",
+    "country": "Italy",
+    "countryCode": "IT"
+  },
+  "44.6929,12.1822": {
+    "location": "Comacchio",
+    "county": "Ferrara",
+    "state": "Emilia-Romagna",
+    "country": "Italy",
+    "countryCode": "IT"
+  },
+  "44.6928,12.1825": {
+    "location": "Comacchio",
+    "county": "Ferrara",
+    "state": "Emilia-Romagna",
+    "country": "Italy",
+    "countryCode": "IT"
+  },
+  "44.8371,11.6198": {
+    "location": "Ferrara",
+    "county": "Ferrara",
+    "state": "Emilia-Romagna",
+    "country": "Italy",
+    "countryCode": "IT"
+  },
+  "44.8380,11.6205": {
+    "location": "Ferrara",
+    "county": "Ferrara",
+    "state": "Emilia-Romagna",
+    "country": "Italy",
+    "countryCode": "IT"
+  },
+  "44.8379,11.6204": {
+    "location": "Ferrara",
+    "county": "Ferrara",
+    "state": "Emilia-Romagna",
+    "country": "Italy",
+    "countryCode": "IT"
+  },
+  "44.8355,11.6199": {
+    "location": "Ferrara",
+    "county": "Ferrara",
+    "state": "Emilia-Romagna",
+    "country": "Italy",
+    "countryCode": "IT"
+  },
+  "44.8345,11.6183": {
+    "location": "Ferrara",
+    "county": "Ferrara",
+    "state": "Emilia-Romagna",
+    "country": "Italy",
+    "countryCode": "IT"
+  },
+  "44.8882,11.0658": {
+    "location": "Mirandola",
+    "county": "Modena",
+    "state": "Emilia-Romagna",
+    "country": "Italy",
+    "countryCode": "IT"
+  },
+  "44.8882,11.0664": {
+    "location": "Mirandola",
+    "county": "Modena",
+    "state": "Emilia-Romagna",
+    "country": "Italy",
+    "countryCode": "IT"
+  },
+  "45.4343,12.3390": {
+    "location": "Venice",
+    "county": "Venezia",
+    "state": "Veneto",
+    "country": "Italy",
+    "countryCode": "IT"
+  },
+  "45.4342,12.3391": {
+    "location": "Venice",
+    "county": "Venezia",
+    "state": "Veneto",
+    "country": "Italy",
+    "countryCode": "IT"
+  },
+  "45.4335,12.3500": {
+    "location": "Venice",
+    "county": "Venezia",
+    "state": "Veneto",
+    "country": "Italy",
+    "countryCode": "IT"
+  },
+  "45.4334,12.3500": {
+    "location": "Venice",
+    "county": "Venezia",
+    "state": "Veneto",
+    "country": "Italy",
+    "countryCode": "IT"
+  },
+  "45.4332,12.3516": {
+    "location": "Venice",
+    "county": "Venezia",
+    "state": "Veneto",
+    "country": "Italy",
+    "countryCode": "IT"
+  },
+  "45.4335,12.3520": {
+    "location": "Venice",
+    "county": "Venezia",
+    "state": "Veneto",
+    "country": "Italy",
+    "countryCode": "IT"
+  },
+  "45.4334,12.3528": {
+    "location": "Venice",
+    "county": "Venezia",
+    "state": "Veneto",
+    "country": "Italy",
+    "countryCode": "IT"
+  },
+  "45.4335,12.3540": {
+    "location": "Venice",
+    "county": "Venezia",
+    "state": "Veneto",
+    "country": "Italy",
+    "countryCode": "IT"
+  },
+  "45.4335,12.3539": {
+    "location": "Venice",
+    "county": "Venezia",
+    "state": "Veneto",
+    "country": "Italy",
+    "countryCode": "IT"
+  },
+  "45.4332,12.3543": {
+    "location": "Venice",
+    "county": "Venezia",
+    "state": "Veneto",
+    "country": "Italy",
+    "countryCode": "IT"
+  },
+  "45.4332,12.3542": {
+    "location": "Venice",
+    "county": "Venezia",
+    "state": "Veneto",
+    "country": "Italy",
+    "countryCode": "IT"
+  },
+  "45.4333,12.3541": {
+    "location": "Venice",
+    "county": "Venezia",
+    "state": "Veneto",
+    "country": "Italy",
+    "countryCode": "IT"
+  },
+  "45.4333,12.3540": {
+    "location": "Venice",
+    "county": "Venezia",
+    "state": "Veneto",
+    "country": "Italy",
+    "countryCode": "IT"
+  },
+  "45.4333,12.3546": {
+    "location": "Venice",
+    "county": "Venezia",
+    "state": "Veneto",
+    "country": "Italy",
+    "countryCode": "IT"
+  },
+  "45.4332,12.3545": {
+    "location": "Venice",
+    "county": "Venezia",
+    "state": "Veneto",
+    "country": "Italy",
+    "countryCode": "IT"
+  },
+  "45.4335,12.3547": {
+    "location": "Venice",
+    "county": "Venezia",
+    "state": "Veneto",
+    "country": "Italy",
+    "countryCode": "IT"
+  },
+  "45.4332,12.3546": {
+    "location": "Venice",
+    "county": "Venezia",
+    "state": "Veneto",
+    "country": "Italy",
+    "countryCode": "IT"
+  },
+  "45.4328,12.3550": {
+    "location": "Venice",
+    "county": "Venezia",
+    "state": "Veneto",
+    "country": "Italy",
+    "countryCode": "IT"
+  },
+  "45.4331,12.3552": {
+    "location": "Venice",
+    "county": "Venezia",
+    "state": "Veneto",
+    "country": "Italy",
+    "countryCode": "IT"
+  },
+  "45.4340,12.3550": {
+    "location": "Venice",
+    "county": "Venezia",
+    "state": "Veneto",
+    "country": "Italy",
+    "countryCode": "IT"
+  },
+  "45.4340,12.3549": {
+    "location": "Venice",
+    "county": "Venezia",
+    "state": "Veneto",
+    "country": "Italy",
+    "countryCode": "IT"
+  },
+  "45.4341,12.3547": {
+    "location": "Venice",
+    "county": "Venezia",
+    "state": "Veneto",
+    "country": "Italy",
+    "countryCode": "IT"
+  },
+  "45.4338,12.3547": {
+    "location": "Venice",
+    "county": "Venezia",
+    "state": "Veneto",
+    "country": "Italy",
+    "countryCode": "IT"
+  },
+  "45.4341,12.3550": {
+    "location": "Venice",
+    "county": "Venezia",
+    "state": "Veneto",
+    "country": "Italy",
+    "countryCode": "IT"
+  },
+  "45.4343,12.3553": {
+    "location": "Venice",
+    "county": "Venezia",
+    "state": "Veneto",
+    "country": "Italy",
+    "countryCode": "IT"
+  },
+  "45.4337,12.3551": {
+    "location": "Venice",
+    "county": "Venezia",
+    "state": "Veneto",
+    "country": "Italy",
+    "countryCode": "IT"
+  },
+  "45.4337,12.3550": {
+    "location": "Venice",
+    "county": "Venezia",
+    "state": "Veneto",
+    "country": "Italy",
+    "countryCode": "IT"
+  },
+  "45.4335,12.3503": {
+    "location": "Venice",
+    "county": "Venezia",
+    "state": "Veneto",
+    "country": "Italy",
+    "countryCode": "IT"
+  },
+  "45.4335,12.3502": {
+    "location": "Venice",
+    "county": "Venezia",
+    "state": "Veneto",
+    "country": "Italy",
+    "countryCode": "IT"
+  },
+  "45.4343,12.3362": {
+    "location": "Venice",
+    "county": "Venezia",
+    "state": "Veneto",
+    "country": "Italy",
+    "countryCode": "IT"
+  },
+  "45.4343,12.3361": {
+    "location": "Venice",
+    "county": "Venezia",
+    "state": "Veneto",
+    "country": "Italy",
+    "countryCode": "IT"
+  },
+  "45.4343,12.3360": {
+    "location": "Venice",
+    "county": "Venezia",
+    "state": "Veneto",
+    "country": "Italy",
+    "countryCode": "IT"
+  },
+  "45.4289,12.3576": {
+    "location": "Venice",
+    "county": "Venezia",
+    "state": "Veneto",
+    "country": "Italy",
+    "countryCode": "IT"
+  },
+  "45.4333,12.3547": {
+    "location": "Venice",
+    "county": "Venezia",
+    "state": "Veneto",
+    "country": "Italy",
+    "countryCode": "IT"
+  },
+  "45.4333,12.3548": {
+    "location": "Venice",
+    "county": "Venezia",
+    "state": "Veneto",
+    "country": "Italy",
+    "countryCode": "IT"
+  },
+  "45.4334,12.3549": {
+    "location": "Venice",
+    "county": "Venezia",
+    "state": "Veneto",
+    "country": "Italy",
+    "countryCode": "IT"
+  }
+}

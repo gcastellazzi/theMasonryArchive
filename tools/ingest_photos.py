@@ -260,12 +260,22 @@ def ingest(args: argparse.Namespace) -> int:
     print(f"{len(photos)} immagini in {source}")
     geocoder = Geocoder(enabled=not args.no_geocode)
 
-    added, updated, without_position = 0, 0, []
+    added, updated, without_position, duplicates = 0, 0, [], []
     result: list[dict[str, Any]] = list(existing)
+    seen_in_run: set[str] = set()
 
     for photo in photos:
-        meta = read_photo(photo)
         digest = source_hash(photo)
+
+        # Copie identiche dello stesso scatto: una foto, un record. Senza questo
+        # controllo la seconda copia si presenta come nuova e va a collidere
+        # sull'identificativo, che dall'impronta e' identico.
+        if digest in seen_in_run:
+            duplicates.append(photo.name)
+            continue
+        seen_in_run.add(digest)
+
+        meta = read_photo(photo)
         record = by_hash.get(digest)
         is_new = record is None
 
@@ -276,8 +286,12 @@ def ingest(args: argparse.Namespace) -> int:
         if is_new:
             base = slugify(place.get("location") or "unlocated")
             record_id = f"{base}-{digest[:6]}"
-            while record_id in used_ids:
-                record_id = f"{base}-{digest[:8]}"
+            # Il suffisso si allunga a ogni tentativo: due scatti diversi nello
+            # stesso luogo possono condividere le prime cifre dell'impronta.
+            length = 6
+            while record_id in used_ids and length < len(digest):
+                length += 2
+                record_id = f"{base}-{digest[:length]}"
             used_ids.add(record_id)
             record = blank_record(record_id, meta, place, digest)
             result.append(record)
@@ -329,6 +343,12 @@ def ingest(args: argparse.Namespace) -> int:
         f"  senza tag:        {untagged}\n"
         f"  chiamate geocode: {geocoder.calls} (le altre dalla cache)"
     )
+    if duplicates:
+        print(f"\n  {len(duplicates)} copie identiche saltate:")
+        for name in duplicates[:10]:
+            print(f"    {name}")
+        if len(duplicates) > 10:
+            print(f"    ... e altre {len(duplicates) - 10}")
     if without_position:
         print(f"\n  ATTENZIONE — {len(without_position)} senza coordinate, non compariranno sulla mappa:")
         for name in without_position[:10]:
