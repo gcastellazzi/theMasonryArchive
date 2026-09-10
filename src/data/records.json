@@ -1,0 +1,18 @@
+[
+  {
+    "id": "stub-000001",
+    "title": "", "period": "", "technique": "", "element": "", "material": "",
+    "tags": [], "notes": "", "status": "pending",
+    "hasAlotiaJson": false, "alotiaJsonUrl": "", "license": "CC BY 4.0",
+    "location": "San Leo", "county": "Rimini", "state": "Emilia-Romagna",
+    "country": "Italy", "countryCode": "IT",
+    "lat": 43.896722, "lng": 12.342895, "altitude": 586, "bearing": 167.6,
+    "capturedAt": "2023-07-08T12:17:35+02:00", "camera": "Apple iPhone 13 Pro",
+    "width": 4032, "height": 3024,
+    "author": "Giovanni Castellazzi", "affiliation": "University of Bologna",
+    "image": "images/stub-000001_1600.webp",
+    "thumbnail": "images/stub-000001_480.webp",
+    "strip": "images/stub-000001_160.webp",
+    "sourceFile": "STUB.HEIC", "sourceHash": "stub"
+  }
+]

@@ -10,7 +10,8 @@
     "build": "tsc --noEmit && vite build",
     "preview": "vite preview",
     "lint": "oxlint",
-    "format": "oxfmt"
+    "format": "oxfmt",
+    "ingest": "python3 tools/ingest_photos.py"
   },
   "dependencies": {
     "@base-ui/react": "1.7.0",

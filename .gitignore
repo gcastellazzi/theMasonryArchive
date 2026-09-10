@@ -37,3 +37,11 @@ next-env.d.ts
 /outputs/
 /work/
 *.tsbuildinfo
+
+# Archivio immagini
+# Le derivate a 1600 px pesano ~236 MB su 761 foto: troppo per il repo, e
+# l'archivio e' destinato a crescere. Il README raccomanda gia' uno storage
+# esterno (Cloudflare R2 o Supabase Storage) per le immagini di dettaglio.
+# Miniature (160 px) e card (480 px) restano versionate: ~31 MB in tutto,
+# ed e' quanto serve al rullino dell'amministratore e alla mappa.
+/public/images/*_1600.webp

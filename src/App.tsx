@@ -1,15 +1,10 @@
 import {
-  AlertCircle,
-  Check,
   ChevronRight,
-  Clock3,
   Database,
   FileJson,
   Filter,
   Globe2,
   ImagePlus,
-  KeyRound,
-  Mail,
   MapPin,
   ShieldCheck,
   Upload,
@@ -25,95 +20,15 @@ import {
   useMapEvents,
 } from 'react-leaflet';
 import { Button } from '@/components/ui/button';
+import { AdminPanel } from './AdminPanel';
+import { SuggestForm } from './SuggestForm';
+import rawRecords from './data/records.json';
+import rawSuggestions from './data/suggestions.json';
+import type { MasonryRecord, ReviewStatus, Role, Suggestion } from './types';
 
-type Role = 'Student' | 'PhD candidate' | 'Researcher' | 'Professional';
-type ReviewStatus = 'approved' | 'pending';
-
-type MasonryRecord = {
-  id: string;
-  title: string;
-  location: string;
-  country: string;
-  lat: number;
-  lng: number;
-  period: string;
-  technique: string;
-  element: string;
-  material: string;
-  tags: string[];
-  author: string;
-  affiliation: string;
-  status: ReviewStatus;
-  image: string;
-  notes: string;
-  hasAlotiaJson: boolean;
-};
-
-const records: MasonryRecord[] = [
-  {
-    id: 'bol-arch-001',
-    title: 'Segmental brick arch over service opening',
-    location: 'Bologna',
-    country: 'Italy',
-    lat: 44.4949,
-    lng: 11.3426,
-    period: '19th century',
-    technique: 'Brick masonry',
-    element: 'Arch',
-    material: 'Clay brick and lime mortar',
-    tags: ['arch', 'brickwork', 'pressure-line candidate'],
-    author: 'Giovanni Castellazzi',
-    affiliation: 'University of Bologna',
-    status: 'approved',
-    image:
-      'https://images.unsplash.com/photo-1518005020951-eccb494ad742?auto=format&fit=crop&w=900&q=80',
-    notes:
-      'Regular voussoir courses and visible mortar joints suitable for a first geometric reading.',
-    hasAlotiaJson: true,
-  },
-  {
-    id: 'lis-wall-002',
-    title: 'Mixed stone wall with brick repairs',
-    location: 'Lisbon',
-    country: 'Portugal',
-    lat: 38.7223,
-    lng: -9.1393,
-    period: 'Early modern',
-    technique: 'Mixed masonry',
-    element: 'Wall',
-    material: 'Limestone, brick, lime mortar',
-    tags: ['stonework', 'repair', 'texture'],
-    author: 'Public contributor',
-    affiliation: 'Independent survey',
-    status: 'approved',
-    image:
-      'https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=900&q=80',
-    notes:
-      'Irregular units and later repairs make it useful for typological comparison.',
-    hasAlotiaJson: false,
-  },
-  {
-    id: 'cam-vault-003',
-    title: 'Vault springing detail with mortar loss',
-    location: 'Cambridge',
-    country: 'United Kingdom',
-    lat: 52.2053,
-    lng: 0.1218,
-    period: 'Medieval',
-    technique: 'Ashlar masonry',
-    element: 'Vault',
-    material: 'Sandstone',
-    tags: ['vault', 'ashlar', 'decay'],
-    author: 'Doctoral fieldwork',
-    affiliation: 'Architecture laboratory',
-    status: 'pending',
-    image:
-      'https://images.unsplash.com/photo-1494526585095-c41746248156?auto=format&fit=crop&w=900&q=80',
-    notes:
-      'Pending moderation because the upload includes a request for structural interpretation.',
-    hasAlotiaJson: false,
-  },
-];
+const records = rawRecords as unknown as MasonryRecord[];
+const suggestions = rawSuggestions as unknown as Suggestion[];
+const BASE = import.meta.env.BASE_URL;
 
 const suggestedTags = [
   'arch',
@@ -190,8 +105,8 @@ function ArchiveMap({ visibleRecords }: { visibleRecords: MasonryRecord[] }) {
       groups.set(key, [...(groups.get(key) ?? []), record]);
     });
     return [...groups.values()].map((group) => {
-      const lat = group.reduce((sum, item) => sum + item.lat, 0) / group.length;
-      const lng = group.reduce((sum, item) => sum + item.lng, 0) / group.length;
+      const lat = group.reduce((sum, item) => sum + (item.lat ?? 0), 0) / group.length;
+      const lng = group.reduce((sum, item) => sum + (item.lng ?? 0), 0) / group.length;
       return { lat, lng, group };
     });
   }, [visibleRecords]);
@@ -226,7 +141,7 @@ function ArchiveMap({ visibleRecords }: { visibleRecords: MasonryRecord[] }) {
         : visibleRecords.map((record) => (
             <Marker
               key={record.id}
-              position={[record.lat, record.lng]}
+              position={[record.lat as number, record.lng as number]}
               icon={makeMarkerIcon(record.status)}
             >
               <Popup>
@@ -244,14 +159,19 @@ function App() {
   const [activeView, setActiveView] = useState('Explore');
   const [selectedTag, setSelectedTag] = useState('all');
   const [role, setRole] = useState<Role>('Student');
+  const [liveSuggestions, setLiveSuggestions] = useState<Suggestion[]>(suggestions);
 
-  const visibleRecords = records.filter((record) =>
+  const publicRecords = records.filter(
+    (record) =>
+      record.status === 'approved' && record.lat !== null && record.lng !== null,
+  );
+  const visibleRecords = publicRecords.filter((record) =>
     selectedTag === 'all' ? true : record.tags.includes(selectedTag),
   );
   const approvedCount = records.filter(
     (record) => record.status === 'approved',
   ).length;
-  const pendingCount = records.length - approvedCount;
+  const pendingCount = records.filter((r) => r.status === 'pending').length;
   const roleNeedsResearchFields =
     role === 'Researcher' || role === 'PhD candidate';
 
@@ -270,7 +190,7 @@ function App() {
             </div>
           </div>
           <nav className="hidden items-center gap-1 md:flex">
-            {['Explore', 'Upload', 'Admin', 'Data model'].map((item) => (
+            {['Explore', 'Suggest', 'Upload', 'Admin', 'Data model'].map((item) => (
               <Button
                 key={item}
                 variant="ghost"
@@ -313,8 +233,15 @@ function App() {
         </div>
       </div>
 
-      <div className="mx-auto grid max-w-[1320px] gap-4 px-4 py-4 sm:px-6 lg:grid-cols-[minmax(0,1fr)_360px]">
-        <section className="min-h-[520px] overflow-hidden rounded-md border bg-card">
+      <div
+        className={`mx-auto grid max-w-[1320px] gap-4 px-4 py-4 sm:px-6 ${
+          activeView === 'Admin' ? '' : 'lg:grid-cols-[minmax(0,1fr)_360px]'
+        }`}
+      >
+        <section
+          className="min-h-[520px] overflow-hidden rounded-md border bg-card"
+          hidden={activeView === 'Admin'}
+        >
           <div className="flex flex-wrap items-center justify-between gap-3 border-b px-4 py-3">
             <div>
               <h2 className="text-[1.45rem] font-semibold leading-tight">
@@ -362,7 +289,7 @@ function App() {
               <div className="space-y-3">
                 {visibleRecords.map((record) => (
                   <article key={record.id} className="record-card">
-                    <img src={record.image} alt="" />
+                    <img src={`${BASE}${record.thumbnail}`} alt="" loading="lazy" />
                     <div>
                       <div className="flex items-center gap-2">
                         <span className={`status-dot ${record.status}`} />
@@ -385,6 +312,18 @@ function App() {
                   </article>
                 ))}
               </div>
+            </section>
+          )}
+
+          {activeView === 'Suggest' && (
+            <section className="rounded-md border bg-card p-4">
+              <h2 className="mb-3 font-semibold">Proponi un tag o una correzione</h2>
+              <SuggestForm
+                records={publicRecords}
+                onSubmit={(suggestion) =>
+                  setLiveSuggestions((current) => [suggestion, ...current])
+                }
+              />
             </section>
           )}
 
@@ -473,36 +412,23 @@ function App() {
           )}
 
           {activeView === 'Admin' && (
-            <section className="rounded-md border bg-card p-4">
-              <h2 className="mb-1 font-semibold">Admin review queue</h2>
-              <p className="mb-4 text-sm text-muted-foreground">
-                New uploads notify the administrator by email before approval.
-              </p>
-              <div className="space-y-3">
-                <AdminRow icon={<Mail />} text="Upload notification email" />
-                <AdminRow icon={<ShieldCheck />} text="CAPTCHA before upload" />
-                <AdminRow icon={<KeyRound />} text="Passwordless magic link" />
-                <AdminRow icon={<Clock3 />} text="Deletion requires approval" />
-              </div>
-              <div className="mt-4 rounded-md border bg-muted/50 p-3">
-                <div className="mb-2 flex items-center gap-2 text-sm font-medium">
-                  <AlertCircle className="size-4" />
-                  Pending moderation
-                </div>
+            <div className="space-y-3">
+              <div className="rounded-md border bg-card p-4">
+                <h2 className="mb-1 font-semibold">Admin review queue</h2>
                 <p className="text-sm text-muted-foreground">
-                  {records.find((record) => record.status === 'pending')?.title}
+                  Rullino, anteprima e catalogazione. Le modifiche restano in
+                  bozza nel browser: &laquo;Esporta JSON&raquo; scarica
+                  <code className="mx-1">records.json</code> e
+                  <code className="mx-1">suggestions.json</code> da salvare in
+                  <code className="mx-1">src/data/</code>.
                 </p>
-                <div className="mt-3 flex gap-2">
-                  <Button size="sm">
-                    <Check />
-                    Approve
-                  </Button>
-                  <Button size="sm" variant="outline">
-                    Request edits
-                  </Button>
-                </div>
               </div>
-            </section>
+              <AdminPanel
+                initialRecords={records}
+                initialSuggestions={liveSuggestions}
+                tagVocabulary={suggestedTags}
+              />
+            </div>
           )}
 
           {activeView === 'Data model' && (

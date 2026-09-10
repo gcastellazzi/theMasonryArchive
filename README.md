@@ -75,3 +75,67 @@ https://gcastellazzi.github.io/theMasonryArchive/
 ```
 
 Enable GitHub Pages with "GitHub Actions" as the source, then push the repository. The included workflow builds and publishes the `dist` folder.
+
+## Importare le foto
+
+La pipeline di ingest trasforma una cartella esportata da Foto di Apple nei dati
+dell'archivio. Richiede ImageMagick, che legge l'HEIC dell'iPhone:
+
+```bash
+brew install imagemagick
+```
+
+Da Foto: seleziona l'album, `File > Esporta > Esporta originali non modificati`,
+spuntando **Includi informazioni sulla posizione**. Poi:
+
+```bash
+npm run ingest -- --source ~/Downloads/Masonry_photos \
+  --author "Giovanni Castellazzi" --affiliation "University of Bologna"
+```
+
+Per ogni foto lo script legge coordinate, quota, direzione di ripresa e data dal
+sidecar XMP (in mancanza, dall'EXIF), risolve il toponimo con la geocodifica
+inversa di OpenStreetMap e genera tre derivate WebP prive di metadati:
+
+| Derivata | Lato lungo | Uso | Versionata |
+|---|---|---|---|
+| `*_1600.webp` | 1600 px | scheda pubblica | no, vedi sotto |
+| `*_480.webp` | 480 px | mappa, elenchi, anteprima admin | sì |
+| `*_160.webp` | 160 px | rullino del pannello admin | sì |
+
+Le immagini di dettaglio sono escluse dal versionamento: su 761 foto pesano circa
+236 MB, e l'archivio è destinato a crescere. Vanno spostate su uno storage
+esterno come raccomandato più sopra. Miniature e card restano nel repo perché
+pesano circa 31 MB in tutto e servono al lavoro di catalogazione.
+
+L'ingest è **incrementale e non distruttivo**: riconosce le foto già importate
+dall'impronta del file e conserva tutti i campi compilati a mano — titolo,
+epoca, tecnica, elemento, materiale, tag, note, stato. Rieseguirlo dopo aver
+aggiunto foto nuove non cancella la catalogazione già fatta. Le derivate già
+presenti non vengono rigenerate, salvo `--force`.
+
+Opzioni utili: `--dry-run` per vedere cosa farebbe, `--no-geocode` per lavorare
+senza rete. La cache delle geocodifiche sta in `tools/.geocache.json`.
+
+## Catalogare e moderare
+
+La scheda **Admin** è il banco di lavoro: rullino di miniature, anteprima con i
+dati di scatto, campi di catalogazione, vocabolario dei tag e coda delle proposte
+arrivate dagli utenti.
+
+Il sito è statico e non può scrivere su disco: le modifiche restano in bozza nel
+browser (`localStorage`) finché non premi **Esporta JSON**, che scarica
+`records.json` e `suggestions.json` da salvare in `src/data/`.
+
+Un record diventa approvabile solo quando ha titolo, elemento, tecnica, almeno un
+tag e una posizione. Sulla mappa pubblica compaiono unicamente i record
+approvati e georiferiti.
+
+### Proposte degli utenti
+
+Dalla scheda **Suggest** chiunque può proporre un tag o il testo di un campo
+(`title`, `period`, `technique`, `element`, `material`, `notes`), con una
+motivazione facoltativa. La proposta nasce in stato `pending` e non tocca il
+record: solo l'accettazione da parte dell'amministratore ne riporta il valore
+sul record. Le proposte vivono in `src/data/suggestions.json`, separate dai
+record, e la pipeline di ingest non le tocca mai.
