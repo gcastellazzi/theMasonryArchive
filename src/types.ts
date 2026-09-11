@@ -89,6 +89,20 @@ export type MasonryRecord = {
   sourceHash?: string;
 };
 
+/** Coordinate finite e comprese negli intervalli geografici validi. */
+export function hasValidPosition(record: MasonryRecord): boolean {
+  return Boolean(
+    record.lat !== null &&
+    Number.isFinite(record.lat) &&
+    record.lat >= -90 &&
+    record.lat <= 90 &&
+    record.lng !== null &&
+    Number.isFinite(record.lng) &&
+    record.lng >= -180 &&
+    record.lng <= 180,
+  );
+}
+
 /** Un record e' pubblicabile solo se catalogato e georiferito. */
 export function isPublishable(record: MasonryRecord): boolean {
   return Boolean(
@@ -96,8 +110,7 @@ export function isPublishable(record: MasonryRecord): boolean {
       record.element.trim() &&
       record.technique.trim() &&
       record.tags.length > 0 &&
-      record.lat !== null &&
-      record.lng !== null,
+      hasValidPosition(record),
   );
 }
 
@@ -108,6 +121,6 @@ export function missingFields(record: MasonryRecord): string[] {
   if (!record.element.trim()) missing.push('element');
   if (!record.technique.trim()) missing.push('technique');
   if (!record.tags.length) missing.push('tags');
-  if (record.lat === null || record.lng === null) missing.push('position');
+  if (!hasValidPosition(record)) missing.push('position');
   return missing;
 }

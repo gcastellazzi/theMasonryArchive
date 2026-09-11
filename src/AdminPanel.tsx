@@ -468,6 +468,75 @@ export function AdminPanel({
             </label>
           ))}
 
+          <fieldset
+            className={`rounded-md border p-3 ${
+              missing.includes('position')
+                ? 'border-destructive/50 bg-destructive/5'
+                : ''
+            }`}
+          >
+            <legend className="px-1 text-sm font-medium">Posizione</legend>
+            <p className="mb-3 text-xs text-muted-foreground">
+              {missing.includes('position')
+                ? 'Inserisci entrambe le coordinate per localizzare e approvare la foto.'
+                : 'Le coordinate possono essere corrette manualmente se necessario.'}
+            </p>
+            <div className="grid grid-cols-2 gap-2">
+              <label className="field">
+                <span>Latitudine</span>
+                <input
+                  key={`${selected.id}-latitude`}
+                  type="number"
+                  inputMode="decimal"
+                  min="-90"
+                  max="90"
+                  step="any"
+                  defaultValue={selected.lat ?? ''}
+                  placeholder="44.4949"
+                  aria-invalid={
+                    selected.lat === null ||
+                    !Number.isFinite(selected.lat) ||
+                    selected.lat < -90 ||
+                    selected.lat > 90
+                  }
+                  onChange={(event) =>
+                    update(selected.id, {
+                      lat: Number.isFinite(event.currentTarget.valueAsNumber)
+                        ? event.currentTarget.valueAsNumber
+                        : null,
+                    })
+                  }
+                />
+              </label>
+              <label className="field">
+                <span>Longitudine</span>
+                <input
+                  key={`${selected.id}-longitude`}
+                  type="number"
+                  inputMode="decimal"
+                  min="-180"
+                  max="180"
+                  step="any"
+                  defaultValue={selected.lng ?? ''}
+                  placeholder="11.3426"
+                  aria-invalid={
+                    selected.lng === null ||
+                    !Number.isFinite(selected.lng) ||
+                    selected.lng < -180 ||
+                    selected.lng > 180
+                  }
+                  onChange={(event) =>
+                    update(selected.id, {
+                      lng: Number.isFinite(event.currentTarget.valueAsNumber)
+                        ? event.currentTarget.valueAsNumber
+                        : null,
+                    })
+                  }
+                />
+              </label>
+            </div>
+          </fieldset>
+
           <div>
             <span className="mb-1 block text-sm font-medium">Tag</span>
             <div className="mb-2 flex gap-1">

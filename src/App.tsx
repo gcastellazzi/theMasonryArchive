@@ -42,8 +42,8 @@ const BASE = import.meta.env.BASE_URL;
 const ADMIN_ENABLED = import.meta.env.DEV;
 
 const VIEWS = ADMIN_ENABLED
-  ? ['Explore', 'Suggest', 'Upload', 'Admin', 'Data model']
-  : ['Explore', 'Suggest', 'Upload', 'Data model'];
+  ? ['Home', 'Explore', 'Suggest', 'Upload', 'Credits', 'Admin', 'Data model']
+  : ['Home', 'Explore', 'Suggest', 'Upload', 'Credits', 'Data model'];
 
 const schemaFields = [
   'id',
@@ -158,7 +158,7 @@ function ArchiveMap({ visibleRecords }: { visibleRecords: MasonryRecord[] }) {
 }
 
 function App() {
-  const [activeView, setActiveView] = useState('Explore');
+  const [activeView, setActiveView] = useState('Home');
   const [selectedTag, setSelectedTag] = useState('all');
   const [role, setRole] = useState<Role>('Student');
   const [liveSuggestions, setLiveSuggestions] =
@@ -234,70 +234,95 @@ function App() {
         </div>
       </header>
 
-      <div className="mx-auto border-b px-4 py-6 sm:px-6">
-        <div className="mx-auto max-w-[1320px]">
-          <h1 className="text-[calc(1.325rem+0.9vw)] font-semibold leading-tight">
-            The Masonry Archive
-          </h1>
-          <p className="mt-1 max-w-3xl text-[1.05rem] font-normal text-muted-foreground">
-            A public research archive for masonry photographs, location data,
-            construction notes, and future aLoTiA records.
-          </p>
-          <p className="mt-3 text-sm">
-            <a href="https://gcastellazzi.github.io">Giovanni Castellazzi</a> ·
-            Computational mechanics · Built heritage documentation
-          </p>
-        </div>
-      </div>
-
       <div
-        className={`mx-auto grid max-w-[1320px] gap-4 px-4 py-4 sm:px-6 ${
-          ADMIN_ENABLED && activeView === 'Admin'
+        className={`mx-auto grid max-w-[1320px] gap-4 px-4 pt-4 sm:px-6 ${
+          (ADMIN_ENABLED && activeView === 'Admin') || activeView === 'Credits'
             ? ''
             : 'lg:grid-cols-[minmax(0,1fr)_360px]'
         }`}
       >
-        <section
-          className="min-h-[520px] overflow-hidden rounded-md border bg-card"
-          hidden={ADMIN_ENABLED && activeView === 'Admin'}
+        <div
+          className="min-w-0"
+          hidden={
+            (ADMIN_ENABLED && activeView === 'Admin') ||
+            activeView === 'Credits'
+          }
         >
-          <div className="flex flex-wrap items-center justify-between gap-3 border-b px-4 py-3">
-            <div>
-              <h2 className="text-[1.45rem] font-semibold leading-tight">
-                World masonry image map
-              </h2>
-              <p className="text-sm text-muted-foreground">
-                Public records appear after review. Zoom in to split clustered
-                records into individual images.
-              </p>
+          <section className="min-h-[520px] overflow-hidden rounded-md border bg-card">
+            <div className="flex flex-wrap items-center justify-between gap-3 border-b px-4 py-3">
+              <div>
+                <h2 className="text-[1.45rem] font-semibold leading-tight">
+                  World masonry image map
+                </h2>
+                <p className="text-sm text-muted-foreground">
+                  Public records appear after review. Zoom in to split clustered
+                  records into individual images.
+                </p>
+              </div>
+              <div className="flex items-center gap-2">
+                <Filter className="size-4 text-muted-foreground" />
+                <select
+                  value={selectedTag}
+                  onChange={(event) => setSelectedTag(event.target.value)}
+                  className="h-9 rounded-md border bg-background px-3 text-sm"
+                >
+                  <option value="all">All tags</option>
+                  {activeTags.map(({ tag, count }) => (
+                    <option key={tag} value={tag}>
+                      {tag} ({count})
+                    </option>
+                  ))}
+                </select>
+              </div>
             </div>
-            <div className="flex items-center gap-2">
-              <Filter className="size-4 text-muted-foreground" />
-              <select
-                value={selectedTag}
-                onChange={(event) => setSelectedTag(event.target.value)}
-                className="h-9 rounded-md border bg-background px-3 text-sm"
-              >
-                <option value="all">All tags</option>
-                {activeTags.map(({ tag, count }) => (
-                  <option key={tag} value={tag}>
-                    {tag} ({count})
-                  </option>
-                ))}
-              </select>
-            </div>
-          </div>
-          <ArchiveMap visibleRecords={visibleRecords} />
-        </section>
+            <ArchiveMap visibleRecords={visibleRecords} />
+          </section>
+          <p className="px-1 py-3 text-sm text-muted-foreground">
+            <a
+              href="https://gcastellazzi.github.io"
+              target="_blank"
+              rel="noreferrer"
+              className="font-semibold text-foreground underline-offset-4 hover:underline"
+            >
+              Giovanni Castellazzi
+            </a>{' '}
+            · Computational mechanics · Built heritage documentation
+          </p>
+        </div>
 
         <aside className="grid gap-4 content-start">
-          <section className="rounded-md border bg-card p-4">
-            <div className="grid grid-cols-3 gap-2">
-              <Stat label="Approved" value={approvedCount.toString()} />
-              <Stat label="Pending" value={pendingCount.toString()} />
-              <Stat label="Tags" value={activeTags.length.toString()} />
-            </div>
-          </section>
+          {activeView !== 'Credits' && (
+            <section className="rounded-md border bg-card p-4">
+              <div className="grid grid-cols-3 gap-2">
+                <Stat label="Approved" value={approvedCount.toString()} />
+                <Stat label="Pending" value={pendingCount.toString()} />
+                <Stat label="Tags" value={activeTags.length.toString()} />
+              </div>
+            </section>
+          )}
+
+          {activeView === 'Home' && (
+            <section className="rounded-md border bg-card p-4">
+              <h2 className="mb-3 text-lg font-semibold">About the archive</h2>
+              <div className="grid gap-3">
+                <Feature
+                  icon={<ShieldCheck />}
+                  title="Publication policy"
+                  text="Source code can use MIT. Images and notes should use a content license such as CC BY 4.0 or CC0, accepted during upload."
+                />
+                <Feature
+                  icon={<ImagePlus />}
+                  title="Image limits"
+                  text="Initial proposal: JPG, PNG, or WebP; max 12 MB original; generated public thumbnails around 1600 px and 480 px."
+                />
+                <Feature
+                  icon={<ChevronRight />}
+                  title="aLoTiA bridge"
+                  text="When the image is tagged as an arch, the record can suggest aLoTiA and attach a JSON file for pressure-line study."
+                />
+              </div>
+            </section>
+          )}
 
           {activeView === 'Explore' && (
             <section className="rounded-md border bg-card p-4">
@@ -340,42 +365,10 @@ function App() {
                   );
                 })}
               </div>
-
-              <div className="mt-5 flex items-baseline justify-between gap-3 border-t pt-4">
-                <h3 className="font-semibold">
-                  {selectedTag === 'all'
-                    ? 'All photos'
-                    : `Tagged “${selectedTag}”`}
-                </h3>
-                <span className="text-xs text-muted-foreground">
-                  {visibleRecords.length}{' '}
-                  {visibleRecords.length === 1 ? 'photo' : 'photos'}
-                </span>
-              </div>
-              <div className="thumbnail-grid mt-3">
-                {visibleRecords.map((record) => (
-                  <a
-                    key={record.id}
-                    className="thumbnail-card"
-                    href={`${BASE}${record.image}`}
-                    target="_blank"
-                    rel="noreferrer"
-                    title={`${record.title} — ${record.location}, ${record.country}`}
-                  >
-                    {/* eslint-disable-next-line next/no-img-element */}
-                    <img
-                      src={`${BASE}${record.thumbnail}`}
-                      alt={record.title}
-                      loading="lazy"
-                    />
-                    <span>{record.title}</span>
-                  </a>
-                ))}
-              </div>
             </section>
           )}
 
-          {activeView === 'Explore' && <CitationPanel />}
+          {activeView === 'Credits' && <CitationPanel />}
 
           {activeView === 'Suggest' && (
             <section className="rounded-md border bg-card p-4">
@@ -524,23 +517,39 @@ function App() {
         </aside>
       </div>
 
-      <section className="mx-auto grid max-w-[1320px] gap-4 px-4 pb-8 sm:px-6 lg:grid-cols-3">
-        <Feature
-          icon={<ShieldCheck />}
-          title="Publication policy"
-          text="Source code can use MIT. Images and notes should use a content license such as CC BY 4.0 or CC0, accepted during upload."
-        />
-        <Feature
-          icon={<ImagePlus />}
-          title="Image limits"
-          text="Initial proposal: JPG, PNG, or WebP; max 12 MB original; generated public thumbnails around 1600 px and 480 px."
-        />
-        <Feature
-          icon={<ChevronRight />}
-          title="aLoTiA bridge"
-          text="When the image is tagged as an arch, the record can suggest aLoTiA and attach a JSON file for pressure-line study."
-        />
-      </section>
+      {activeView === 'Explore' && (
+        <section className="mx-auto max-w-[1320px] px-4 pb-8 pt-2 sm:px-6">
+          <div className="flex items-baseline justify-between gap-3 border-b pb-3">
+            <h2 className="text-xl font-semibold">
+              {selectedTag === 'all' ? 'All photos' : `Tagged “${selectedTag}”`}
+            </h2>
+            <span className="text-sm text-muted-foreground">
+              {visibleRecords.length}{' '}
+              {visibleRecords.length === 1 ? 'photo' : 'photos'}
+            </span>
+          </div>
+          <div className="thumbnail-grid mt-4">
+            {visibleRecords.map((record) => (
+              <a
+                key={record.id}
+                className="thumbnail-card"
+                href={`${BASE}${record.image}`}
+                target="_blank"
+                rel="noreferrer"
+                title={`${record.title} — ${record.location}, ${record.country}`}
+              >
+                {/* eslint-disable-next-line next/no-img-element */}
+                <img
+                  src={`${BASE}${record.thumbnail}`}
+                  alt={record.title}
+                  loading="lazy"
+                />
+                <span>{record.title}</span>
+              </a>
+            ))}
+          </div>
+        </section>
+      )}
     </main>
   );
 }
