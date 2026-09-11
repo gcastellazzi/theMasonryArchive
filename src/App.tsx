@@ -27,6 +27,7 @@ import rawRecords from './data/records.json';
 import rawSuggestions from './data/suggestions.json';
 import rawExcluded from './data/excluded.json';
 import type { MasonryRecord, ReviewStatus, Role, Suggestion } from './types';
+import { TAGS } from './vocabulary';
 
 const records = rawRecords as unknown as MasonryRecord[];
 const suggestions = rawSuggestions as unknown as Suggestion[];
@@ -43,21 +44,6 @@ const ADMIN_ENABLED = import.meta.env.DEV;
 const VIEWS = ADMIN_ENABLED
   ? ['Explore', 'Suggest', 'Upload', 'Admin', 'Data model']
   : ['Explore', 'Suggest', 'Upload', 'Data model'];
-
-const suggestedTags = [
-  'arch',
-  'vault',
-  'brickwork',
-  'stonework',
-  'opus incertum',
-  'opus reticulatum',
-  'ashlar',
-  'lime mortar',
-  'crack pattern',
-  'pressure-line candidate',
-  'repair',
-  'texture',
-];
 
 const schemaFields = [
   'id',
@@ -119,8 +105,10 @@ function ArchiveMap({ visibleRecords }: { visibleRecords: MasonryRecord[] }) {
       groups.set(key, [...(groups.get(key) ?? []), record]);
     });
     return [...groups.values()].map((group) => {
-      const lat = group.reduce((sum, item) => sum + (item.lat ?? 0), 0) / group.length;
-      const lng = group.reduce((sum, item) => sum + (item.lng ?? 0), 0) / group.length;
+      const lat =
+        group.reduce((sum, item) => sum + (item.lat ?? 0), 0) / group.length;
+      const lng =
+        group.reduce((sum, item) => sum + (item.lng ?? 0), 0) / group.length;
       return { lat, lng, group };
     });
   }, [visibleRecords]);
@@ -173,15 +161,32 @@ function App() {
   const [activeView, setActiveView] = useState('Explore');
   const [selectedTag, setSelectedTag] = useState('all');
   const [role, setRole] = useState<Role>('Student');
-  const [liveSuggestions, setLiveSuggestions] = useState<Suggestion[]>(suggestions);
+  const [liveSuggestions, setLiveSuggestions] =
+    useState<Suggestion[]>(suggestions);
 
   const publicRecords = records.filter(
     (record) =>
-      record.status === 'approved' && record.lat !== null && record.lng !== null,
+      record.status === 'approved' &&
+      record.lat !== null &&
+      record.lng !== null,
   );
   const visibleRecords = publicRecords.filter((record) =>
-    selectedTag === 'all' ? true : record.tags.includes(selectedTag),
+    selectedTag === 'all'
+      ? true
+      : record.tags.some((tag) => tag.trim() === selectedTag),
   );
+  const activeTags = [
+    ...publicRecords.reduce((counts, record) => {
+      record.tags.forEach((rawTag) => {
+        const tag = rawTag.trim();
+        if (tag) counts.set(tag, (counts.get(tag) ?? 0) + 1);
+      });
+      return counts;
+    }, new Map<string, number>()),
+  ]
+    .map(([tag, count]) => ({ tag, count }))
+    .sort((a, b) => b.count - a.count || a.tag.localeCompare(b.tag));
+  const largestTagCount = activeTags[0]?.count ?? 1;
   const approvedCount = records.filter(
     (record) => record.status === 'approved',
   ).length;
@@ -239,10 +244,8 @@ function App() {
             construction notes, and future aLoTiA records.
           </p>
           <p className="mt-3 text-sm">
-            <a href="https://gcastellazzi.github.io">
-              Giovanni Castellazzi
-            </a>{' '}
-            · Computational mechanics · Built heritage documentation
+            <a href="https://gcastellazzi.github.io">Giovanni Castellazzi</a> ·
+            Computational mechanics · Built heritage documentation
           </p>
         </div>
       </div>
@@ -276,9 +279,9 @@ function App() {
                 className="h-9 rounded-md border bg-background px-3 text-sm"
               >
                 <option value="all">All tags</option>
-                {suggestedTags.map((tag) => (
+                {activeTags.map(({ tag, count }) => (
                   <option key={tag} value={tag}>
-                    {tag}
+                    {tag} ({count})
                   </option>
                 ))}
               </select>
@@ -292,41 +295,81 @@ function App() {
             <div className="grid grid-cols-3 gap-2">
               <Stat label="Approved" value={approvedCount.toString()} />
               <Stat label="Pending" value={pendingCount.toString()} />
-              <Stat label="Tags" value={suggestedTags.length.toString()} />
+              <Stat label="Tags" value={activeTags.length.toString()} />
             </div>
           </section>
 
           {activeView === 'Explore' && (
             <section className="rounded-md border bg-card p-4">
-              <div className="mb-3 flex items-center justify-between">
-                <h2 className="font-semibold">Latest records</h2>
+              <div className="mb-3 flex items-center justify-between gap-3">
+                <div>
+                  <h2 className="font-semibold">Explore by tag</h2>
+                  <p className="text-xs text-muted-foreground">
+                    Larger tags occur in more records.
+                  </p>
+                </div>
                 <Globe2 className="size-4 text-muted-foreground" />
               </div>
-              <div className="space-y-3">
+              <div
+                className="tag-cloud"
+                aria-label="Tags used in public records"
+              >
+                <button
+                  type="button"
+                  className={selectedTag === 'all' ? 'selected' : ''}
+                  aria-pressed={selectedTag === 'all'}
+                  onClick={() => setSelectedTag('all')}
+                >
+                  All <span>{publicRecords.length}</span>
+                </button>
+                {activeTags.map(({ tag, count }) => {
+                  const weight =
+                    Math.log(count + 1) / Math.log(largestTagCount + 1);
+                  return (
+                    <button
+                      type="button"
+                      key={tag}
+                      className={selectedTag === tag ? 'selected' : ''}
+                      aria-pressed={selectedTag === tag}
+                      aria-label={`${tag}: ${count} photos`}
+                      onClick={() => setSelectedTag(tag)}
+                      style={{ fontSize: `${0.75 + weight * 0.55}rem` }}
+                    >
+                      {tag} <span>{count}</span>
+                    </button>
+                  );
+                })}
+              </div>
+
+              <div className="mt-5 flex items-baseline justify-between gap-3 border-t pt-4">
+                <h3 className="font-semibold">
+                  {selectedTag === 'all'
+                    ? 'All photos'
+                    : `Tagged “${selectedTag}”`}
+                </h3>
+                <span className="text-xs text-muted-foreground">
+                  {visibleRecords.length}{' '}
+                  {visibleRecords.length === 1 ? 'photo' : 'photos'}
+                </span>
+              </div>
+              <div className="thumbnail-grid mt-3">
                 {visibleRecords.map((record) => (
-                  <article key={record.id} className="record-card">
+                  <a
+                    key={record.id}
+                    className="thumbnail-card"
+                    href={`${BASE}${record.image}`}
+                    target="_blank"
+                    rel="noreferrer"
+                    title={`${record.title} — ${record.location}, ${record.country}`}
+                  >
                     {/* eslint-disable-next-line next/no-img-element */}
-                    <img src={`${BASE}${record.thumbnail}`} alt="" loading="lazy" />
-                    <div>
-                      <div className="flex items-center gap-2">
-                        <span className={`status-dot ${record.status}`} />
-                        <span className="text-xs uppercase text-muted-foreground">
-                          {record.status}
-                        </span>
-                      </div>
-                      <h3>{record.title}</h3>
-                      <p>
-                        {record.location}, {record.country} - {record.period}
-                      </p>
-                      <div className="mt-2 flex flex-wrap gap-1">
-                        {record.tags.slice(0, 3).map((tag) => (
-                          <span className="tag" key={tag}>
-                            {tag}
-                          </span>
-                        ))}
-                      </div>
-                    </div>
-                  </article>
+                    <img
+                      src={`${BASE}${record.thumbnail}`}
+                      alt={record.title}
+                      loading="lazy"
+                    />
+                    <span>{record.title}</span>
+                  </a>
                 ))}
               </div>
             </section>
@@ -336,7 +379,9 @@ function App() {
 
           {activeView === 'Suggest' && (
             <section className="rounded-md border bg-card p-4">
-              <h2 className="mb-3 font-semibold">Proponi un tag o una correzione</h2>
+              <h2 className="mb-3 font-semibold">
+                Proponi un tag o una correzione
+              </h2>
               <SuggestForm
                 records={publicRecords}
                 onSubmit={(suggestion) =>
@@ -446,7 +491,7 @@ function App() {
                 initialRecords={records}
                 initialSuggestions={liveSuggestions}
                 initialExcluded={excluded}
-                tagVocabulary={suggestedTags}
+                tagVocabulary={TAGS}
               />
             </div>
           )}
@@ -460,7 +505,10 @@ function App() {
               </p>
               <div className="space-y-3">
                 <AdminRow icon={<Database />} text="GitHub Pages frontend" />
-                <AdminRow icon={<FileJson />} text="Optional aLoTiA JSON link" />
+                <AdminRow
+                  icon={<FileJson />}
+                  text="Optional aLoTiA JSON link"
+                />
                 <AdminRow icon={<MapPin />} text="OpenStreetMap coordinates" />
                 <AdminRow icon={<UserRound />} text="Minimal public profiles" />
               </div>
