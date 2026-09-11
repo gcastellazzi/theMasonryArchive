@@ -1,6 +1,8 @@
 import {
+  ArrowLeft,
   ChevronRight,
   Database,
+  ExternalLink,
   FileJson,
   Filter,
   Globe2,
@@ -160,6 +162,9 @@ function ArchiveMap({ visibleRecords }: { visibleRecords: MasonryRecord[] }) {
 function App() {
   const [activeView, setActiveView] = useState('Home');
   const [selectedTag, setSelectedTag] = useState('all');
+  const [selectedRecord, setSelectedRecord] = useState<MasonryRecord | null>(
+    null,
+  );
   const [role, setRole] = useState<Role>('Student');
   const [liveSuggestions, setLiveSuggestions] =
     useState<Suggestion[]>(suggestions);
@@ -236,7 +241,9 @@ function App() {
 
       <div
         className={`mx-auto grid max-w-[1320px] gap-4 px-4 pt-4 sm:px-6 ${
-          (ADMIN_ENABLED && activeView === 'Admin') || activeView === 'Credits'
+          (ADMIN_ENABLED && activeView === 'Admin') ||
+          activeView === 'Credits' ||
+          activeView === 'Record'
             ? ''
             : 'lg:grid-cols-[minmax(0,1fr)_360px]'
         }`}
@@ -245,7 +252,8 @@ function App() {
           className="min-w-0"
           hidden={
             (ADMIN_ENABLED && activeView === 'Admin') ||
-            activeView === 'Credits'
+            activeView === 'Credits' ||
+            activeView === 'Record'
           }
         >
           <section className="min-h-[520px] overflow-hidden rounded-md border bg-card">
@@ -291,7 +299,7 @@ function App() {
         </div>
 
         <aside className="grid gap-4 content-start">
-          {activeView !== 'Credits' && (
+          {activeView !== 'Credits' && activeView !== 'Record' && (
             <section className="rounded-md border bg-card p-4">
               <div className="grid grid-cols-3 gap-2">
                 <Stat label="Approved" value={approvedCount.toString()} />
@@ -369,6 +377,13 @@ function App() {
           )}
 
           {activeView === 'Credits' && <CitationPanel />}
+
+          {activeView === 'Record' && selectedRecord && (
+            <RecordDetail
+              record={selectedRecord}
+              onBack={() => setActiveView('Explore')}
+            />
+          )}
 
           {activeView === 'Suggest' && (
             <section className="rounded-md border bg-card p-4">
@@ -530,13 +545,16 @@ function App() {
           </div>
           <div className="thumbnail-grid mt-4">
             {visibleRecords.map((record) => (
-              <a
+              <button
+                type="button"
                 key={record.id}
                 className="thumbnail-card"
-                href={`${BASE}${record.image}`}
-                target="_blank"
-                rel="noreferrer"
                 title={`${record.title} — ${record.location}, ${record.country}`}
+                onClick={() => {
+                  setSelectedRecord(record);
+                  setActiveView('Record');
+                  window.scrollTo({ top: 0, behavior: 'smooth' });
+                }}
               >
                 {/* eslint-disable-next-line next/no-img-element */}
                 <img
@@ -545,12 +563,141 @@ function App() {
                   loading="lazy"
                 />
                 <span>{record.title}</span>
-              </a>
+              </button>
             ))}
           </div>
         </section>
       )}
     </main>
+  );
+}
+
+function RecordDetail({
+  record,
+  onBack,
+}: {
+  record: MasonryRecord;
+  onBack: () => void;
+}) {
+  const details = [
+    [
+      'Location',
+      [record.location, record.state, record.country]
+        .filter(Boolean)
+        .join(', '),
+    ],
+    [
+      'Coordinates',
+      record.lat !== null && record.lng !== null
+        ? `${record.lat.toFixed(6)}, ${record.lng.toFixed(6)}`
+        : '',
+    ],
+    ['Period', record.period],
+    ['Element', record.element],
+    ['Technique', record.technique],
+    ['Material', record.material],
+    ['Captured', record.capturedAt ? record.capturedAt.slice(0, 10) : ''],
+    ['Camera', record.camera ?? ''],
+    [
+      'Image dimensions',
+      record.width && record.height
+        ? `${record.width} × ${record.height} px`
+        : '',
+    ],
+    ['Altitude', record.altitude != null ? `${record.altitude} m` : ''],
+    ['Bearing', record.bearing != null ? `${record.bearing.toFixed(0)}°` : ''],
+    ['Author', [record.author, record.affiliation].filter(Boolean).join(' · ')],
+    ['Licence', record.license ?? ''],
+  ].filter((detail): detail is [string, string] => Boolean(detail[1]));
+
+  return (
+    <article className="rounded-md border bg-card p-4 sm:p-6">
+      <button
+        type="button"
+        onClick={onBack}
+        className="mb-5 inline-flex items-center gap-2 text-sm font-semibold text-primary hover:underline"
+      >
+        <ArrowLeft className="size-4" />
+        Back to Explore
+      </button>
+
+      <div className="grid gap-6 lg:grid-cols-[minmax(0,1.45fr)_minmax(300px,0.75fr)]">
+        <figure className="min-w-0">
+          <div className="flex min-h-[420px] items-center justify-center overflow-hidden rounded-md bg-muted">
+            {/* La derivata da 480 px e' versionata e quindi sempre disponibile
+                anche sul sito statico pubblicato. */}
+            {/* eslint-disable-next-line next/no-img-element */}
+            <img
+              src={`${BASE}${record.thumbnail}`}
+              alt={record.title}
+              className="max-h-[76vh] w-full object-contain"
+            />
+          </div>
+          <figcaption className="mt-3 flex flex-wrap items-center justify-between gap-3 text-sm text-muted-foreground">
+            <span>
+              {record.location}, {record.country}
+            </span>
+            <a
+              href={`${BASE}${record.thumbnail}`}
+              target="_blank"
+              rel="noreferrer"
+              className="inline-flex items-center gap-1.5 font-semibold text-primary underline-offset-4 hover:underline"
+            >
+              View full image
+              <ExternalLink className="size-3.5" />
+            </a>
+          </figcaption>
+        </figure>
+
+        <div className="min-w-0">
+          <p className="text-xs font-semibold uppercase tracking-wide text-primary">
+            Archive record
+          </p>
+          <h1 className="mt-1 text-3xl font-semibold leading-tight">
+            {record.title}
+          </h1>
+          {record.notes && (
+            <p className="mt-4 leading-7 text-muted-foreground">
+              {record.notes}
+            </p>
+          )}
+
+          <dl className="mt-6 divide-y rounded-md border">
+            {details.map(([label, value]) => (
+              <div
+                key={label}
+                className="grid gap-1 px-3 py-2.5 sm:grid-cols-[120px_minmax(0,1fr)]"
+              >
+                <dt className="text-xs font-semibold uppercase text-muted-foreground">
+                  {label}
+                </dt>
+                <dd className="text-sm">{value}</dd>
+              </div>
+            ))}
+          </dl>
+
+          <div className="mt-5 flex flex-wrap gap-2">
+            {record.tags.map((tag) => (
+              <span className="tag" key={tag}>
+                {tag}
+              </span>
+            ))}
+          </div>
+
+          {record.hasAlotiaJson && record.alotiaJsonUrl && (
+            <a
+              href={record.alotiaJsonUrl}
+              target="_blank"
+              rel="noreferrer"
+              className="mt-5 inline-flex items-center gap-1.5 text-sm font-semibold text-primary hover:underline"
+            >
+              Open aLoTiA record
+              <ExternalLink className="size-3.5" />
+            </a>
+          )}
+        </div>
+      </div>
+    </article>
   );
 }
 
