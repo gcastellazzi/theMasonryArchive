@@ -61,7 +61,7 @@ npm run dev
 Local app URL:
 
 ```text
-http://127.0.0.1:5173/theMasonryArchive/
+http://localhost:5180/theMasonryArchive/
 ```
 
 Production build:
