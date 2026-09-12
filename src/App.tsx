@@ -8,9 +8,11 @@ import {
   Globe2,
   ImagePlus,
   MapPin,
+  Menu,
   ShieldCheck,
   Upload,
   UserRound,
+  X,
 } from 'lucide-react';
 import { DivIcon } from 'leaflet';
 import { useMemo, useState } from 'react';
@@ -96,7 +98,13 @@ function MapZoomWatcher({ onZoom }: { onZoom: (zoom: number) => void }) {
   return null;
 }
 
-function ArchiveMap({ visibleRecords }: { visibleRecords: MasonryRecord[] }) {
+function ArchiveMap({
+  visibleRecords,
+  onSelectRecords,
+}: {
+  visibleRecords: MasonryRecord[];
+  onSelectRecords: (records: MasonryRecord[]) => void;
+}) {
   const [zoom, setZoom] = useState(3);
   const clustered = zoom < 5;
 
@@ -136,9 +144,17 @@ function ArchiveMap({ visibleRecords }: { visibleRecords: MasonryRecord[] }) {
               icon={makeClusterIcon(group.length, group[0].status)}
             >
               <Popup>
-                <strong>{group[0].country}</strong>
-                <br />
-                {group.length} archive record{group.length > 1 ? 's' : ''}
+                <button
+                  type="button"
+                  className="map-popup-link"
+                  onClick={() => onSelectRecords(group)}
+                >
+                  <strong>{group[0].country}</strong>
+                  <span>
+                    View {group.length} archive photo
+                    {group.length > 1 ? 's' : ''}
+                  </span>
+                </button>
               </Popup>
             </Marker>
           ))
@@ -149,9 +165,16 @@ function ArchiveMap({ visibleRecords }: { visibleRecords: MasonryRecord[] }) {
               icon={makeMarkerIcon(record.status)}
             >
               <Popup>
-                <strong>{record.title}</strong>
-                <br />
-                {record.location}, {record.country}
+                <button
+                  type="button"
+                  className="map-popup-link"
+                  onClick={() => onSelectRecords([record])}
+                >
+                  <strong>{record.title}</strong>
+                  <span>
+                    {record.location}, {record.country} · View photo
+                  </span>
+                </button>
               </Popup>
             </Marker>
           ))}
@@ -165,6 +188,8 @@ function App() {
   const [selectedRecord, setSelectedRecord] = useState<MasonryRecord | null>(
     null,
   );
+  const [mapRecordIds, setMapRecordIds] = useState<string[] | null>(null);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [role, setRole] = useState<Role>('Student');
   const [liveSuggestions, setLiveSuggestions] =
     useState<Suggestion[]>(suggestions);
@@ -192,6 +217,9 @@ function App() {
     .map(([tag, count]) => ({ tag, count }))
     .sort((a, b) => b.count - a.count || a.tag.localeCompare(b.tag));
   const largestTagCount = activeTags[0]?.count ?? 1;
+  const galleryRecords = mapRecordIds
+    ? visibleRecords.filter((record) => mapRecordIds.includes(record.id))
+    : visibleRecords;
   const approvedCount = records.filter(
     (record) => record.status === 'approved',
   ).length;
@@ -199,43 +227,104 @@ function App() {
   const roleNeedsResearchFields =
     role === 'Researcher' || role === 'PhD candidate';
 
+  function selectView(view: string) {
+    setActiveView(view);
+    setMobileMenuOpen(false);
+  }
+
+  function selectTag(tag: string) {
+    setSelectedTag(tag);
+    setMapRecordIds(null);
+  }
+
+  function showRecordsFromMap(mapRecords: MasonryRecord[]) {
+    setMapRecordIds(mapRecords.map((record) => record.id));
+    setActiveView('Explore');
+    setMobileMenuOpen(false);
+    window.setTimeout(
+      () =>
+        document
+          .getElementById('photo-gallery')
+          ?.scrollIntoView({ behavior: 'smooth', block: 'start' }),
+      0,
+    );
+  }
+
   return (
     <main className="min-h-screen bg-background text-foreground">
       <header className="sticky top-0 z-30 border-b border-primary/30 bg-primary text-primary-foreground">
-        <div className="mx-auto flex max-w-[1320px] items-center justify-between gap-4 px-4 py-2.5 sm:px-6">
-          <div className="flex min-w-0 items-center gap-3">
-            <div className="min-w-0">
-              <p className="truncate text-[15px] font-semibold">
-                The Masonry Archive
-              </p>
-              <p className="hidden text-xs text-primary-foreground/75 sm:block">
-                Open, moderated, geolocated masonry image records
-              </p>
+        <div className="mx-auto max-w-[1320px] px-4 sm:px-6">
+          <div className="flex items-center justify-between gap-3 py-2.5">
+            <div className="flex min-w-0 items-center gap-3">
+              <div className="min-w-0">
+                <p className="truncate text-[15px] font-semibold">
+                  The Masonry Archive
+                </p>
+                <p className="hidden text-xs text-primary-foreground/75 sm:block">
+                  Open, moderated, geolocated masonry image records
+                </p>
+              </div>
+            </div>
+            <nav className="hidden items-center gap-1 md:flex">
+              {VIEWS.map((item) => (
+                <Button
+                  key={item}
+                  variant="ghost"
+                  onClick={() => selectView(item)}
+                  className={
+                    activeView === item
+                      ? 'bg-white/15 text-white hover:bg-white/20 hover:text-white'
+                      : 'text-white/85 hover:bg-white/10 hover:text-white'
+                  }
+                >
+                  {item}
+                </Button>
+              ))}
+            </nav>
+            <div className="flex shrink-0 items-center gap-2">
+              <Button
+                onClick={() => selectView('Upload')}
+                className="hidden bg-white text-primary hover:bg-white/90 sm:inline-flex"
+              >
+                <ImagePlus />
+                Contribute
+              </Button>
+              <Button
+                type="button"
+                variant="ghost"
+                size="icon"
+                className="text-white hover:bg-white/15 hover:text-white md:hidden"
+                aria-label={mobileMenuOpen ? 'Close menu' : 'Open menu'}
+                aria-expanded={mobileMenuOpen}
+                aria-controls="mobile-navigation"
+                onClick={() => setMobileMenuOpen((open) => !open)}
+              >
+                {mobileMenuOpen ? <X /> : <Menu />}
+              </Button>
             </div>
           </div>
-          <nav className="hidden items-center gap-1 md:flex">
-            {VIEWS.map((item) => (
-              <Button
-                key={item}
-                variant="ghost"
-                onClick={() => setActiveView(item)}
-                className={
-                  activeView === item
-                    ? 'bg-white/15 text-white hover:bg-white/20 hover:text-white'
-                    : 'text-white/85 hover:bg-white/10 hover:text-white'
-                }
-              >
-                {item}
-              </Button>
-            ))}
-          </nav>
-          <Button
-            onClick={() => setActiveView('Upload')}
-            className="bg-white text-primary hover:bg-white/90"
-          >
-            <ImagePlus />
-            Contribute
-          </Button>
+
+          {mobileMenuOpen && (
+            <nav
+              id="mobile-navigation"
+              className="grid grid-cols-2 gap-1 border-t border-white/20 py-2 md:hidden"
+            >
+              {VIEWS.map((item) => (
+                <button
+                  type="button"
+                  key={item}
+                  onClick={() => selectView(item)}
+                  className={`rounded-md px-3 py-2.5 text-left text-sm font-semibold ${
+                    activeView === item
+                      ? 'bg-white/20 text-white'
+                      : 'text-white/85 hover:bg-white/10'
+                  }`}
+                >
+                  {item}
+                </button>
+              ))}
+            </nav>
+          )}
         </div>
       </header>
 
@@ -271,7 +360,7 @@ function App() {
                 <Filter className="size-4 text-muted-foreground" />
                 <select
                   value={selectedTag}
-                  onChange={(event) => setSelectedTag(event.target.value)}
+                  onChange={(event) => selectTag(event.target.value)}
                   className="h-9 rounded-md border bg-background px-3 text-sm"
                 >
                   <option value="all">All tags</option>
@@ -283,7 +372,10 @@ function App() {
                 </select>
               </div>
             </div>
-            <ArchiveMap visibleRecords={visibleRecords} />
+            <ArchiveMap
+              visibleRecords={visibleRecords}
+              onSelectRecords={showRecordsFromMap}
+            />
           </section>
           <p className="px-1 py-3 text-sm text-muted-foreground">
             <a
@@ -351,7 +443,7 @@ function App() {
                   type="button"
                   className={selectedTag === 'all' ? 'selected' : ''}
                   aria-pressed={selectedTag === 'all'}
-                  onClick={() => setSelectedTag('all')}
+                  onClick={() => selectTag('all')}
                 >
                   All <span>{publicRecords.length}</span>
                 </button>
@@ -365,7 +457,7 @@ function App() {
                       className={selectedTag === tag ? 'selected' : ''}
                       aria-pressed={selectedTag === tag}
                       aria-label={`${tag}: ${count} photos`}
-                      onClick={() => setSelectedTag(tag)}
+                      onClick={() => selectTag(tag)}
                       style={{ fontSize: `${0.75 + weight * 0.55}rem` }}
                     >
                       {tag} <span>{count}</span>
@@ -533,18 +625,36 @@ function App() {
       </div>
 
       {activeView === 'Explore' && (
-        <section className="mx-auto max-w-[1320px] px-4 pb-8 pt-2 sm:px-6">
+        <section
+          id="photo-gallery"
+          className="mx-auto max-w-[1320px] scroll-mt-20 px-4 pb-8 pt-2 sm:px-6"
+        >
           <div className="flex items-baseline justify-between gap-3 border-b pb-3">
-            <h2 className="text-xl font-semibold">
-              {selectedTag === 'all' ? 'All photos' : `Tagged “${selectedTag}”`}
-            </h2>
-            <span className="text-sm text-muted-foreground">
-              {visibleRecords.length}{' '}
-              {visibleRecords.length === 1 ? 'photo' : 'photos'}
+            <div>
+              <h2 className="text-xl font-semibold">
+                {mapRecordIds
+                  ? 'Photos selected on the map'
+                  : selectedTag === 'all'
+                    ? 'All photos'
+                    : `Tagged “${selectedTag}”`}
+              </h2>
+              {mapRecordIds && (
+                <button
+                  type="button"
+                  className="mt-1 text-sm font-semibold text-primary hover:underline"
+                  onClick={() => setMapRecordIds(null)}
+                >
+                  Show all filtered photos
+                </button>
+              )}
+            </div>
+            <span className="shrink-0 text-sm text-muted-foreground">
+              {galleryRecords.length}{' '}
+              {galleryRecords.length === 1 ? 'photo' : 'photos'}
             </span>
           </div>
           <div className="thumbnail-grid mt-4">
-            {visibleRecords.map((record) => (
+            {galleryRecords.map((record) => (
               <button
                 type="button"
                 key={record.id}

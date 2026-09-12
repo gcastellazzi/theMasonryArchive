@@ -8,6 +8,29 @@
   font-family: inherit;
 }
 
+.map-popup-link {
+  display: grid;
+  gap: 3px;
+  max-width: 220px;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+  padding: 0;
+  text-align: left;
+}
+
+.map-popup-link strong {
+  color: var(--primary);
+  font-size: 13px;
+}
+
+.map-popup-link span {
+  line-height: 1.4;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
 .map-cluster,
 .map-pin {
   display: grid;
