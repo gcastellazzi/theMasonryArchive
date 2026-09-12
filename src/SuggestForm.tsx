@@ -2,6 +2,8 @@ import { Send } from 'lucide-react';
 import { useState } from 'react';
 
 import { Button } from '@/components/ui/button';
+import { apiEnabled, submitSuggestion, useSession } from './auth';
+import { SignIn } from './SignIn';
 import {
   SUGGESTABLE_FIELDS,
   type MasonryRecord,
@@ -13,10 +15,14 @@ import {
 /**
  * Proposta di un tag o di un testo su un record pubblicato.
  *
- * Non scrive nulla nell'archivio: produce una `Suggestion` in stato `pending`
- * che finisce nella coda di revisione dell'amministratore. Finche' non esiste
- * il servizio di backend, la proposta resta nella sessione corrente e puo'
- * essere scaricata come JSON.
+ * Non scrive nulla nell'archivio: produce una proposta in stato `pending` che
+ * finisce nella coda di revisione dell'amministratore.
+ *
+ * Con il servizio dei contributi configurato la proposta parte davvero, e
+ * l'autore e' quello della sessione — un'attribuzione dichiarata a mano non
+ * varrebbe granche' in un archivio che si cita. Senza servizio la proposta
+ * resta nella sessione corrente, dove il pannello admin locale la vede: e'
+ * quanto basta per lavorare in locale.
  */
 export function SuggestForm({
   records,
@@ -25,6 +31,8 @@ export function SuggestForm({
   records: MasonryRecord[];
   onSubmit: (suggestion: Suggestion) => void;
 }) {
+  const { contributor, signedIn } = useSession();
+
   const [recordId, setRecordId] = useState(records[0]?.id ?? '');
   const [kind, setKind] = useState<'tag' | 'text'>('tag');
   const [field, setField] = useState<SuggestableField>('technique');
@@ -34,27 +42,55 @@ export function SuggestForm({
   const [role, setRole] = useState<Role>('Student');
   const [rationale, setRationale] = useState('');
   const [sent, setSent] = useState(false);
+  const [busy, setBusy] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
-  const ready = Boolean(recordId && value.trim() && author.trim());
+  // Con il servizio attivo l'autore viene dalla sessione; senza, va scritto.
+  const signedAuthor = contributor
+    ? [contributor.firstName, contributor.lastName].filter(Boolean).join(' ') ||
+      contributor.email
+    : '';
+  const ready = Boolean(
+    recordId && value.trim() && (apiEnabled ? signedIn : author.trim()),
+  );
 
-  function submit() {
-    if (!ready) return;
-    onSubmit({
-      id: `sug-${Date.now().toString(36)}`,
-      recordId,
-      kind,
-      field: kind === 'text' ? field : undefined,
-      value: value.trim(),
-      author: author.trim(),
-      affiliation: affiliation.trim() || undefined,
-      role,
-      rationale: rationale.trim() || undefined,
-      submittedAt: new Date().toISOString(),
-      status: 'pending',
-    });
-    setValue('');
-    setRationale('');
-    setSent(true);
+  async function submit() {
+    if (!ready || busy) return;
+    setBusy(true);
+    setError(null);
+    try {
+      if (apiEnabled) {
+        await submitSuggestion({
+          recordId,
+          kind,
+          field: kind === 'text' ? field : undefined,
+          value: value.trim(),
+          rationale: rationale.trim() || undefined,
+        });
+      }
+
+      onSubmit({
+        id: `sug-${Date.now().toString(36)}`,
+        recordId,
+        kind,
+        field: kind === 'text' ? field : undefined,
+        value: value.trim(),
+        author: apiEnabled ? signedAuthor : author.trim(),
+        affiliation:
+          (apiEnabled ? contributor?.affiliation : affiliation.trim()) || undefined,
+        role: apiEnabled ? contributor?.role : role,
+        rationale: rationale.trim() || undefined,
+        submittedAt: new Date().toISOString(),
+        status: 'pending',
+      });
+      setValue('');
+      setRationale('');
+      setSent(true);
+    } catch (problem) {
+      setError(problem instanceof Error ? problem.message : String(problem));
+    } finally {
+      setBusy(false);
+    }
   }
 
   if (!records.length) {
@@ -65,12 +101,18 @@ export function SuggestForm({
     );
   }
 
+  if (apiEnabled && !signedIn) {
+    return (
+      <SignIn reason="Suggestions are credited to whoever makes them, so proposing a correction needs an email address we can reach you at." />
+    );
+  }
+
   return (
     <form
       className="space-y-3"
       onSubmit={(event) => {
         event.preventDefault();
-        submit();
+        void submit();
       }}
     >
       <p className="text-sm text-muted-foreground">
@@ -146,41 +188,56 @@ export function SuggestForm({
         />
       </label>
 
-      <div className="grid gap-3 sm:grid-cols-2">
-        <label className="field">
-          <span>Name</span>
-          <input value={author} onChange={(event) => setAuthor(event.target.value)} />
-        </label>
-        <label className="field">
-          <span>Affiliation</span>
-          <input
-            value={affiliation}
-            onChange={(event) => setAffiliation(event.target.value)}
-          />
-        </label>
-      </div>
+      {apiEnabled ? (
+        <p className="rounded-md bg-muted/60 p-2 text-xs text-muted-foreground">
+          Credited to {signedAuthor}
+          {contributor?.affiliation ? ` · ${contributor.affiliation}` : ''}
+        </p>
+      ) : (
+        <div className="grid gap-3 sm:grid-cols-2">
+          <label className="field">
+            <span>Name</span>
+            <input value={author} onChange={(event) => setAuthor(event.target.value)} />
+          </label>
+          <label className="field">
+            <span>Affiliation</span>
+            <input
+              value={affiliation}
+              onChange={(event) => setAffiliation(event.target.value)}
+            />
+          </label>
+        </div>
+      )}
 
-      <label className="field">
-        <span>Role</span>
-        <select value={role} onChange={(event) => setRole(event.target.value as Role)}>
-          {(['Student', 'PhD candidate', 'Researcher', 'Professional'] as Role[]).map((item) => (
-            <option key={item} value={item}>
-              {item}
-            </option>
-          ))}
-        </select>
-      </label>
+      {!apiEnabled && (
+        <label className="field">
+          <span>Role</span>
+          <select value={role} onChange={(event) => setRole(event.target.value as Role)}>
+            {(['Student', 'PhD candidate', 'Researcher', 'Professional'] as Role[]).map((item) => (
+              <option key={item} value={item}>
+                {item}
+              </option>
+            ))}
+          </select>
+        </label>
+      )}
 
-      <Button type="submit" size="sm" disabled={!ready}>
+      <Button type="submit" size="sm" disabled={!ready || busy}>
         <Send />
-        Submit suggestion
+        {busy ? 'Sending…' : 'Submit suggestion'}
       </Button>
+
+      {error && (
+        <p className="rounded-md bg-destructive/10 p-2 text-xs text-destructive">
+          {error}
+        </p>
+      )}
 
       {sent && (
         <p className="rounded-md bg-muted/60 p-2 text-xs text-muted-foreground">
-          Suggestion added to the moderation queue. With the backend enabled it
-          would be sent to the server; for now it remains in this session and is
-          visible in the Admin panel.
+          {apiEnabled
+            ? 'Suggestion sent. It enters the moderation queue and appears in the archive only if a curator accepts it.'
+            : 'Suggestion added to the moderation queue. Without the contribution service it stays in this session, where the local Admin panel can see it.'}
         </p>
       )}
     </form>

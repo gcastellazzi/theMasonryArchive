@@ -1,0 +1,41 @@
+name: Deploy the contribution API
+
+# Il Worker riceve i contributi, autentica chi li manda e serve le immagini di
+# dettaglio. Vive nello stesso repository del sito ma si pubblica per conto suo:
+# il sito e' statico su GitHub Pages, questo e' l'unico pezzo che puo' scrivere.
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'worker/**'
+      - 'wrangler.toml'
+      - '.github/workflows/worker.yml'
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Typecheck the Worker
+        run: npx tsc --noEmit -p worker/tsconfig.json
+
+      - name: Deploy
+        run: npx wrangler deploy
+        env:
+          # Token creato su Cloudflare con i permessi Workers, D1, R2 e KV,
+          # da mettere fra i segreti del repository.
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}

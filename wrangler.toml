@@ -1,0 +1,41 @@
+name = "masonry-archive-api"
+main = "worker/src/index.ts"
+compatibility_date = "2026-05-22"
+
+# Riceve i contributi, autentica chi li manda e serve le immagini di dettaglio.
+# Il sito resta statico su GitHub Pages: questo Worker e' l'unico pezzo che
+# puo' scrivere, perche' un sito statico non puo' farlo.
+
+[vars]
+# Dove atterra il magic link. In sviluppo il server Vite locale.
+SITE_URL = "http://localhost:5180/theMasonryArchive/"
+# Da quali origini si accettano richieste, separate da virgola.
+ALLOWED_ORIGINS = "http://localhost:5180,https://gcastellazzi.github.io"
+# Domini email ammessi, separati da virgola. Vuoto = qualunque indirizzo.
+# Per una classe: "unibo.it,studio.unibo.it"
+ALLOWED_EMAIL_DOMAINS = ""
+# Dimensione massima del file originale.
+MAX_UPLOAD_BYTES = "12582912"
+
+# I segreti NON stanno qui: si impostano con
+#   npx wrangler secret put JWT_SECRET
+#   npx wrangler secret put ADMIN_TOKEN
+#   npx wrangler secret put RESEND_API_KEY
+#   npx wrangler secret put TURNSTILE_SECRET
+# In sviluppo si leggono da .dev.vars, che e' escluso dal versionamento.
+
+[[d1_databases]]
+binding = "DB"
+database_name = "masonry-archive"
+# Sostituire dopo `npx wrangler d1 create masonry-archive`.
+# In locale `wrangler dev` usa un database emulato e ignora questo valore.
+database_id = "00000000-0000-0000-0000-000000000000"
+
+[[r2_buckets]]
+binding = "BUCKET"
+bucket_name = "masonry-archive"
+
+[[kv_namespaces]]
+binding = "LINKS"
+# Sostituire dopo `npx wrangler kv namespace create LINKS`.
+id = "00000000000000000000000000000000"

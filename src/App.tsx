@@ -11,7 +11,6 @@ import {
   Menu,
   Pencil,
   ShieldCheck,
-  Upload,
   UserRound,
   X,
 } from 'lucide-react';
@@ -26,14 +25,18 @@ import {
 } from 'react-leaflet';
 import { Button } from '@/components/ui/button';
 import { AdminPanel } from './AdminPanel';
+import { AuthLanding } from './AuthLanding';
 import { SuggestForm } from './SuggestForm';
 import { CitationPanel } from './CitationPanel';
+import { PrivacyNote } from './PrivacyNote';
+import { UploadForm } from './UploadForm';
+import { useRestoreSession } from './auth';
 import { detailSrcSet, hasDetailImages, imageUrl } from './imageUrl';
 import { navigate, useRoute, type Route, type ViewName } from './router';
 import rawRecords from './data/records.json';
 import rawSuggestions from './data/suggestions.json';
 import rawExcluded from './data/excluded.json';
-import type { MasonryRecord, ReviewStatus, Role, Suggestion } from './types';
+import type { MasonryRecord, ReviewStatus, Suggestion } from './types';
 import { TAGS } from './vocabulary';
 
 const records = rawRecords as unknown as MasonryRecord[];
@@ -198,9 +201,12 @@ function App() {
     route.view === 'Record' && !selectedRecord ? 'Explore' : route.view;
 
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [role, setRole] = useState<Role>('Student');
   const [liveSuggestions, setLiveSuggestions] =
     useState<Suggestion[]>(suggestions);
+
+  // Riprende la sessione salvata, cosi' chi era gia' entrato non deve
+  // richiedere un link a ogni visita.
+  useRestoreSession();
 
   const publicRecords = records.filter(
     (record) =>
@@ -232,8 +238,6 @@ function App() {
     (record) => record.status === 'approved',
   ).length;
   const pendingCount = records.filter((r) => r.status === 'pending').length;
-  const roleNeedsResearchFields =
-    role === 'Researcher' || role === 'PhD candidate';
 
   /** Cambia rotta conservando il resto: filtro per tag e selezione di mappa. */
   function go(patch: Partial<Route>) {
@@ -488,7 +492,12 @@ function App() {
             </section>
           )}
 
-          {activeView === 'Credits' && <CitationPanel />}
+          {activeView === 'Credits' && (
+            <>
+              <CitationPanel />
+              <PrivacyNote />
+            </>
+          )}
 
           {activeView === 'Record' && selectedRecord && (
             <RecordDetail
@@ -523,84 +532,14 @@ function App() {
             <section className="rounded-md border bg-card p-4">
               <h2 className="mb-1 font-semibold">Contribute an image</h2>
               <p className="mb-4 text-sm text-muted-foreground">
-                Uploads require registration and are reviewed before becoming
-                public.
+                Contributions are reviewed before becoming public.
               </p>
-              <div className="grid gap-3">
-                <label className="field">
-                  Role
-                  <select
-                    value={role}
-                    onChange={(event) => setRole(event.target.value as Role)}
-                  >
-                    <option>Student</option>
-                    <option>PhD candidate</option>
-                    <option>Researcher</option>
-                    <option>Professional</option>
-                  </select>
-                </label>
-                <div className="grid grid-cols-2 gap-2">
-                  <label className="field">
-                    First name
-                    <input placeholder="Ada" />
-                  </label>
-                  <label className="field">
-                    Last name
-                    <input placeholder="Lovelace" />
-                  </label>
-                </div>
-                <label className="field">
-                  Email
-                  <input placeholder="name@university.edu" type="email" />
-                </label>
-                <label className="field">
-                  University
-                  <input placeholder="University or institution" />
-                </label>
-                {roleNeedsResearchFields && (
-                  <div className="grid grid-cols-2 gap-2">
-                    <label className="field">
-                      ORCID
-                      <input placeholder="0000-0000-0000-0000" />
-                    </label>
-                    <label className="field">
-                      Laboratory
-                      <input placeholder="Lab or research group" />
-                    </label>
-                  </div>
-                )}
-                <label className="field">
-                  Image file
-                  <input accept="image/jpeg,image/png,image/webp" type="file" />
-                </label>
-                <div className="grid grid-cols-2 gap-2">
-                  <label className="field">
-                    Latitude
-                    <input placeholder="44.4949" />
-                  </label>
-                  <label className="field">
-                    Longitude
-                    <input placeholder="11.3426" />
-                  </label>
-                </div>
-                <label className="field">
-                  Notes
-                  <textarea placeholder="Why was the photo taken? What masonry feature should be observed?" />
-                </label>
-                <label className="license-check">
-                  <input type="checkbox" />
-                  <span>
-                    I confirm that I own the image or have the right to publish
-                    it, and I agree to release the contribution under the
-                    archive content license.
-                  </span>
-                </label>
-                <Button>
-                  <Upload />
-                  Submit for review
-                </Button>
-              </div>
+              <UploadForm />
             </section>
+          )}
+
+          {activeView === 'Auth' && route.token && (
+            <AuthLanding token={route.token} route={route} />
           )}
 
           {ADMIN_ENABLED && activeView === 'Admin' && (

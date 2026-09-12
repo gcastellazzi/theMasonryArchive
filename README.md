@@ -12,7 +12,8 @@ The Masonry Archive is an open, moderated web archive for geolocated masonry ima
 - Shareable links to a single photo, to a tag, and to a map selection.
 - Zoom-dependent grouping of image records.
 - Public consultation without login.
-- Registration-aware upload form for students, PhD candidates, researchers, and professionals.
+- Passwordless sign-in by email for students, PhD candidates, researchers, and professionals.
+- Upload form that reads coordinates, date and camera from the photo itself.
 - Moderation model where uploads become public only after administrator approval.
 - Admin review queue mockup.
 - Initial data model for future backend integration.
@@ -239,6 +240,83 @@ python3 tools/prune_images.py             # rimuove
 ```
 
 Lo stesso strumento ripulisce le derivate lasciate da un ingest interrotto.
+
+## Ricevere contributi
+
+Un sito statico non può ricevere file, autenticare nessuno né spedire email.
+Quelle tre cose le fa un Worker Cloudflare che sta in `worker/`, si pubblica per
+conto suo e non tocca l'archivio: `src/data/records.json` resta la fonte di
+verità, versionata in git, e la moderazione resta in locale nel pannello. Sul
+Worker vivono solo le persone che contribuiscono e i contributi in attesa di
+essere guardati.
+
+### Provarlo in locale, senza aprire nessun account
+
+`wrangler dev` emula database, bucket e KV sul disco, e senza chiave Resend il
+magic link non viene spedito ma stampato nel log: il flusso si prova per intero
+senza un account Cloudflare e senza un dominio verificato.
+
+```bash
+npx wrangler d1 execute masonry-archive --local --file worker/schema.sql
+npm run worker
+```
+
+Poi, in un file `.dev.vars` alla radice (escluso dal versionamento):
+
+```text
+JWT_SECRET = "una-stringa-qualunque-per-lo-sviluppo"
+ADMIN_TOKEN = "admin-locale"
+```
+
+e in `.env.local`, perché il sito sappia dove chiamare:
+
+```text
+VITE_API_BASE=http://localhost:8787
+```
+
+Aprendo **Upload** si chiede il link, lo si copia dal terminale dove gira il
+Worker e lo si incolla nel browser. Senza `VITE_API_BASE` l'archivio resta in
+sola consultazione, e le schede Upload e Suggest lo dicono invece di proporre
+moduli che non spedirebbero nulla.
+
+### Metterlo online
+
+```bash
+npx wrangler login
+npx wrangler d1 create masonry-archive        # copiare database_id in wrangler.toml
+npx wrangler kv namespace create LINKS        # copiare id in wrangler.toml
+npx wrangler d1 execute masonry-archive --remote --file worker/schema.sql
+npx wrangler secret put JWT_SECRET            # stringa lunga e casuale
+npx wrangler secret put ADMIN_TOKEN           # serve al pannello per leggere la coda
+npx wrangler secret put RESEND_API_KEY        # senza questa le email non partono
+npx wrangler deploy
+```
+
+Poi `VITE_API_BASE` come *repository variable*, accanto a `VITE_IMAGE_CDN`.
+
+**Prima di tutto il resto serve un dominio mittente verificato su Resend.**
+Il piano gratuito manda 3.000 email al mese, ma `onboarding@resend.dev` scrive
+solo al proprietario dell'account: con una classe non funziona. Verificato il
+dominio, va messo in `MAIL_FROM`.
+
+Chi può entrare si decide con `ALLOWED_EMAIL_DOMAINS` in `wrangler.toml`: vuoto
+accetta qualunque indirizzo, `"unibo.it,studio.unibo.it"` apre l'archivio alla
+sola università. `TURNSTILE_SECRET` accende il captcha; senza, il controllo è
+disattivato.
+
+### Cosa succede a una foto che arriva
+
+1. Chi contribuisce entra con un link via email — nessuna password, il link vale
+   una volta sola e scade in quindici minuti.
+2. Il browser legge dal file coordinate, data e fotocamera, così la posizione non
+   va digitata a mano: è la ragione principale per cui un contributo arriverebbe
+   senza, e senza posizione un record non è pubblicabile.
+3. Il file finisce in `incoming/` sul bucket, privato, con una riga in attesa.
+   Il Worker controlla i byte iniziali, non il nome né il tipo dichiarato: un
+   file rinominato `.jpg` non passa.
+4. L'amministratore lo guarda, e solo allora la foto entra nell'archivio come
+   record da catalogare. Diventa pubblica dopo la catalogazione e l'approvazione:
+   **due cancelli distinti**.
 
 ## Controllare la coerenza dell'archivio
 
