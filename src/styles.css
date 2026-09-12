@@ -134,6 +134,35 @@
   vertical-align: super;
 }
 
+.explore-tag-panel {
+  display: flex;
+  height: max(420px, 62vh);
+  min-height: 0;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.explore-tag-scroll {
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding-right: 6px;
+  scrollbar-color: var(--border) transparent;
+  scrollbar-width: thin;
+}
+
+@media (min-width: 1024px) {
+  .explore-sidebar {
+    height: calc(max(520px, min(68vh, 680px)) + 80px);
+    grid-template-rows: auto minmax(0, 1fr);
+    overflow: hidden;
+  }
+
+  .explore-tag-panel {
+    height: 100%;
+  }
+}
+
 .thumbnail-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));

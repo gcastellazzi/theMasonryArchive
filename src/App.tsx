@@ -9,6 +9,7 @@ import {
   ImagePlus,
   MapPin,
   Menu,
+  Pencil,
   ShieldCheck,
   Upload,
   UserRound,
@@ -390,7 +391,11 @@ function App() {
           </p>
         </div>
 
-        <aside className="grid gap-4 content-start">
+        <aside
+          className={`grid gap-4 content-start ${
+            activeView === 'Explore' ? 'explore-sidebar' : ''
+          }`}
+        >
           {activeView !== 'Credits' && activeView !== 'Record' && (
             <section className="rounded-md border bg-card p-4">
               <div className="grid grid-cols-3 gap-2">
@@ -425,7 +430,7 @@ function App() {
           )}
 
           {activeView === 'Explore' && (
-            <section className="rounded-md border bg-card p-4">
+            <section className="explore-tag-panel rounded-md border bg-card p-4">
               <div className="mb-3 flex items-center justify-between gap-3">
                 <div>
                   <h2 className="font-semibold">Explore by tag</h2>
@@ -436,7 +441,7 @@ function App() {
                 <Globe2 className="size-4 text-muted-foreground" />
               </div>
               <div
-                className="tag-cloud"
+                className="tag-cloud explore-tag-scroll"
                 aria-label="Tags used in public records"
               >
                 <button
@@ -474,13 +479,21 @@ function App() {
             <RecordDetail
               record={selectedRecord}
               onBack={() => setActiveView('Explore')}
+              onEdit={
+                ADMIN_ENABLED
+                  ? () => {
+                      setActiveView('Admin');
+                      window.scrollTo({ top: 0, behavior: 'smooth' });
+                    }
+                  : undefined
+              }
             />
           )}
 
           {activeView === 'Suggest' && (
             <section className="rounded-md border bg-card p-4">
               <h2 className="mb-3 font-semibold">
-                Proponi un tag o una correzione
+                Suggest a tag or correction
               </h2>
               <SuggestForm
                 records={publicRecords}
@@ -580,10 +593,10 @@ function App() {
               <div className="rounded-md border bg-card p-4">
                 <h2 className="mb-1 font-semibold">Admin review queue</h2>
                 <p className="text-sm text-muted-foreground">
-                  Rullino, anteprima e catalogazione. Le modifiche restano in
-                  bozza nel browser: &laquo;Esporta JSON&raquo; scarica
-                  <code className="mx-1">records.json</code> e
-                  <code className="mx-1">suggestions.json</code> da salvare in
+                  Photo strip, preview and cataloguing. Changes remain as a
+                  browser draft: the JSON export downloads
+                  <code className="mx-1">records.json</code> and
+                  <code className="mx-1">suggestions.json</code> to be saved in
                   <code className="mx-1">src/data/</code>.
                 </p>
               </div>
@@ -592,6 +605,7 @@ function App() {
                 initialSuggestions={liveSuggestions}
                 initialExcluded={excluded}
                 tagVocabulary={TAGS}
+                initialSelectedId={selectedRecord?.id}
               />
             </div>
           )}
@@ -685,9 +699,11 @@ function App() {
 function RecordDetail({
   record,
   onBack,
+  onEdit,
 }: {
   record: MasonryRecord;
   onBack: () => void;
+  onEdit?: () => void;
 }) {
   const details = [
     [
@@ -760,9 +776,22 @@ function RecordDetail({
         </figure>
 
         <div className="min-w-0">
-          <p className="text-xs font-semibold uppercase tracking-wide text-primary">
-            Archive record
-          </p>
+          <div className="flex items-center justify-between gap-3">
+            <p className="text-xs font-semibold uppercase tracking-wide text-primary">
+              Archive record
+            </p>
+            {onEdit && (
+              <Button
+                type="button"
+                size="sm"
+                variant="outline"
+                onClick={onEdit}
+              >
+                <Pencil />
+                Edit in Admin
+              </Button>
+            )}
+          </div>
           <h1 className="mt-1 text-3xl font-semibold leading-tight">
             {record.title}
           </h1>
@@ -839,12 +868,14 @@ function Feature({
   text: string;
 }) {
   return (
-    <article className="rounded-md border bg-card p-4">
-      <div className="mb-3 flex size-9 items-center justify-center rounded-md bg-accent text-accent-foreground [&_svg]:size-4">
+    <article className="flex items-start gap-3 rounded-md border bg-card p-3">
+      <div className="flex size-8 shrink-0 items-center justify-center rounded-md bg-accent text-accent-foreground [&_svg]:size-4">
         {icon}
       </div>
-      <h2 className="font-semibold">{title}</h2>
-      <p className="mt-1 text-sm leading-6 text-muted-foreground">{text}</p>
+      <div className="min-w-0">
+        <h2 className="font-semibold leading-5">{title}</h2>
+        <p className="mt-0.5 text-sm leading-5 text-muted-foreground">{text}</p>
+      </div>
     </article>
   );
 }

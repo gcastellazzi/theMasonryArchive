@@ -60,7 +60,7 @@ export function SuggestForm({
   if (!records.length) {
     return (
       <p className="text-sm text-muted-foreground">
-        Non ci sono ancora record pubblicati su cui proporre integrazioni.
+        There are no published records available for suggestions yet.
       </p>
     );
   }
@@ -74,9 +74,9 @@ export function SuggestForm({
       }}
     >
       <p className="text-sm text-muted-foreground">
-        Proponi un tag o una correzione. Nulla viene pubblicato subito: ogni
-        proposta entra nella coda di moderazione e compare nell&apos;archivio solo se
-        un amministratore la accetta.
+        Suggest a tag or a correction. Nothing is published immediately: every
+        suggestion enters the moderation queue and appears in the archive only
+        after an administrator accepts it.
       </p>
 
       <label className="field">
@@ -102,14 +102,14 @@ export function SuggestForm({
                 : 'border bg-background hover:bg-muted'
             }`}
           >
-            {option === 'tag' ? 'Un tag' : 'Un testo'}
+            {option === 'tag' ? 'A tag' : 'A text correction'}
           </button>
         ))}
       </div>
 
       {kind === 'text' && (
         <label className="field">
-          <span>Campo</span>
+          <span>Field</span>
           <select
             value={field}
             onChange={(event) => setField(event.target.value as SuggestableField)}
@@ -124,12 +124,12 @@ export function SuggestForm({
       )}
 
       <label className="field">
-        <span>{kind === 'tag' ? 'Tag proposto' : 'Testo proposto'}</span>
+        <span>{kind === 'tag' ? 'Suggested tag' : 'Suggested text'}</span>
         {kind === 'tag' ? (
           <input
             value={value}
             onChange={(event) => setValue(event.target.value)}
-            placeholder="es. opus incertum"
+            placeholder="e.g. opus incertum"
           />
         ) : (
           <textarea rows={3} value={value} onChange={(event) => setValue(event.target.value)} />
@@ -137,22 +137,22 @@ export function SuggestForm({
       </label>
 
       <label className="field">
-        <span>Motivazione (facoltativa)</span>
+        <span>Rationale (optional)</span>
         <textarea
           rows={2}
           value={rationale}
           onChange={(event) => setRationale(event.target.value)}
-          placeholder="Su cosa si basa la proposta: un riferimento, un confronto, un rilievo."
+          placeholder="What supports the suggestion: a reference, comparison or survey."
         />
       </label>
 
       <div className="grid gap-3 sm:grid-cols-2">
         <label className="field">
-          <span>Nome</span>
+          <span>Name</span>
           <input value={author} onChange={(event) => setAuthor(event.target.value)} />
         </label>
         <label className="field">
-          <span>Affiliazione</span>
+          <span>Affiliation</span>
           <input
             value={affiliation}
             onChange={(event) => setAffiliation(event.target.value)}
@@ -161,7 +161,7 @@ export function SuggestForm({
       </div>
 
       <label className="field">
-        <span>Ruolo</span>
+        <span>Role</span>
         <select value={role} onChange={(event) => setRole(event.target.value as Role)}>
           {(['Student', 'PhD candidate', 'Researcher', 'Professional'] as Role[]).map((item) => (
             <option key={item} value={item}>
@@ -173,14 +173,14 @@ export function SuggestForm({
 
       <Button type="submit" size="sm" disabled={!ready}>
         <Send />
-        Invia proposta
+        Submit suggestion
       </Button>
 
       {sent && (
         <p className="rounded-md bg-muted/60 p-2 text-xs text-muted-foreground">
-          Proposta registrata in coda di moderazione. Con il backend attivo
-          verrebbe inviata al server; per ora resta in questa sessione ed &egrave;
-          visibile nella scheda Admin.
+          Suggestion added to the moderation queue. With the backend enabled it
+          would be sent to the server; for now it remains in this session and is
+          visible in the Admin panel.
         </p>
       )}
     </form>

@@ -47,7 +47,7 @@ function CopyButton({ text, label }: { text: string; label: string }) {
       }}
     >
       {copied ? <Check /> : <Copy />}
-      {copied ? 'Copiato' : label}
+      {copied ? 'Copied' : label}
     </Button>
   );
 }
@@ -72,8 +72,8 @@ export function CitationPanel() {
           </p>
           <p className="rounded-md border bg-muted/50 p-3 text-sm leading-6">{PLAIN}</p>
           <div className="mt-2 flex flex-wrap gap-2">
-            <CopyButton text={PLAIN} label="Copia la citazione" />
-            <CopyButton text={BIBTEX} label="Copia il BibTeX" />
+            <CopyButton text={PLAIN} label="Copy citation" />
+            <CopyButton text={BIBTEX} label="Copy BibTeX" />
           </div>
         </div>
 

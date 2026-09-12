@@ -19,10 +19,10 @@ const DRAFT_KEY = 'masonry-archive:admin-draft';
 type Filter = 'todo' | 'pending' | 'approved' | 'all';
 
 const FILTERS: { id: Filter; label: string }[] = [
-  { id: 'todo', label: 'Da catalogare' },
-  { id: 'pending', label: 'In attesa' },
-  { id: 'approved', label: 'Approvate' },
-  { id: 'all', label: 'Tutte' },
+  { id: 'todo', label: 'To catalogue' },
+  { id: 'pending', label: 'Pending' },
+  { id: 'approved', label: 'Approved' },
+  { id: 'all', label: 'All' },
 ];
 
 function loadDraft(): Record<string, Partial<MasonryRecord>> {
@@ -50,11 +50,13 @@ export function AdminPanel({
   initialSuggestions,
   initialExcluded,
   tagVocabulary,
+  initialSelectedId,
 }: {
   initialRecords: MasonryRecord[];
   initialSuggestions: Suggestion[];
   initialExcluded: string[];
   tagVocabulary: string[];
+  initialSelectedId?: string;
 }) {
   const [records, setRecords] = useState(() => {
     const draft = loadDraft();
@@ -65,8 +67,10 @@ export function AdminPanel({
       : initialRecords;
   });
   const [suggestions, setSuggestions] = useState(initialSuggestions);
-  const [filter, setFilter] = useState<Filter>('todo');
-  const [selectedId, setSelectedId] = useState(initialRecords[0]?.id ?? '');
+  const [filter, setFilter] = useState<Filter>(initialSelectedId ? 'all' : 'todo');
+  const [selectedId, setSelectedId] = useState(
+    initialSelectedId ?? initialRecords[0]?.id ?? '',
+  );
   const [dirty, setDirty] = useState(() => Object.keys(loadDraft()).length > 0);
   const [tagDraft, setTagDraft] = useState('');
   const [excluded, setExcluded] = useState<string[]>(initialExcluded);
@@ -174,7 +178,7 @@ export function AdminPanel({
       setSaving('done');
       setTimeout(() => setSaving('idle'), 2500);
     } catch (error) {
-      console.error('salvataggio non riuscito', error);
+      console.error('save failed', error);
       setSaving('error');
     }
   }
@@ -190,7 +194,7 @@ export function AdminPanel({
 
   function remove(record: MasonryRecord) {
     const label = record.title || record.sourceFile || record.id;
-    if (!window.confirm(`Eliminare «${label}» dall'archivio?`)) return;
+    if (!window.confirm(`Remove “${label}” from the archive?`)) return;
 
     advance();
     setRecords((current) => current.filter((item) => item.id !== record.id));
@@ -224,9 +228,9 @@ export function AdminPanel({
   if (!selected) {
     return (
       <section className="rounded-md border bg-card p-6 text-sm text-muted-foreground">
-        Nessuna foto in questo filtro. Esegui{' '}
-        <code>python3 tools/ingest_photos.py --source &lt;cartella&gt;</code> per
-        importare un export di Foto.
+        No photos in this filter. Run{' '}
+        <code>python3 tools/ingest_photos.py --source &lt;folder&gt;</code> to import
+        a Photos export.
       </section>
     );
   }
@@ -262,7 +266,7 @@ export function AdminPanel({
         <div className="flex items-center gap-2">
           {pendingSuggestionCount > 0 && (
             <span className="rounded-md bg-accent px-2 py-1 text-xs text-accent-foreground">
-              {pendingSuggestionCount} proposte da esaminare
+              {pendingSuggestionCount} suggestions to review
             </span>
           )}
           <Button
@@ -273,17 +277,17 @@ export function AdminPanel({
           >
             {saving === 'done' ? <Check /> : <Save />}
             {saving === 'busy'
-              ? 'Salvataggio…'
+              ? 'Saving…'
               : saving === 'done'
-                ? 'Salvato in src/data'
+                ? 'Saved to src/data'
                 : dirty
-                  ? 'Salva le modifiche'
-                  : 'Salva'}
+                  ? 'Save changes'
+                  : 'Save'}
           </Button>
           <Button
             size="sm"
             variant="ghost"
-            title="Scarica i tre JSON, se preferisci spostarli a mano"
+            title="Download the three JSON files to move them manually"
             onClick={() => {
               download('records.json', records);
               download('suggestions.json', suggestions);
@@ -295,8 +299,8 @@ export function AdminPanel({
         </div>
         {saving === 'error' && (
           <p className="w-full text-xs text-destructive">
-            Salvataggio non riuscito. Il server di sviluppo sta girando? In
-            alternativa scarica i JSON con il pulsante accanto e copiali in
+            Save failed. Is the development server running? Alternatively,
+            download the JSON files using the adjacent button and copy them to
             <code className="mx-1">src/data/</code>.
           </p>
         )}
@@ -309,7 +313,7 @@ export function AdminPanel({
         ref={stripRef}
         className="grid max-h-[300px] grid-cols-[repeat(auto-fill,minmax(104px,1fr))] gap-2 overflow-y-auto rounded-md border bg-card p-2"
       >
-        <legend className="sr-only">Rullino delle foto</legend>
+        <legend className="sr-only">Photo strip</legend>
         {visible.map((record) => {
           const isSelected = record.id === selected.id;
           return (
@@ -319,7 +323,7 @@ export function AdminPanel({
               aria-pressed={isSelected}
               data-selected={isSelected || undefined}
               onClick={() => setSelectedId(record.id)}
-              title={`${record.sourceFile ?? record.id} · ${record.location || 'senza posizione'}`}
+              title={`${record.sourceFile ?? record.id} · ${record.location || 'no location'}`}
               className={`relative overflow-hidden rounded-md border-2 transition ${
                 isSelected ? 'border-primary' : 'border-transparent hover:border-muted-foreground/40'
               }`}
@@ -341,7 +345,7 @@ export function AdminPanel({
               />
               {missingFields(record).length > 0 && (
                 <span className="absolute bottom-0 left-0 right-0 bg-background/85 py-0.5 text-[10px] font-medium">
-                  {missingFields(record).length} campi
+                  {missingFields(record).length} fields
                 </span>
               )}
             </button>
@@ -364,7 +368,7 @@ export function AdminPanel({
                 <MapPin className="size-3" />
                 {selected.location
                   ? `${selected.location}${selected.country ? `, ${selected.country}` : ''}`
-                  : 'senza posizione'}
+                  : 'no location'}
               </span>
               {selected.lat !== null && selected.lng !== null && (
                 <span>
@@ -392,7 +396,7 @@ export function AdminPanel({
           {openSuggestions.length > 0 && (
             <div className="rounded-md border bg-card p-3">
               <h3 className="mb-2 text-sm font-semibold">
-                Proposte degli utenti su questa foto
+                User suggestions for this photo
               </h3>
               <ul className="space-y-2">
                 {openSuggestions.map((suggestion) => (
@@ -414,7 +418,7 @@ export function AdminPanel({
                     <div className="mt-2 flex gap-2">
                       <Button size="sm" onClick={() => reviewSuggestion(suggestion, true)}>
                         <Check />
-                        Accetta
+                        Accept
                       </Button>
                       <Button
                         size="sm"
@@ -422,7 +426,7 @@ export function AdminPanel({
                         onClick={() => reviewSuggestion(suggestion, false)}
                       >
                         <X />
-                        Rifiuta
+                        Reject
                       </Button>
                     </div>
                   </li>
@@ -436,7 +440,7 @@ export function AdminPanel({
           {missing.length > 0 && (
             <p className="flex items-start gap-2 rounded-md bg-muted/60 p-2 text-xs text-muted-foreground">
               <AlertCircle className="mt-px size-3.5 shrink-0" />
-              Manca: {missing.join(', ')}
+              Missing: {missing.join(', ')}
             </p>
           )}
 
@@ -445,7 +449,7 @@ export function AdminPanel({
             <input
               value={selected.title}
               onChange={(event) => update(selected.id, { title: event.target.value })}
-              placeholder="es. Roughly coursed rubble wall with brick levelling"
+              placeholder="e.g. Roughly coursed rubble wall with brick levelling"
             />
           </label>
 
@@ -475,15 +479,15 @@ export function AdminPanel({
                 : ''
             }`}
           >
-            <legend className="px-1 text-sm font-medium">Posizione</legend>
+            <legend className="px-1 text-sm font-medium">Position</legend>
             <p className="mb-3 text-xs text-muted-foreground">
               {missing.includes('position')
-                ? 'Inserisci entrambe le coordinate per localizzare e approvare la foto.'
-                : 'Le coordinate possono essere corrette manualmente se necessario.'}
+                ? 'Enter both coordinates to locate and approve the photo.'
+                : 'The coordinates can be corrected manually if necessary.'}
             </p>
             <div className="grid grid-cols-2 gap-2">
               <label className="field">
-                <span>Latitudine</span>
+                <span>Latitude</span>
                 <input
                   key={`${selected.id}-latitude`}
                   type="number"
@@ -509,7 +513,7 @@ export function AdminPanel({
                 />
               </label>
               <label className="field">
-                <span>Longitudine</span>
+                <span>Longitude</span>
                 <input
                   key={`${selected.id}-longitude`}
                   type="number"
@@ -550,7 +554,7 @@ export function AdminPanel({
                     addTag();
                   }
                 }}
-                placeholder="Aggiungi un tag e premi Invio"
+                placeholder="Add a tag and press Enter"
                 className="h-9 min-w-0 flex-1 rounded-md border bg-background px-3 text-sm"
               />
               <Button size="sm" variant="outline" onClick={addTag} disabled={!tagDraft.trim()}>
@@ -595,7 +599,7 @@ export function AdminPanel({
           <div className="flex flex-wrap gap-2 border-t pt-3">
             <Button size="sm" onClick={() => approve(selected)} disabled={missing.length > 0}>
               <Check />
-              Approva
+              Approve
             </Button>
             <Button
               size="sm"
@@ -603,7 +607,7 @@ export function AdminPanel({
               onClick={() => update(selected.id, { status: 'rejected' })}
             >
               <X />
-              Scarta
+              Reject
             </Button>
             {selected.status !== 'pending' && (
               <Button
@@ -612,7 +616,7 @@ export function AdminPanel({
                 onClick={() => update(selected.id, { status: 'pending' })}
               >
                 <Undo2 />
-                Rimetti in attesa
+                Return to pending
               </Button>
             )}
             <Button
@@ -622,12 +626,12 @@ export function AdminPanel({
               onClick={() => remove(selected)}
             >
               <Trash2 />
-              Elimina
+              Delete
             </Button>
           </div>
           {missing.length > 0 && (
             <p className="text-xs text-muted-foreground">
-              L&apos;approvazione si sblocca quando i campi obbligatori sono compilati.
+              Approval becomes available when all required fields are complete.
             </p>
           )}
         </div>
