@@ -13,6 +13,8 @@
     "validate": "python3 tools/validate_records.py --strict",
     "worker": "wrangler dev --port 8787",
     "worker:typecheck": "tsc --noEmit -p worker/tsconfig.json",
+    "submissions:pull": "python3 tools/pull_submissions.py",
+    "submissions:apply": "python3 tools/apply_submissions.py",
     "format": "oxfmt",
     "ingest": "python3 tools/ingest_photos.py",
     "sync-images": "python3 tools/sync_r2.py"

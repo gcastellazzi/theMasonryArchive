@@ -124,3 +124,44 @@ export function missingFields(record: MasonryRecord): string[] {
   if (!hasValidPosition(record)) missing.push('position');
   return missing;
 }
+
+/** Chi ha mandato un contributo, nella forma che serve al pannello. */
+export type ContributorSummary = {
+  id: string;
+  email: string;
+  firstName: string;
+  lastName: string;
+  affiliation: string;
+  role: Role;
+};
+
+/**
+ * Un contributo scaricato in locale e in attesa di essere guardato.
+ *
+ * Vive in `src/data/submissions.json`, scritto da `tools/pull_submissions.py`
+ * e riletto da `tools/apply_submissions.py`. Non e' un record: lo diventa solo
+ * se accettato, passando per la stessa pipeline di ingest delle altre foto.
+ */
+export type Submission = {
+  id: string;
+  contributor: ContributorSummary;
+  originalName: string;
+  bytes: number;
+  contentType: string;
+  lat: number | null;
+  lng: number | null;
+  capturedAt: string | null;
+  camera: string | null;
+  notes: string;
+  createdAt: string;
+  /** L'originale sul disco, relativo alla radice del repository. */
+  localFile: string;
+  /** Anteprima servita dal server di sviluppo, relativa alla base del sito. */
+  preview: string;
+  /** Decisione presa nel pannello, non ancora applicata. */
+  decision?: 'accepted' | 'rejected';
+  decisionNote?: string;
+  /** Scritti da `apply_submissions.py` quando la decisione e' stata eseguita. */
+  appliedAt?: string;
+  recordId?: string;
+};

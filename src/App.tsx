@@ -36,12 +36,19 @@ import { navigate, useRoute, type Route, type ViewName } from './router';
 import rawRecords from './data/records.json';
 import rawSuggestions from './data/suggestions.json';
 import rawExcluded from './data/excluded.json';
-import type { MasonryRecord, ReviewStatus, Suggestion } from './types';
+import rawSubmissions from './data/submissions.json';
+import type {
+  MasonryRecord,
+  ReviewStatus,
+  Submission,
+  Suggestion,
+} from './types';
 import { TAGS } from './vocabulary';
 
 const records = rawRecords as unknown as MasonryRecord[];
 const suggestions = rawSuggestions as unknown as Suggestion[];
 const excluded = rawExcluded as string[];
+const submissions = rawSubmissions as unknown as Submission[];
 
 // Il pannello di amministrazione esiste solo quando il sito gira in locale
 // (`npm run dev`). Nel build di produzione la voce di menu non viene generata
@@ -558,6 +565,7 @@ function App() {
                 initialRecords={records}
                 initialSuggestions={liveSuggestions}
                 initialExcluded={excluded}
+                initialSubmissions={submissions}
                 tagVocabulary={TAGS}
                 initialSelectedId={route.adminId}
               />

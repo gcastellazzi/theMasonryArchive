@@ -3,6 +3,7 @@ import react from '@vitejs/plugin-react';
 import { defineConfig } from 'vite';
 
 import { adminSave } from './tools/vite-admin-save';
+import { publicRecords } from './tools/vite-public-records';
 
 export default defineConfig({
   base: '/theMasonryArchive/',
@@ -16,5 +17,5 @@ export default defineConfig({
       '@': new URL('.', import.meta.url).pathname,
     },
   },
-  plugins: [react(), adminSave()],
+  plugins: [react(), adminSave(), publicRecords()],
 });

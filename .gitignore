@@ -11,6 +11,10 @@
 # testing
 /coverage
 
+# bytecode Python degli strumenti in tools/
+__pycache__/
+*.pyc
+
 # next.js
 /.next/
 /.vinext/
@@ -52,3 +56,9 @@ next-env.d.ts
 
 # Copie di sicurezza scritte dal pannello admin prima di ogni salvataggio.
 /src/data/.backups/
+
+# Contributi scaricati dal bucket in attesa di moderazione: originali e
+# anteprime. Entrano nell'archivio solo se accettati, e allora come derivate
+# in public/images con un record in src/data.
+/incoming/
+/public/incoming/

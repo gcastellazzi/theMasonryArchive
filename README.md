@@ -218,11 +218,14 @@ vera autenticazione — magic link, due fattori, ruoli — richiede il servizio 
 backend descritto più sopra: Supabase Auth o equivalente, con le operazioni di
 moderazione eseguite dal server e non dal browser.
 
-Va tenuto presente anche che tutto ciò che sta nel repository è pubblico,
-`records.json` compreso: chiunque può leggere i record non ancora approvati e le
-loro coordinate. Se questo diventa un problema, il passo successivo è generare
-in fase di build un `records.public.json` con i soli record approvati e tenere
-l'archivio completo fuori dal sito pubblicato.
+Va tenuto presente che tutto ciò che sta nel repository è pubblico,
+`records.json` compreso: chiunque può clonarlo e leggere i record non ancora
+approvati. **Il sito pubblicato però non li contiene.** Un plugin Vite
+(`tools/vite-public-records.ts`) filtra i dati in fase di build: nel bundle
+finiscono solo i record approvati e georiferiti, senza i campi interni alla
+pipeline, e `submissions.json` — che porta gli indirizzi email di chi
+contribuisce — viene svuotato. Il bundle è passato da 989 kB a 478 kB nel
+farlo.
 
 ### Eliminare una foto
 
@@ -317,6 +320,37 @@ disattivato.
 4. L'amministratore lo guarda, e solo allora la foto entra nell'archivio come
    record da catalogare. Diventa pubblica dopo la catalogazione e l'approvazione:
    **due cancelli distinti**.
+
+## Moderare i contributi
+
+La moderazione resta **in locale**: `src/data/records.json` è la fonte di
+verità e vive in git, non sul server. Il ciclo è due comandi attorno al
+pannello.
+
+```bash
+npm run submissions:pull     # scarica cosa è arrivato
+# → scheda Incoming del pannello: accetta o rifiuta, poi Salva
+npm run submissions:apply    # esegue le decisioni
+```
+
+`pull` scarica gli originali in `incoming/`, ne genera un'anteprima in
+`public/incoming/` — serve perché il browser non sa aprire un HEIC — e scrive
+`src/data/submissions.json`. Le decisioni già prese e non ancora applicate
+sopravvivono a un nuovo scaricamento, quindi si può interrompere la revisione a
+metà. Niente di tutto questo è versionato.
+
+`apply` fa passare le foto accettate dalla **stessa** pipeline delle altre:
+impronta del file, metadati di scatto, geocodifica inversa, tre derivate WebP,
+record nuovo in stato `pending` con autore e affiliazione di chi ha
+contribuito. Non c'è un percorso privilegiato per i contributi esterni, e non
+deve essercene uno. Poi rimanda lo stato al server, che avvisa l'autore.
+
+Una foto rifiutata lascia la sua impronta in `excluded.json`, come una
+cancellazione dal pannello: un rinvio non la riporta dentro.
+
+Accettare **non pubblica**: la foto entra come record da catalogare, e diventa
+pubblica solo dopo l'approvazione. Sono due cancelli, e servono entrambi —
+una foto può essere legittima e la sua scheda ancora vuota.
 
 ## Controllare la coerenza dell'archivio
 

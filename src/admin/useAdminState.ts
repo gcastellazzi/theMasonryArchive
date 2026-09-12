@@ -1,6 +1,6 @@
 import { useCallback, useState } from 'react';
 
-import type { MasonryRecord, Suggestion } from '../types';
+import type { MasonryRecord, Submission, Suggestion } from '../types';
 
 /**
  * Lo stato modificabile del pannello: record, proposte ed esclusioni.
@@ -14,6 +14,8 @@ export type AdminSnapshot = {
   records: MasonryRecord[];
   suggestions: Suggestion[];
   excluded: string[];
+  /** Contributi scaricati dal bucket, in attesa di essere guardati. */
+  submissions: Submission[];
 };
 
 /** Bozze di catalogazione, per non perdere il lavoro chiudendo la scheda. */

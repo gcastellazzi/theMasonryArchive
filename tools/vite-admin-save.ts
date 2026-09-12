@@ -15,7 +15,12 @@ import type { Plugin } from 'vite';
 
 // Solo questi file possono essere scritti: il nome arriva dal browser e non
 // deve poter diventare un percorso arbitrario.
-const WRITABLE = new Set(['records.json', 'suggestions.json', 'excluded.json']);
+const WRITABLE = new Set([
+  'records.json',
+  'suggestions.json',
+  'excluded.json',
+  'submissions.json',
+]);
 
 /** Quante copie di sicurezza conservare per ciascun file. */
 const BACKUP_LIMIT = 20;

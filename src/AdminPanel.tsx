@@ -1,11 +1,12 @@
 import {
-  AlertCircle, BarChart3, Camera, Check, Compass, Download, Keyboard, ListTree,
-  MapPin, Plus, Save, Search, Trash2, Undo2, X,
+  AlertCircle, BarChart3, Camera, Check, Compass, Download, Inbox, Keyboard,
+  ListTree, MapPin, Plus, Save, Search, Trash2, Undo2, X,
 } from 'lucide-react';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
 import { Button } from '@/components/ui/button';
 import { BatchBar } from './admin/BatchBar';
+import { IncomingQueue } from './admin/IncomingQueue';
 import { PositionPicker } from './admin/PositionPicker';
 import { ProgressPanel } from './admin/ProgressPanel';
 import { VocabularyManager } from './admin/VocabularyManager';
@@ -20,6 +21,7 @@ import {
   isPublishable,
   missingFields,
   type MasonryRecord,
+  type Submission,
   type Suggestion,
 } from './types';
 import {
@@ -54,12 +56,14 @@ export function AdminPanel({
   initialRecords,
   initialSuggestions,
   initialExcluded,
+  initialSubmissions,
   tagVocabulary,
   initialSelectedId,
 }: {
   initialRecords: MasonryRecord[];
   initialSuggestions: Suggestion[];
   initialExcluded: string[];
+  initialSubmissions: Submission[];
   tagVocabulary: string[];
   initialSelectedId?: string;
 }) {
@@ -67,8 +71,9 @@ export function AdminPanel({
     records: initialRecords,
     suggestions: initialSuggestions,
     excluded: initialExcluded,
+    submissions: initialSubmissions,
   });
-  const { records, suggestions, excluded } = state.data;
+  const { records, suggestions, excluded, submissions } = state.data;
 
   const [filter, setFilter] = useState<Filter>(initialSelectedId ? 'all' : 'todo');
   const [filters, setFilters] = useState<SearchFilters>(EMPTY_FILTERS);
@@ -79,7 +84,9 @@ export function AdminPanel({
   const [selectedIds, setSelectedIds] = useState<string[]>([]);
   const [tagDraft, setTagDraft] = useState('');
   const [saving, setSaving] = useState<'idle' | 'busy' | 'done' | 'error'>('idle');
-  const [panel, setPanel] = useState<'none' | 'progress' | 'vocabulary'>('none');
+  const [panel, setPanel] = useState<
+    'none' | 'progress' | 'vocabulary' | 'incoming'
+  >('none');
   const [showHelp, setShowHelp] = useState(false);
 
   const stripRef = useRef<HTMLFieldSetElement>(null);
@@ -212,6 +219,7 @@ export function AdminPanel({
           'records.json': records,
           'suggestions.json': suggestions,
           'excluded.json': excluded,
+          'submissions.json': submissions,
         }),
       });
       if (!response.ok) throw new Error(await response.text());
@@ -263,6 +271,7 @@ export function AdminPanel({
     step(1);
     setSelectedIds([]);
     state.commit(`delete ${targets.length}`, {
+      ...state.data,
       records: records.filter((record) => !ids.has(record.id)),
       suggestions: suggestions.filter((item) => !ids.has(item.recordId)),
       excluded: [...new Set([...excluded, ...hashes])],
@@ -293,6 +302,25 @@ export function AdminPanel({
     if (skipped) {
       window.alert(`${targets.length} approved. ${skipped} skipped: required fields are missing.`);
     }
+  }
+
+  function decideSubmission(
+    id: string,
+    decision: 'accepted' | 'rejected' | undefined,
+    note: string,
+  ) {
+    state.commit(decision ? `${decision} contribution` : 'undo decision', {
+      ...state.data,
+      submissions: submissions.map((item) =>
+        item.id === id
+          ? decision
+            ? { ...item, decision, decisionNote: note }
+            : // Togliere la decisione deve togliere anche la nota, o
+              // resterebbe appesa a un contributo di nuovo da guardare.
+              { ...item, decision: undefined, decisionNote: undefined }
+          : item,
+      ),
+    });
   }
 
   function renameInVocabulary(scope: 'tags' | VocabularyField, from: string, to: string) {
@@ -405,6 +433,18 @@ export function AdminPanel({
                 {pendingSuggestionCount} suggestions to review
               </span>
             )}
+            {submissions.some((item) => !item.appliedAt) && (
+              <Button
+                size="sm"
+                variant={panel === 'incoming' ? 'default' : 'ghost'}
+                title="Contributions waiting to be reviewed"
+                onClick={() => setPanel(panel === 'incoming' ? 'none' : 'incoming')}
+              >
+                <Inbox />
+                {submissions.filter((item) => !item.decision && !item.appliedAt).length ||
+                  ''}
+              </Button>
+            )}
             <Button
               size="sm"
               variant={panel === 'progress' ? 'default' : 'ghost'}
@@ -510,6 +550,10 @@ export function AdminPanel({
 
       {panel === 'vocabulary' && (
         <VocabularyManager records={records} onRename={renameInVocabulary} />
+      )}
+
+      {panel === 'incoming' && (
+        <IncomingQueue submissions={submissions} onDecide={decideSubmission} />
       )}
 
       {/* Rullino: miniature da 160 px, caricate pigramente. Va a capo e

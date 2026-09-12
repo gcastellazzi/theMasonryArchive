@@ -201,6 +201,23 @@ def make_derivatives(image: Path, record_id: str, images_dir: Path, force: bool)
     return paths
 
 
+def attach_derivatives(
+    record: dict[str, Any], photo: Path, images_dir: Path, force: bool = False
+) -> None:
+    """Genera le derivate e le collega ai campi del record.
+
+    I nomi delle derivate (`detail`, `card`, `strip`) e i campi del record
+    (`image`, `thumbnail`, `strip`) non coincidono. La corrispondenza sta qui e
+    solo qui, perche' la usa anche `apply_submissions.py` quando accetta un
+    contributo: scritta due volte, prima o poi una delle due sbaglia e il
+    record esce con i percorsi vuoti e le immagini sul disco.
+    """
+    paths = make_derivatives(photo, record["id"], images_dir, force)
+    record["image"] = paths["detail"]
+    record["thumbnail"] = paths["card"]
+    record["strip"] = paths["strip"]
+
+
 def _number(value: float) -> float | int:
     """Intero quando il valore lo e' davvero.
 
@@ -331,10 +348,7 @@ def ingest(args: argparse.Namespace) -> int:
             record["affiliation"] = record.get("affiliation") or args.affiliation
 
         if not args.dry_run:
-            paths = make_derivatives(photo, record["id"], images_dir, args.force)
-            record["image"] = paths["detail"]
-            record["thumbnail"] = paths["card"]
-            record["strip"] = paths["strip"]
+            attach_derivatives(record, photo, images_dir, args.force)
 
         marker = "nuova" if is_new else "aggiornata"
         where = record["location"] or "posizione sconosciuta"
