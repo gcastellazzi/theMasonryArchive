@@ -9,6 +9,7 @@ The Masonry Archive is an open, moderated web archive for geolocated masonry ima
 ## Current scope
 
 - Public map based on OpenStreetMap tiles.
+- Shareable links to a single photo, to a tag, and to a map selection.
 - Zoom-dependent grouping of image records.
 - Public consultation without login.
 - Registration-aware upload form for students, PhD candidates, researchers, and professionals.
@@ -107,10 +108,39 @@ inversa di OpenStreetMap e genera tre derivate WebP prive di metadati:
 | `*_480.webp` | 480 px | mappa, elenchi, anteprima admin | sì |
 | `*_160.webp` | 160 px | rullino del pannello admin | sì |
 
-Le immagini di dettaglio sono escluse dal versionamento: su 761 foto pesano circa
-236 MB, e l'archivio è destinato a crescere. Vanno spostate su uno storage
-esterno come raccomandato più sopra. Miniature e card restano nel repo perché
-pesano circa 31 MB in tutto e servono al lavoro di catalogazione.
+Le immagini di dettaglio sono escluse dal versionamento: su 750 foto pesano circa
+244 MB, e l'archivio è destinato a crescere. Miniature e card restano nel repo
+perché pesano circa 36 MB in tutto e servono al lavoro di catalogazione.
+
+### Le immagini di dettaglio su Cloudflare R2
+
+Finché le derivate da 1600 px restano solo sul disco di chi cataloga, il sito
+pubblicato non può mostrarle: la scheda di un record ripiega sulla derivata da
+480 px. Per pubblicarle davvero servono un bucket R2 e una variabile:
+
+```bash
+npx wrangler login
+npx wrangler r2 bucket create masonry-archive
+npm run sync-images -- --bucket masonry-archive --dry-run   # cosa caricherebbe
+npm run sync-images -- --bucket masonry-archive
+```
+
+Lo script usa `wrangler`, già fra le dipendenze, quindi non servono chiavi S3
+né pacchetti Python in più. Annota quanto ha caricato in `tools/.r2manifest.json`
+per non ripetersi: `--force` lo ignora e ricarica tutto. Con `--originals DIR`
+carica anche gli originali sotto `originals/`, da tenere privati.
+
+Al bucket va poi associato un dominio personalizzato (non l'indirizzo `r2.dev`,
+che è a consumo limitato e non stabile), e quel dominio va messo nella variabile
+`VITE_IMAGE_CDN` — in locale in un file `.env.local`, su GitHub come
+*repository variable*, che il workflow passa già al build:
+
+```text
+VITE_IMAGE_CDN=https://img.esempio.org
+```
+
+Senza la variabile tutto continua a funzionare: il sito serve le derivate da
+480 px versionate nel repo, e lo sviluppo locale non ha bisogno di rete.
 
 L'ingest è **incrementale e non distruttivo**: riconosce le foto già importate
 dall'impronta del file e conserva tutti i campi compilati a mano — titolo,
@@ -127,8 +157,24 @@ La scheda **Admin** è il banco di lavoro: rullino di miniature, anteprima con i
 dati di scatto, campi di catalogazione, vocabolario dei tag e coda delle proposte
 arrivate dagli utenti.
 
+Per non catalogare 750 foto una alla volta:
+
+| Strumento | A cosa serve |
+|---|---|
+| **Selezione multipla** | shift+clic per un intervallo, ⌘/Ctrl+clic per aggiungere. Con più di una foto scelta compare la barra che applica tecnica, elemento, materiale, epoca, tag e stato a tutte insieme. |
+| **Gruppo di scatto** | sotto l'anteprima, quando esistono altre foto scattate entro 35 metri e 15 minuti: è quasi sempre lo stesso muro, e si seleziona in blocco con un clic. |
+| **Scorciatoie** | `j`/`k` scorrono, `a` approva, `r` rifiuta, `p` riporta a pending, `t` va al campo tag, `1`–`9` alternano i nove tag più usati, `/` va alla ricerca, `?` mostra l'elenco. |
+| **Posizione su mappa** | segnaposto trascinabile al posto di latitudine e longitudine da digitare, con la mappa già centrata sullo scatto più vicino nel tempo, e un pulsante per copiarne la posizione. |
+| **Ricerca** | testo libero su titolo, luogo, fotocamera, note, tag e nome del file, più filtri per paese, fotocamera, anno e campo mancante. |
+| **Vocabolario** | elenco dei valori con quante volte sono usati; rinomina, unisce ed elimina un valore su tutti i record in un colpo. Serve contro la deriva dei campi a testo libero: `stonework` e `stone work` sono due voci diverse nella nuvola dei tag. |
+| **Avanzamento** | a che punto è la catalogazione, per campo mancante e per paese, e le dieci foto più vicine a essere finite. |
+| **Annulla** | `⌘Z`/`Ctrl+Z` o il pulsante; le battute consecutive sullo stesso campo contano come un passo solo. |
+
 Le modifiche restano in bozza nel browser (`localStorage`) finché non premi
-**Salva le modifiche**, che le scrive direttamente in `src/data/`. Il pulsante
+**Salva le modifiche**, che le scrive direttamente in `src/data/`. Prima di
+sovrascrivere, il server mette la versione precedente in `src/data/.backups/`
+e ne conserva le ultime venti: il salvataggio rimpiazza i file per intero, e
+finché non hai committato git non è ancora una rete di protezione. Il pulsante
 funziona perché il pannello gira sul server di sviluppo: un plugin Vite
 (`tools/vite-admin-save.ts`) espone un endpoint di scrittura che esiste solo in
 locale e non finisce nel build di produzione. Accanto c'è un pulsante di
@@ -193,6 +239,36 @@ python3 tools/prune_images.py             # rimuove
 ```
 
 Lo stesso strumento ripulisce le derivate lasciate da un ingest interrotto.
+
+## Controllare la coerenza dell'archivio
+
+```bash
+npm run validate
+```
+
+Verifica che gli id siano unici, che le derivate versionate esistano davvero su
+disco, che le coordinate siano in scala, che le date di scatto siano leggibili,
+che nessuna impronta stia sia fra i record sia in `excluded.json`, e che ogni
+record approvato abbia tutto quello che serve per essere pubblicato. Segnala
+anche le derivate orfane e i tag con spazi ai bordi, che si sdoppiano nella
+nuvola dei tag.
+
+Lo stesso controllo gira in CI prima del build, quindi un archivio incoerente
+non arriva online.
+
+## Condividere un link
+
+Ogni vista ha il suo indirizzo, e ricaricarlo riapre esattamente quello che si
+stava guardando:
+
+| Indirizzo | Cosa apre |
+|---|---|
+| `#/record/ravenna-349de5` | la scheda di quella foto |
+| `#/explore?tag=brickwork` | la galleria filtrata per un tag |
+| `#/admin?id=ravenna-349de5` | il pannello aperto su quel record (solo in locale) |
+
+Sono link basati sul frammento (`#`) e non su percorsi veri perché GitHub Pages
+non sa riscrivere gli URL: un percorso vero risponderebbe 404 al ricaricamento.
 
 ## Citare l'archivio
 

@@ -10,8 +10,10 @@
     "build": "tsc --noEmit && vite build",
     "preview": "vite preview",
     "lint": "oxlint",
+    "validate": "python3 tools/validate_records.py --strict",
     "format": "oxfmt",
-    "ingest": "python3 tools/ingest_photos.py"
+    "ingest": "python3 tools/ingest_photos.py",
+    "sync-images": "python3 tools/sync_r2.py"
   },
   "dependencies": {
     "@base-ui/react": "1.7.0",

@@ -1,4 +1,4 @@
-import { writeFile } from 'node:fs/promises';
+import { copyFile, mkdir, readdir, rm, writeFile } from 'node:fs/promises';
 import { resolve } from 'node:path';
 
 import type { Plugin } from 'vite';
@@ -16,6 +16,38 @@ import type { Plugin } from 'vite';
 // Solo questi file possono essere scritti: il nome arriva dal browser e non
 // deve poter diventare un percorso arbitrario.
 const WRITABLE = new Set(['records.json', 'suggestions.json', 'excluded.json']);
+
+/** Quante copie di sicurezza conservare per ciascun file. */
+const BACKUP_LIMIT = 20;
+
+/**
+ * Mette da parte la versione precedente prima di sovrascriverla.
+ *
+ * Il salvataggio rimpiazza il file per intero, non fonde: una catalogazione
+ * sbagliata partita da una bozza vecchia cancellerebbe ore di lavoro senza
+ * lasciare traccia, e finche' non si committa git non e' ancora una rete di
+ * protezione. Le copie stanno in `src/data/.backups/`, fuori dal versionamento.
+ */
+async function backup(dataDir: string, name: string): Promise<void> {
+  const backupDir = resolve(dataDir, '.backups');
+  await mkdir(backupDir, { recursive: true });
+
+  const stamp = new Date().toISOString().replace(/[:.]/g, '-');
+  try {
+    await copyFile(resolve(dataDir, name), resolve(backupDir, `${name}.${stamp}.json`));
+  } catch (error) {
+    // Al primo salvataggio il file puo' non esistere ancora: non c'e' nulla
+    // da salvare e non e' un errore.
+    if ((error as NodeJS.ErrnoException).code !== 'ENOENT') throw error;
+    return;
+  }
+
+  const stale = (await readdir(backupDir))
+    .filter((file) => file.startsWith(`${name}.`))
+    .sort()
+    .slice(0, -BACKUP_LIMIT);
+  await Promise.all(stale.map((file) => rm(resolve(backupDir, file), { force: true })));
+}
 
 export function adminSave(): Plugin {
   return {
@@ -53,8 +85,13 @@ export function adminSave(): Plugin {
                 if (!Array.isArray(content)) {
                   return reply(400, { error: `${name} deve contenere un array` });
                 }
-                const target = resolve(server.config.root, 'src/data', name);
-                await writeFile(target, JSON.stringify(content, null, 2) + '\n', 'utf8');
+                const dataDir = resolve(server.config.root, 'src/data');
+                await backup(dataDir, name);
+                await writeFile(
+                  resolve(dataDir, name),
+                  JSON.stringify(content, null, 2) + '\n',
+                  'utf8',
+                );
                 written.push(`${name} (${content.length})`);
               }
 

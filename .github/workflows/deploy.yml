@@ -30,8 +30,20 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      # Un archivio incoerente non deve arrivare online: immagini mancanti,
+      # id duplicati, record approvati ma incompleti. Python 3 e' gia' sul
+      # runner e la validazione non richiede ImageMagick.
+      - name: Validate the archive
+        run: npm run validate
+
       - name: Build
         run: npm run build
+        env:
+          # URL pubblico da cui arrivano le derivate da 1600 px, escluse dal
+          # repository. Sta in una repository variable, non fra i segreti: e'
+          # un indirizzo pubblico. Se non e' impostata, la scheda del record
+          # ripiega sulla derivata da 480 px versionata.
+          VITE_IMAGE_CDN: ${{ vars.VITE_IMAGE_CDN }}
 
       - name: Setup Pages
         uses: actions/configure-pages@v5

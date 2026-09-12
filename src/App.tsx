@@ -28,6 +28,8 @@ import { Button } from '@/components/ui/button';
 import { AdminPanel } from './AdminPanel';
 import { SuggestForm } from './SuggestForm';
 import { CitationPanel } from './CitationPanel';
+import { detailSrcSet, hasDetailImages, imageUrl } from './imageUrl';
+import { navigate, useRoute, type Route, type ViewName } from './router';
 import rawRecords from './data/records.json';
 import rawSuggestions from './data/suggestions.json';
 import rawExcluded from './data/excluded.json';
@@ -37,7 +39,6 @@ import { TAGS } from './vocabulary';
 const records = rawRecords as unknown as MasonryRecord[];
 const suggestions = rawSuggestions as unknown as Suggestion[];
 const excluded = rawExcluded as string[];
-const BASE = import.meta.env.BASE_URL;
 
 // Il pannello di amministrazione esiste solo quando il sito gira in locale
 // (`npm run dev`). Nel build di produzione la voce di menu non viene generata
@@ -46,7 +47,7 @@ const BASE = import.meta.env.BASE_URL;
 // pubblicato, dove chiunque potrebbe altrimenti aprirlo.
 const ADMIN_ENABLED = import.meta.env.DEV;
 
-const VIEWS = ADMIN_ENABLED
+const VIEWS: ViewName[] = ADMIN_ENABLED
   ? ['Home', 'Explore', 'Suggest', 'Upload', 'Credits', 'Admin', 'Data model']
   : ['Home', 'Explore', 'Suggest', 'Upload', 'Credits', 'Data model'];
 
@@ -184,12 +185,18 @@ function ArchiveMap({
 }
 
 function App() {
-  const [activeView, setActiveView] = useState('Home');
-  const [selectedTag, setSelectedTag] = useState('all');
-  const [selectedRecord, setSelectedRecord] = useState<MasonryRecord | null>(
-    null,
-  );
-  const [mapRecordIds, setMapRecordIds] = useState<string[] | null>(null);
+  const route = useRoute();
+  const selectedTag = route.tag;
+  const mapRecordIds = route.ids;
+  const selectedRecord =
+    route.view === 'Record'
+      ? (records.find((record) => record.id === route.recordId) ?? null)
+      : null;
+  // Un id che non esiste piu' — un link vecchio, una foto eliminata — non deve
+  // lasciare la pagina vuota: si ripiega sulla galleria.
+  const activeView: ViewName =
+    route.view === 'Record' && !selectedRecord ? 'Explore' : route.view;
+
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [role, setRole] = useState<Role>('Student');
   const [liveSuggestions, setLiveSuggestions] =
@@ -228,19 +235,27 @@ function App() {
   const roleNeedsResearchFields =
     role === 'Researcher' || role === 'PhD candidate';
 
-  function selectView(view: string) {
-    setActiveView(view);
+  /** Cambia rotta conservando il resto: filtro per tag e selezione di mappa. */
+  function go(patch: Partial<Route>) {
+    navigate({ ...route, ...patch });
+  }
+
+  function selectView(view: Route['view']) {
+    go({ view });
     setMobileMenuOpen(false);
   }
 
   function selectTag(tag: string) {
-    setSelectedTag(tag);
-    setMapRecordIds(null);
+    go({ tag, ids: null });
+  }
+
+  function openRecord(record: MasonryRecord) {
+    go({ view: 'Record', recordId: record.id });
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
   function showRecordsFromMap(mapRecords: MasonryRecord[]) {
-    setMapRecordIds(mapRecords.map((record) => record.id));
-    setActiveView('Explore');
+    go({ view: 'Explore', ids: mapRecords.map((record) => record.id) });
     setMobileMenuOpen(false);
     window.setTimeout(
       () =>
@@ -478,11 +493,11 @@ function App() {
           {activeView === 'Record' && selectedRecord && (
             <RecordDetail
               record={selectedRecord}
-              onBack={() => setActiveView('Explore')}
+              onBack={() => go({ view: 'Explore', recordId: undefined })}
               onEdit={
                 ADMIN_ENABLED
                   ? () => {
-                      setActiveView('Admin');
+                      go({ view: 'Admin', adminId: selectedRecord.id });
                       window.scrollTo({ top: 0, behavior: 'smooth' });
                     }
                   : undefined
@@ -605,7 +620,7 @@ function App() {
                 initialSuggestions={liveSuggestions}
                 initialExcluded={excluded}
                 tagVocabulary={TAGS}
-                initialSelectedId={selectedRecord?.id}
+                initialSelectedId={route.adminId}
               />
             </div>
           )}
@@ -656,7 +671,7 @@ function App() {
                 <button
                   type="button"
                   className="mt-1 text-sm font-semibold text-primary hover:underline"
-                  onClick={() => setMapRecordIds(null)}
+                  onClick={() => go({ ids: null })}
                 >
                   Show all filtered photos
                 </button>
@@ -674,15 +689,11 @@ function App() {
                 key={record.id}
                 className="thumbnail-card"
                 title={`${record.title} — ${record.location}, ${record.country}`}
-                onClick={() => {
-                  setSelectedRecord(record);
-                  setActiveView('Record');
-                  window.scrollTo({ top: 0, behavior: 'smooth' });
-                }}
+                onClick={() => openRecord(record)}
               >
                 {/* eslint-disable-next-line next/no-img-element */}
                 <img
-                  src={`${BASE}${record.thumbnail}`}
+                  src={imageUrl(record, 'thumbnail')}
                   alt={record.title}
                   loading="lazy"
                 />
@@ -750,11 +761,14 @@ function RecordDetail({
       <div className="grid gap-6 lg:grid-cols-[minmax(0,1.45fr)_minmax(300px,0.75fr)]">
         <figure className="min-w-0">
           <div className="flex min-h-[420px] items-center justify-center overflow-hidden rounded-md bg-muted">
-            {/* La derivata da 480 px e' versionata e quindi sempre disponibile
-                anche sul sito statico pubblicato. */}
+            {/* La derivata da 480 px e' versionata, quindi resta la sorgente
+                sicura; il 1600 px arriva dalla CDN e subentra sugli schermi
+                larghi solo quando `VITE_IMAGE_CDN` e' configurata. */}
             {/* eslint-disable-next-line next/no-img-element */}
             <img
-              src={`${BASE}${record.thumbnail}`}
+              src={imageUrl(record, 'thumbnail')}
+              srcSet={detailSrcSet(record)}
+              sizes="(min-width: 1024px) 60vw, 100vw"
               alt={record.title}
               className="max-h-[76vh] w-full object-contain"
             />
@@ -764,12 +778,12 @@ function RecordDetail({
               {record.location}, {record.country}
             </span>
             <a
-              href={`${BASE}${record.thumbnail}`}
+              href={imageUrl(record, 'image')}
               target="_blank"
               rel="noreferrer"
               className="inline-flex items-center gap-1.5 font-semibold text-primary underline-offset-4 hover:underline"
             >
-              View full image
+              {hasDetailImages ? 'View full image' : 'Open image'}
               <ExternalLink className="size-3.5" />
             </a>
           </figcaption>

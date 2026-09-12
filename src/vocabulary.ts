@@ -127,3 +127,91 @@ export function knownTags(records: MasonryRecord[]): string[] {
   const used = records.flatMap((record) => record.tags);
   return [...new Set([...TAGS, ...used])].sort((a, b) => a.localeCompare(b));
 }
+
+/** I campi di catalogazione a valore singolo, gestibili dal vocabolario. */
+export type VocabularyField = 'element' | 'technique' | 'material' | 'period';
+
+export const VOCABULARY_FIELDS: VocabularyField[] = [
+  'element',
+  'technique',
+  'material',
+  'period',
+];
+
+export type ValueUsage = { value: string; count: number };
+
+/**
+ * Quante volte ogni valore e' usato, dal piu' frequente al meno.
+ *
+ * Serve a vedere la deriva del vocabolario: i campi sono a testo libero, e
+ * dopo qualche centinaio di foto convivono immancabilmente `stonework` e
+ * `stone work`, o la stessa tecnica scritta in due modi. Un valore usato una
+ * volta sola accanto a uno quasi identico usato cento volte e' quasi sempre
+ * un refuso da unire.
+ */
+export function valueCounts(
+  field: VocabularyField,
+  records: MasonryRecord[],
+): ValueUsage[] {
+  const counts = new Map<string, number>();
+  records.forEach((record) => {
+    const value = record[field].trim();
+    if (value) counts.set(value, (counts.get(value) ?? 0) + 1);
+  });
+  return [...counts]
+    .map(([value, count]) => ({ value, count }))
+    .sort((a, b) => b.count - a.count || a.value.localeCompare(b.value));
+}
+
+/** Come `valueCounts`, per i tag. */
+export function tagCounts(records: MasonryRecord[]): ValueUsage[] {
+  const counts = new Map<string, number>();
+  records.forEach((record) => {
+    record.tags.forEach((rawTag) => {
+      const tag = rawTag.trim();
+      if (tag) counts.set(tag, (counts.get(tag) ?? 0) + 1);
+    });
+  });
+  return [...counts]
+    .map(([value, count]) => ({ value, count }))
+    .sort((a, b) => b.count - a.count || a.value.localeCompare(b.value));
+}
+
+/**
+ * Riscrive un valore su tutti i record che lo usano.
+ *
+ * Con `to` vuoto il valore viene semplicemente tolto. Unire due valori e'
+ * la stessa operazione: si rinomina il primo nel secondo.
+ */
+export function renameValue(
+  field: VocabularyField,
+  from: string,
+  to: string,
+  records: MasonryRecord[],
+): MasonryRecord[] {
+  return records.map((record) =>
+    record[field].trim() === from ? { ...record, [field]: to } : record,
+  );
+}
+
+/**
+ * Riscrive un tag su tutti i record che lo portano.
+ *
+ * Con `to` vuoto il tag viene rimosso. Quando il tag di destinazione e' gia'
+ * presente sul record, l'unione non lo duplica.
+ */
+export function renameTag(
+  from: string,
+  to: string,
+  records: MasonryRecord[],
+): MasonryRecord[] {
+  const target = to.trim();
+  return records.map((record) => {
+    if (!record.tags.some((tag) => tag.trim() === from)) return record;
+    const kept = record.tags.filter((tag) => tag.trim() !== from);
+    const tags = target && !kept.some((tag) => tag.trim() === target)
+      ? [...kept, target]
+      : kept;
+    return { ...record, tags };
+  });
+}

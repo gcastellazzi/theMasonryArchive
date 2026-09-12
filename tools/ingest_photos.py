@@ -375,6 +375,11 @@ def ingest(args: argparse.Namespace) -> int:
             print(f"    {name}")
         if len(without_position) > 10:
             print(f"    ... e altre {len(without_position) - 10}")
+    if added:
+        # Le derivate da 1600 px non sono versionate: restano invisibili al
+        # sito finche' non finiscono sul bucket.
+        print("\n  per pubblicare le nuove immagini di dettaglio:")
+        print("    python3 tools/sync_r2.py --bucket <bucket>")
     return 0
 
 
