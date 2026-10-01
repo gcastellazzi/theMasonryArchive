@@ -608,35 +608,6 @@ export function AdminPanel({
         })}
       </fieldset>
 
-      {batch.length > 1 && (
-        <BatchBar
-          selected={batch}
-          vocabularies={vocabularies}
-          tagVocabulary={allTags}
-          onApplyField={(field, value) =>
-            updateMany(selectedIds, () => ({ [field]: value }), `${field} on ${batch.length}`)
-          }
-          onAddTag={(tag) =>
-            updateMany(
-              selectedIds,
-              (record) =>
-                record.tags.includes(tag) ? {} : { tags: [...record.tags, tag] },
-              `tag ${batch.length}`,
-            )
-          }
-          onRemoveTag={(tag) =>
-            updateMany(
-              selectedIds,
-              (record) => ({ tags: record.tags.filter((item) => item.trim() !== tag) }),
-              `untag ${batch.length}`,
-            )
-          }
-          onSetStatus={setBatchStatus}
-          onDelete={() => removeRecords(batch)}
-          onClear={() => setSelectedIds([])}
-        />
-      )}
-
       <div className="grid gap-4 lg:grid-cols-[minmax(0,1fr)_360px]">
         <div className="space-y-3">
           <figure className="overflow-hidden rounded-md border bg-card">
@@ -727,7 +698,49 @@ export function AdminPanel({
           )}
         </div>
 
-        <div className="space-y-3 rounded-md border bg-card p-3">
+        <div
+          className={`space-y-3 rounded-md border p-3 ${
+            batch.length > 1
+              ? 'border-destructive/70 bg-destructive/5 ring-1 ring-destructive/20'
+              : 'bg-card'
+          }`}
+        >
+          {batch.length > 1 ? (
+            <BatchBar
+              key={[...selectedIds].sort().join('|')}
+              selected={batch}
+              vocabularies={vocabularies}
+              tagVocabulary={allTags}
+              onApplyField={(field, value) =>
+                updateMany(
+                  selectedIds,
+                  () => ({ [field]: value }),
+                  `${field} on ${batch.length}`,
+                )
+              }
+              onAddTag={(tag) =>
+                updateMany(
+                  selectedIds,
+                  (record) =>
+                    record.tags.includes(tag) ? {} : { tags: [...record.tags, tag] },
+                  `tag ${batch.length}`,
+                )
+              }
+              onRemoveTag={(tag) =>
+                updateMany(
+                  selectedIds,
+                  (record) => ({
+                    tags: record.tags.filter((item) => item.trim() !== tag),
+                  }),
+                  `untag ${batch.length}`,
+                )
+              }
+              onSetStatus={setBatchStatus}
+              onDelete={() => removeRecords(batch)}
+              onClear={() => setSelectedIds([])}
+            />
+          ) : (
+            <>
           {missing.length > 0 && (
             <p className="flex items-start gap-2 rounded-md bg-muted/60 p-2 text-xs text-muted-foreground">
               <AlertCircle className="mt-px size-3.5 shrink-0" />
@@ -960,6 +973,8 @@ export function AdminPanel({
             <p className="text-xs text-muted-foreground">
               Approval becomes available when all required fields are complete.
             </p>
+          )}
+            </>
           )}
         </div>
       </div>

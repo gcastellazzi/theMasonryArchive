@@ -3,15 +3,33 @@ import { useState } from 'react';
 
 import { Button } from '@/components/ui/button';
 import type { MasonryRecord } from '../types';
-import { VOCABULARY_FIELDS, type VocabularyField } from '../vocabulary';
+import type { VocabularyField } from '../vocabulary';
+
+type BatchTextField = 'title' | VocabularyField;
+
+const BATCH_FIELDS: {
+  field: BatchTextField;
+  label: string;
+  example?: string;
+}[] = [
+  {
+    field: 'title',
+    label: 'Title',
+    example: 'e.g. Roughly coursed rubble wall with brick levelling',
+  },
+  { field: 'element', label: 'Element' },
+  { field: 'technique', label: 'Technique' },
+  { field: 'material', label: 'Material' },
+  { field: 'period', label: 'Period' },
+];
 
 /**
  * Modifica di piu' foto insieme.
  *
  * Su 750 record con 684 senza tag, catalogare uno per uno non finisce mai.
- * Le foto di una stessa raffica condividono quasi sempre tecnica, elemento,
- * materiale ed epoca: si selezionano e si compilano in un colpo. Il titolo
- * resta fuori di proposito — e' l'unico campo che descrive la singola foto.
+ * Le foto di una stessa raffica condividono spesso anche un primo titolo di
+ * lavoro: tutti i campi sono quindi esposti separatamente e possono essere
+ * applicati in blocco, per poi rifinire le singole schede.
  */
 export function BatchBar({
   selected,
@@ -27,30 +45,38 @@ export function BatchBar({
   selected: MasonryRecord[];
   vocabularies: Record<VocabularyField, string[]>;
   tagVocabulary: string[];
-  onApplyField: (field: VocabularyField, value: string) => void;
+  onApplyField: (field: BatchTextField, value: string) => void;
   onAddTag: (tag: string) => void;
   onRemoveTag: (tag: string) => void;
   onSetStatus: (status: 'approved' | 'pending' | 'rejected') => void;
   onDelete: () => void;
   onClear: () => void;
 }) {
-  const [field, setField] = useState<VocabularyField>('technique');
-  const [value, setValue] = useState('');
+  const [values, setValues] = useState<Record<BatchTextField, string>>({
+    title: '',
+    element: '',
+    technique: '',
+    material: '',
+    period: '',
+  });
   const [tag, setTag] = useState('');
 
   const count = selected.length;
 
   /** I tag presenti su almeno una delle foto scelte: quelli che si possono togliere. */
   const presentTags = [
-    ...new Set(selected.flatMap((record) => record.tags.map((item) => item.trim()))),
+    ...new Set(
+      selected.flatMap((record) => record.tags.map((item) => item.trim())),
+    ),
   ]
     .filter(Boolean)
     .sort((a, b) => a.localeCompare(b));
 
-  function applyField() {
-    if (!value.trim()) return;
-    onApplyField(field, value.trim());
-    setValue('');
+  function applyField(field: BatchTextField) {
+    const value = values[field].trim();
+    if (!value) return;
+    onApplyField(field, value);
+    setValues((current) => ({ ...current, [field]: '' }));
   }
 
   function addTag() {
@@ -60,52 +86,69 @@ export function BatchBar({
   }
 
   return (
-    <div className="space-y-3 rounded-md border border-primary/40 bg-primary/5 p-3">
+    <div className="space-y-4">
       <div className="flex flex-wrap items-center gap-2">
-        <strong className="text-sm">{count} photos selected</strong>
+        <div>
+          <strong className="block text-sm text-destructive">
+            Editing {count} photos
+          </strong>
+          <span className="text-xs text-muted-foreground">
+            Each value entered here will replace that field in every selected
+            photo.
+          </span>
+        </div>
         <Button size="sm" variant="ghost" className="ml-auto" onClick={onClear}>
           <X />
           Clear selection
         </Button>
       </div>
 
-      <div className="flex flex-wrap items-end gap-2">
-        <label className="field min-w-[120px]">
-          <span>Field</span>
-          <select
-            value={field}
-            onChange={(event) => setField(event.target.value as VocabularyField)}
-          >
-            {VOCABULARY_FIELDS.map((item) => (
-              <option key={item} value={item}>
-                {item}
-              </option>
-            ))}
-          </select>
-        </label>
-        <label className="field min-w-[200px] flex-1">
-          <span>Value for all {count}</span>
-          <input
-            list={`batch-vocab-${field}`}
-            value={value}
-            onChange={(event) => setValue(event.target.value)}
-            onKeyDown={(event) => {
-              if (event.key === 'Enter') {
-                event.preventDefault();
-                applyField();
-              }
-            }}
-            placeholder={vocabularies[field][0]}
-          />
-          <datalist id={`batch-vocab-${field}`}>
-            {vocabularies[field].map((option) => (
-              <option key={option} value={option} aria-label={option} />
-            ))}
-          </datalist>
-        </label>
-        <Button size="sm" onClick={applyField} disabled={!value.trim()}>
-          Apply
-        </Button>
+      <div className="space-y-3">
+        {BATCH_FIELDS.map(({ field, label, example }) => {
+          const vocabulary = field === 'title' ? [] : vocabularies[field];
+          return (
+            <div key={field} className="flex items-end gap-2">
+              <label className="field min-w-0 flex-1">
+                <span>{label}</span>
+                <input
+                  list={field === 'title' ? undefined : `batch-vocab-${field}`}
+                  value={values[field]}
+                  onChange={(event) =>
+                    setValues((current) => ({
+                      ...current,
+                      [field]: event.target.value,
+                    }))
+                  }
+                  onKeyDown={(event) => {
+                    if (event.key === 'Enter') {
+                      event.preventDefault();
+                      applyField(field);
+                    }
+                  }}
+                  placeholder={
+                    example ?? vocabulary[0] ?? `Value for all ${count}`
+                  }
+                />
+                {field !== 'title' && (
+                  <datalist id={`batch-vocab-${field}`}>
+                    {vocabulary.map((option) => (
+                      <option key={option} value={option} aria-label={option} />
+                    ))}
+                  </datalist>
+                )}
+              </label>
+              <Button
+                size="sm"
+                variant="outline"
+                onClick={() => applyField(field)}
+                disabled={!values[field].trim()}
+                aria-label={`Apply ${label.toLowerCase()} to all ${count} photos`}
+              >
+                Apply
+              </Button>
+            </div>
+          );
+        })}
       </div>
 
       <div className="flex flex-wrap items-end gap-2">
@@ -129,7 +172,12 @@ export function BatchBar({
             ))}
           </datalist>
         </label>
-        <Button size="sm" variant="outline" onClick={addTag} disabled={!tag.trim()}>
+        <Button
+          size="sm"
+          variant="outline"
+          onClick={addTag}
+          disabled={!tag.trim()}
+        >
           <Plus />
         </Button>
       </div>
@@ -156,15 +204,23 @@ export function BatchBar({
         </div>
       )}
 
-      <div className="flex flex-wrap gap-2 border-t border-primary/20 pt-3">
+      <div className="flex flex-wrap gap-2 border-t border-destructive/20 pt-3">
         <Button size="sm" onClick={() => onSetStatus('approved')}>
           <Check />
           Approve all
         </Button>
-        <Button size="sm" variant="outline" onClick={() => onSetStatus('pending')}>
+        <Button
+          size="sm"
+          variant="outline"
+          onClick={() => onSetStatus('pending')}
+        >
           Return to pending
         </Button>
-        <Button size="sm" variant="outline" onClick={() => onSetStatus('rejected')}>
+        <Button
+          size="sm"
+          variant="outline"
+          onClick={() => onSetStatus('rejected')}
+        >
           Reject all
         </Button>
         <Button
