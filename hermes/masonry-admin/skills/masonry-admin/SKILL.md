@@ -53,16 +53,17 @@ Summarise in a few lines: approved / pending, what's missing most, open suggesti
 
 Ids can be shortened to their first characters when unambiguous.
 
-## New contributors (pairing)
+## New contributors (invitation code)
 
-A new contributor who writes to the contributor bot receives an 8-character code and sends it to Giovanni. When he gives you a code:
+The contributor bot accepts messages from anyone on Telegram, but people who are not registered must first type the invitation code. Until then they get a fixed reply and the model is not called. Giovanni hands the code out to classes and colleagues.
 
 ```bash
-hermes -p masonry-contrib pairing list
-hermes -p masonry-contrib pairing approve telegram <CODE>
+python3 tools/intake_queue.py invite              # show the current code
+python3 tools/intake_queue.py invite NEWCODE26    # change it (at least 6 characters); registered people stay in
+python3 tools/intake_queue.py invite off          # no code: anyone can register
 ```
 
-To remove someone's access: `hermes -p masonry-contrib pairing revoke telegram <telegram_user_id>`.
+Matching ignores case and spaces, but punctuation must be typed exactly.
 
 ## Nightly proposals
 

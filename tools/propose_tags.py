@@ -113,7 +113,9 @@ def ask(model: str, prompt: str, image: str, timeout: int) -> dict:
         "stream": False,
         "think": False,
         "keep_alive": "2m",
-        "options": {"temperature": 0.2},
+        # Contesto piccolo: prompt e un'immagine stanno in 8k, e il server di default
+        # ne allocherebbe 64k (quanti ne servono a Hermes), ~2 GB di RAM in piu' per niente.
+        "options": {"temperature": 0.2, "num_ctx": 8192},
     }
     request = urllib.request.Request(
         f"{OLLAMA}/api/chat", data=json.dumps(body).encode(), headers={"Content-Type": "application/json"}

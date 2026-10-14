@@ -1,0 +1,249 @@
+% Istruzioni per i contributori di The Masonry Archive — contenuto comune.
+%
+% Non si compila da solo: lo includono istruzioni-it.tex e istruzioni-en.tex,
+% che scelgono la lingua. Ogni testo compare una volta sola, nelle due lingue
+% affiancate, con \tr{italiano}{inglese}: cosi' le due versioni non divergono.
+%
+% Compilazione: pdflatex istruzioni-it.tex  (oppure caricare la cartella su Overleaf)
+% Pacchetti: beamer, qrcode, tikz — tutti in TeX Live e su Overleaf.
+
+\documentclass[aspectratio=169,11pt]{beamer}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{qrcode}
+\usepackage{tikz}
+
+\ifenglish
+  \usepackage[english]{babel}
+  \newcommand{\tr}[2]{#2}
+\else
+  \usepackage[italian]{babel}
+  \newcommand{\tr}[2]{#1}
+\fi
+
+% --- Dati del bot -----------------------------------------------------------
+\newcommand{\botname}{@the\_masonry\_archive\_bot}
+
+% Codice d'invito. Lasciato vuoto, la slide mostra una riga da compilare a mano
+% o alla lavagna; per proiettarlo, scriverlo qui:  \renewcommand{\invitecode}{TMA2026!}
+\ifdefined\invitecode\else\def\invitecode{}\fi
+
+% --- Aspetto: intonaco di calce e rosso mattone, come il sito -----------------
+\definecolor{brick}{HTML}{8A1C1C}
+\definecolor{brickA}{HTML}{9B3A2C}
+\definecolor{brickB}{HTML}{B5543F}
+\definecolor{mortar}{HTML}{D9D5CF}
+\definecolor{lime}{HTML}{F3F2EF}
+\definecolor{ink}{HTML}{1F1D1B}
+\definecolor{muted}{HTML}{5D5853}
+
+\setbeamercolor{background canvas}{bg=lime}
+\setbeamercolor{normal text}{fg=ink}
+\setbeamercolor{frametitle}{fg=brick}
+\setbeamercolor{title}{fg=ink}
+\setbeamercolor{subtitle}{fg=muted}
+\setbeamercolor{item}{fg=brick}
+\setbeamercolor{enumerate item}{fg=brick}
+\setbeamercolor{block title}{fg=white,bg=brick}
+\setbeamercolor{block body}{fg=ink,bg=brick!8}
+\setbeamerfont{frametitle}{series=\bfseries,size=\Large}
+\setbeamerfont{title}{series=\bfseries,size=\huge}
+\setbeamertemplate{navigation symbols}{}
+\setbeamertemplate{blocks}[rounded]
+\setbeamertemplate{enumerate item}{\textbf{\insertenumlabel}}
+\setbeamertemplate{itemize item}{\textbullet}
+
+% Fascia in testa a ogni slide: due corsi di mattoni a giunti sfalsati.
+\newcommand{\brickband}{%
+  \begin{tikzpicture}[remember picture,overlay]
+    \fill[left color=brickA,right color=brickB]
+      (current page.north west) rectangle ([yshift=-0.5cm]current page.north east);
+    \foreach \y/\shift in {0/0, 0.25/0.4} {
+      \draw[mortar,line width=0.6pt]
+        ([yshift=-\y cm]current page.north west) -- ([yshift=-\y cm]current page.north east);
+      \foreach \x in {0,0.8,...,17} {
+        \draw[mortar,line width=0.6pt]
+          ([xshift=\x cm+\shift cm,yshift=-\y cm]current page.north west) --
+          ([xshift=\x cm+\shift cm,yshift=-\y cm-0.25cm]current page.north west);
+      }
+    }
+    \draw[mortar,line width=0.6pt]
+      ([yshift=-0.5cm]current page.north west) -- ([yshift=-0.5cm]current page.north east);
+  \end{tikzpicture}}
+\setbeamertemplate{background}{\brickband}
+\setbeamertemplate{frametitle}{\vspace*{0.45cm}{\usebeamerfont{frametitle}\usebeamercolor[fg]{frametitle}\insertframetitle}\par}
+
+% Piede: nome del bot e numero di slide.
+\setbeamertemplate{footline}{%
+  \hbox to \paperwidth{\hspace{0.6cm}\color{muted}\scriptsize The Masonry Archive \quad\botname
+    \hfill\insertframenumber/\inserttotalframenumber\hspace{0.6cm}}\vspace{0.3cm}}
+
+% Un passo numerato: titolo in grassetto e spiegazione sotto.
+\newcommand{\passo}[2]{\item \textbf{#1}\\[1pt]{\small\color{muted}#2}\vspace{4pt}}
+\newcommand{\say}[1]{\colorbox{white}{\texttt{\small #1}}}
+\newcommand{\botqr}[1]{\qrcode[height=#1]{https://t.me/the\_masonry\_archive\_bot}}
+
+\title{\tr{Manda le tue foto di murature storiche}{Send us your photos of historic masonry}}
+\subtitle{The Masonry Archive}
+\author{Giovanni Castellazzi}
+\date{}
+
+\begin{document}
+
+% ---------------------------------------------------------------------------
+\begin{frame}[plain]
+  \vspace{0.6cm}
+  \begin{columns}[c]
+    \column{0.58\textwidth}
+      {\color{brick}\small\bfseries\MakeUppercase{The Masonry Archive}}\\[6pt]
+      {\usebeamerfont{title}\usebeamercolor[fg]{title}\inserttitle\par}
+      \vspace{10pt}
+      {\color{muted}\tr{Archi, volte, muri, pilastri, ponti: le foto che scatti durante sopralluoghi e viaggi
+      possono entrare in un archivio di ricerca aperto, con il tuo nome. Si fa tutto da Telegram,
+      in pochi minuti.}{Arches, vaults, walls, piers, bridges: the photos you take on site visits and trips
+      can join an open research archive, credited to you. It all happens in Telegram, in a few minutes.}\par}
+    \column{0.36\textwidth}
+      \centering
+      \colorbox{white}{\botqr{4.2cm}}\\[6pt]
+      \texttt{\botname}\\[2pt]
+      {\scriptsize\color{muted}\tr{Inquadra il codice con la fotocamera del telefono}{Point your phone camera at the code}}
+  \end{columns}
+\end{frame}
+
+% ---------------------------------------------------------------------------
+\begin{frame}{\tr{La prima volta}{The first time}}
+  \begin{columns}[t]
+    \column{0.68\textwidth}
+      \begin{enumerate}
+        \passo{\tr{Apri il bot e premi Avvia}{Open the bot and tap Start}}
+             {\tr{Dopo Avvia il bot non risponde: è normale, vai al passo successivo.}
+                 {The bot doesn't reply to Start. That's expected: go on to the next step.}}
+        \passo{\tr{Scrivi il codice d'invito}{Type the invitation code}}
+             {\tr{Te lo dà il docente o chi ti ha invitato.}{Your lecturer or whoever invited you will give it to you.}}
+        \passo{\tr{Rispondi a qualche domanda}{Answer a few questions}}
+             {\tr{Nome, cognome, affiliazione e ruolo: studente, dottorando, ricercatore o professionista.
+                  ORCID, laboratorio ed email sono facoltativi.}
+                 {First name, last name, affiliation and role: student, PhD candidate, researcher or professional.
+                  ORCID, lab and email are optional.}}
+        \passo{\tr{Accetta licenza e informativa}{Accept the licence and privacy notice}}
+             {\tr{Rispondi «sì» se sei d'accordo: le foto devono essere tue e le concedi con licenza CC BY 4.0.}
+                 {Reply ``yes'' if you agree: the photos must be your own, and you license them under CC BY 4.0.}}
+      \end{enumerate}
+    \column{0.28\textwidth}
+      \centering
+      \vspace{4pt}
+      \colorbox{white}{\botqr{3cm}}\\[4pt]
+      {\scriptsize\texttt{\botname}}
+  \end{columns}
+\end{frame}
+
+% ---------------------------------------------------------------------------
+\begin{frame}{\tr{Il codice d'invito}{The invitation code}}
+  \centering
+  \vspace{0.6cm}
+  {\color{muted}\tr{Scrivilo al bot come primo messaggio, dopo Avvia.}{Send it to the bot as your first message, after Start.}}\\[0.8cm]
+  \begin{tikzpicture}
+    \node[draw=brick,dashed,line width=1.2pt,rounded corners=6pt,
+          minimum width=9cm,minimum height=2.2cm,fill=white] {%
+      \if\relax\detokenize\expandafter{\invitecode}\relax
+        \color{mortar}\rule{6.5cm}{1pt}%
+      \else
+        \fontsize{40}{44}\selectfont\ttfamily\bfseries\color{ink}\invitecode
+      \fi};
+  \end{tikzpicture}\\[0.8cm]
+  {\small\color{muted}\tr{Maiuscole e spazi non contano, la punteggiatura sì.}{Capitals and spaces don't matter; punctuation does.}}
+\end{frame}
+
+% ---------------------------------------------------------------------------
+\begin{frame}{\tr{Ogni volta che mandi una foto}{Every time you send a photo}}
+  \begin{enumerate}
+    \passo{\tr{Inviala come file, non come foto}{Send it as a file, not as a photo}}
+         {\tr{Puoi aggiungere una didascalia su cosa mostra. Più foto di fila vanno bene.}
+             {You can add a caption saying what it shows. Several photos in a row are fine.}}
+    \passo{\tr{Se serve, indica il luogo}{If asked, say where it was taken}}
+         {\tr{Se la foto non contiene la posizione GPS, il bot ti chiede dove l'hai scattata: basta il nome del luogo.}
+             {If the photo has no GPS position, the bot asks where you took it: the place name is enough.}}
+    \passo{\tr{Aspetta l'esito}{Wait for the outcome}}
+         {\tr{Ogni foto viene esaminata a mano. Ricevi un messaggio quando è accettata, non accettata (con il motivo)
+              e quando entra nell'archivio.}
+             {Every photo is reviewed by hand. You get a message when it is accepted, not accepted (with the reason),
+              and when it joins the archive.}}
+  \end{enumerate}
+\end{frame}
+
+% ---------------------------------------------------------------------------
+\begin{frame}{\tr{Perché «come file»}{Why ``as a file''}}
+  \begin{block}{\tr{Telegram cancella il GPS delle foto normali}{Telegram strips the GPS from normal photos}}
+    \tr{Quando invii una foto normale, Telegram la comprime e cancella la posizione GPS.
+        Senza posizione la foto non può comparire sulla mappa dell'archivio.}
+       {When you send a normal photo, Telegram compresses it and removes the GPS position.
+        Without a position, the photo can't appear on the archive's map.}
+  \end{block}
+  \vspace{0.4cm}
+  \begin{columns}[t]
+    \column{0.45\textwidth}
+      \textbf{iPhone}\\[2pt]
+      \texttt{\tr{Allegato (graffetta) $\rightarrow$ File $\rightarrow$ Scegli foto o video}
+                 {Attach (paperclip) $\rightarrow$ File $\rightarrow$ Photo or Video}}
+    \column{0.45\textwidth}
+      \textbf{Android}\\[2pt]
+      \texttt{\tr{Allegato (graffetta) $\rightarrow$ File $\rightarrow$ Galleria}
+                 {Attach (paperclip) $\rightarrow$ File $\rightarrow$ Gallery}}
+  \end{columns}
+\end{frame}
+
+% ---------------------------------------------------------------------------
+\begin{frame}{\tr{Che foto servono}{What photos are useful}}
+  \begin{itemize}\setlength{\itemsep}{6pt}
+    \item \tr{Una muratura riconoscibile: tessitura, giunti, materiali, apparecchio.
+              Meglio una vista d'insieme e un dettaglio ravvicinato che una foto a metà.}
+             {Masonry you can read: bond, joints, materials, coursing.
+              An overall view plus a close-up beats one shot in between.}
+    \item \tr{Danni e fenomeni sono preziosi: fessure, rigonfiamenti, distacchi, degrado, riparazioni.}
+             {Damage and phenomena are valuable: cracks, bulging, detachment, decay, repairs.}
+    \item \tr{Luce diurna, foto a fuoco, niente filtri.}{Daylight, in focus, no filters.}
+    \item \tr{Evita volti riconoscibili e targhe: l'archivio è pubblico.}
+             {Avoid recognisable faces and number plates: the archive is public.}
+    \item \tr{Solo foto scattate da te. Fino a 30 al giorno, massimo 20\,MB l'una.}
+             {Only photos you took yourself. Up to 30 a day, 20\,MB each at most.}
+  \end{itemize}
+\end{frame}
+
+% ---------------------------------------------------------------------------
+\begin{frame}{\tr{Cose che puoi chiedere al bot}{Things you can ask the bot}}
+  \vspace{0.3cm}
+  \renewcommand{\arraystretch}{2}
+  \begin{tabular}{@{}l l@{}}
+    \say{\tr{le mie foto}{my photos}} & \tr{lo stato dei tuoi invii}{the status of what you sent} \\
+    \say{\tr{aggiorna il mio profilo}{update my profile}} & \tr{cambiare affiliazione, ORCID o email}{change affiliation, ORCID or email} \\
+    \say{\tr{cancella i miei dati}{delete my data}} & \tr{eliminare profilo e foto non ancora pubblicate}{remove your profile and unpublished photos} \\
+  \end{tabular}
+\end{frame}
+
+% ---------------------------------------------------------------------------
+\begin{frame}{\tr{Licenza e privacy, in breve}{Licence and privacy, in short}}
+  \begin{itemize}\setlength{\itemsep}{8pt}
+    \item \tr{Le foto pubblicate sono riusabili da chiunque citandoti (CC BY 4.0).}
+             {Published photos can be reused by anyone who credits you (CC BY 4.0).}
+    \item \tr{Conserviamo nome, affiliazione, ruolo, i dati facoltativi che ci dai e il tuo ID Telegram,
+              solo per attribuirti le foto e avvisarti dell'esito.}
+             {We keep your name, affiliation, role, the optional details you give us and your Telegram ID,
+              only to credit your photos and tell you the outcome.}
+    \item \tr{Le foto restano private finché non vengono esaminate; quelle non accettate vengono eliminate.}
+             {Photos stay private until they are reviewed; photos that aren't accepted are deleted.}
+    \item \tr{Puoi chiedere in qualsiasi momento di cancellare i tuoi dati.}
+             {You can ask to delete your data at any time.}
+  \end{itemize}
+\end{frame}
+
+% ---------------------------------------------------------------------------
+\begin{frame}[plain]
+  \centering
+  \vspace{0.9cm}
+  {\Large\bfseries\color{brick}\tr{Pronti? Inquadra e inizia.}{Ready? Scan and start.}}\\[0.5cm]
+  \colorbox{white}{\botqr{4.4cm}}\\[0.3cm]
+  \texttt{\botname}\\[0.4cm]
+  {\small\color{muted}\tr{Guarda l'archivio:}{Browse the archive:} \url{https://gcastellazzi.github.io/theMasonryArchive/}}
+\end{frame}
+
+\end{document}

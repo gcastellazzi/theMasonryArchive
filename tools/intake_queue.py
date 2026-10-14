@@ -639,6 +639,7 @@ def main() -> int:
     sub.add_parser("notify", help="avvisa i contributori").add_argument("--dry-run", action="store_true")
     sub.add_parser("contributors", help="elenca i contributori")
     sub.add_parser("stats", help="riepilogo della coda")
+    sub.add_parser("digest", help="riepilogo per il bot admin; nulla se non c'e' niente da fare")
     invite = sub.add_parser("invite", help="mostra o cambia il codice d'invito")
     invite.add_argument("code", nargs="?", help="nuovo codice; 'off' per aprire il bot a tutti")
     args = parser.parse_args()
@@ -658,6 +659,22 @@ def main() -> int:
         output = notify(args.dry_run)
     elif args.command == "contributors":
         output = list(contributors.values())
+    elif args.command == "digest":
+        # Stampa solo se c'e' qualcosa da fare: il cron senza agente non manda
+        # nulla quando l'output e' vuoto.
+        summary = stats()
+        lines = []
+        if summary["pending"]:
+            lines.append(f"📥 {summary['pending']} foto da moderare")
+        if summary["accepted"]:
+            lines.append(f"✅ {summary['accepted']} accettate da far entrare nell'archivio (apply)")
+        if summary["toNotify"]:
+            lines.append(f"✉️ {summary['toNotify']} contributori da avvisare (notify)")
+        if summary["deletionRequests"]:
+            lines.append(f"⚠️ {len(summary['deletionRequests'])} richieste di cancellazione con record pubblicati")
+        output = ("The Masonry Archive\n" + "\n".join(lines)) if lines else ""
+        if not output:
+            return 0
     elif args.command == "invite":
         if args.code:
             set_invite_code("" if args.code.lower() == "off" else args.code)
