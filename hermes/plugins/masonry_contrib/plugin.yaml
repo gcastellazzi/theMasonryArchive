@@ -1,0 +1,12 @@
+name: masonry_contrib
+version: 0.1.0
+description: "The Masonry Archive — strumenti del bot dei contributori: registrazione, invio di foto in quarantena, stato dei propri invii, cancellazione dei propri dati. Nessun accesso a terminale o file."
+author: The Masonry Archive
+provides_tools:
+  - masonry_register
+  - masonry_profile
+  - masonry_submit_photo
+  - masonry_my_submissions
+  - masonry_delete_my_data
+provides_hooks:
+  - post_gateway_admission
