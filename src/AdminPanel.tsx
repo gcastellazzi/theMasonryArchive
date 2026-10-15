@@ -16,10 +16,11 @@ const BASE = import.meta.env.BASE_URL;
 /** Bozze di catalogazione, per non perdere il lavoro chiudendo la scheda. */
 const DRAFT_KEY = 'masonry-archive:admin-draft';
 
-type Filter = 'todo' | 'pending' | 'approved' | 'all';
+type Filter = 'todo' | 'suggested' | 'pending' | 'approved' | 'all';
 
 const FILTERS: { id: Filter; label: string }[] = [
   { id: 'todo', label: 'To catalogue' },
+  { id: 'suggested', label: 'With suggestions' },
   { id: 'pending', label: 'Pending' },
   { id: 'approved', label: 'Approved' },
   { id: 'all', label: 'All' },
@@ -96,10 +97,18 @@ export function AdminPanel({
   );
   const allTags = useMemo(() => knownTags(records), [records]);
 
+  // Foto con proposte ancora da esaminare (utenti o modello notturno).
+  const suggestedIds = useMemo(
+    () => new Set(suggestions.filter((s) => s.status === 'pending').map((s) => s.recordId)),
+    [suggestions],
+  );
+
   const visible = useMemo(() => {
     switch (filter) {
       case 'todo':
         return records.filter((record) => missingFields(record).length > 0);
+      case 'suggested':
+        return records.filter((record) => suggestedIds.has(record.id));
       case 'pending':
         return records.filter((record) => record.status === 'pending');
       case 'approved':
@@ -107,7 +116,7 @@ export function AdminPanel({
       default:
         return records;
     }
-  }, [records, filter]);
+  }, [records, filter, suggestedIds]);
 
   const selected = records.find((record) => record.id === selectedId) ?? visible[0];
 
@@ -115,6 +124,20 @@ export function AdminPanel({
     (item) => item.recordId === selected?.id && item.status === 'pending',
   );
   const pendingSuggestionCount = suggestions.filter((s) => s.status === 'pending').length;
+
+  // Cambiando filtro si apre la prima foto dell'elenco: altrimenti resterebbe
+  // selezionata una foto che il nuovo filtro non mostra.
+  function chooseFilter(next: Filter) {
+    setFilter(next);
+    const first = records.find((record) =>
+      next === 'todo'
+        ? missingFields(record).length > 0
+        : next === 'suggested'
+          ? suggestedIds.has(record.id)
+          : next === 'all' || record.status === next,
+    );
+    if (first) setSelectedId(first.id);
+  }
 
   function update(id: string, patch: Partial<MasonryRecord>) {
     setRecords((current) =>
@@ -245,7 +268,7 @@ export function AdminPanel({
             <button
               key={item.id}
               type="button"
-              onClick={() => setFilter(item.id)}
+              onClick={() => chooseFilter(item.id)}
               className={`rounded-md px-3 py-1.5 text-sm ${
                 filter === item.id
                   ? 'bg-primary text-primary-foreground'
@@ -256,18 +279,24 @@ export function AdminPanel({
               <span className="ml-1.5 opacity-70">
                 {item.id === 'todo'
                   ? records.filter((r) => missingFields(r).length).length
-                  : item.id === 'all'
-                    ? records.length
-                    : records.filter((r) => r.status === item.id).length}
+                  : item.id === 'suggested'
+                    ? records.filter((r) => suggestedIds.has(r.id)).length
+                    : item.id === 'all'
+                      ? records.length
+                      : records.filter((r) => r.status === item.id).length}
               </span>
             </button>
           ))}
         </div>
         <div className="flex items-center gap-2">
           {pendingSuggestionCount > 0 && (
-            <span className="rounded-md bg-accent px-2 py-1 text-xs text-accent-foreground">
+            <button
+              type="button"
+              onClick={() => chooseFilter('suggested')}
+              className="rounded-md bg-accent px-2 py-1 text-xs text-accent-foreground hover:underline"
+            >
               {pendingSuggestionCount} suggestions to review
-            </span>
+            </button>
           )}
           <Button
             size="sm"
@@ -395,9 +424,21 @@ export function AdminPanel({
 
           {openSuggestions.length > 0 && (
             <div className="rounded-md border bg-card p-3">
-              <h3 className="mb-2 text-sm font-semibold">
-                User suggestions for this photo
-              </h3>
+              <div className="mb-2 flex flex-wrap items-center justify-between gap-2">
+                <h3 className="text-sm font-semibold">Suggestions for this photo</h3>
+                {/* Durante la revisione: una foto non idonea si elimina senza scendere
+                    fino al pulsante Delete in fondo alla scheda. Stessa funzione:
+                    conferma, impronta in excluded.json, proposte scartate. */}
+                <Button
+                  size="sm"
+                  variant="outline"
+                  className="text-destructive"
+                  onClick={() => selected && remove(selected)}
+                >
+                  <Trash2 />
+                  Not suitable — delete photo
+                </Button>
+              </div>
               <ul className="space-y-2">
                 {openSuggestions.map((suggestion) => (
                   <li key={suggestion.id} className="rounded-md border bg-background p-2 text-sm">
