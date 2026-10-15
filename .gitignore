@@ -52,3 +52,6 @@ next-env.d.ts
 
 # bytecode Python
 __pycache__/
+
+# impostazioni locali dei bot Hermes
+/hermes/local.env

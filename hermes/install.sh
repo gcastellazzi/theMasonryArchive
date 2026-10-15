@@ -11,7 +11,14 @@ set -euo pipefail
 
 REPO="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 HERE="$REPO/hermes"
+# Impostazioni di questa macchina (server Ollama, foto per notte…), fuori da git.
+[[ -f "$HERE/local.env" ]] && source "$HERE/local.env"
 VISION_MODEL="${MASONRY_VISION_MODEL:-qwen3.5:9b}"
+# Ollama per le proposte notturne: di default quello locale; con un server remoto
+# raggiunto via tunnel, es. MASONRY_OLLAMA_HOST=http://127.0.0.1:11435
+VISION_HOST="${MASONRY_OLLAMA_HOST:-http://127.0.0.1:11434}"
+# Foto per notte: 12 bastano su CPU; con una GPU se ne fanno molte di piu'.
+PROPOSALS_LIMIT="${MASONRY_PROPOSALS_LIMIT:-12}"
 
 profile_home() { hermes profile show "$1" | awk '/^Path:/ {print $2}'; }
 
@@ -57,7 +64,12 @@ c unauthorized_dm_behavior pair
 ensure_profile masonry-admin "Assistente privato dell'amministratore di The Masonry Archive: avanzamento, moderazione dei contributi, proposte notturne."
 ADMIN="$(profile_home masonry-admin)"
 link "$HERE/masonry-admin/SOUL.md" "$ADMIN/SOUL.md"
-link "$HERE/masonry-admin/skills/masonry-admin" "$ADMIN/skills/masonry-admin"
+# Solo il terminale: con tutti gli strumenti il prompt superava i 60 KB e il modello
+# locale impiegava piu' di 15 minuti solo a leggerlo. Le procedure stanno nel SOUL.
+hermes -p masonry-admin config set platform_toolsets.telegram '["terminal"]' >/dev/null
+# Comandi diretti (/aiuto, /stato, /coda…): rispondono senza passare dal modello.
+link "$HERE/plugins/masonry_admin" "$ADMIN/plugins/masonry_admin"
+hermes -p masonry-admin config set plugins.enabled '["masonry_admin"]' >/dev/null
 hermes -p masonry-admin config set terminal.cwd "$REPO" >/dev/null
 hermes -p masonry-admin config set model.context_length 65536 >/dev/null
 
@@ -67,7 +79,7 @@ mkdir -p "$ADMIN/scripts"
 cat > "$ADMIN/scripts/masonry-proposals.sh" <<EOF
 #!/usr/bin/env bash
 # Generato da hermes/install.sh — non modificare qui.
-cd "$REPO" && exec python3 tools/propose_tags.py --limit 12 --model "$VISION_MODEL"
+cd "$REPO" && OLLAMA_HOST="$VISION_HOST" exec python3 tools/propose_tags.py --limit "$PROPOSALS_LIMIT" --model "$VISION_MODEL"
 EOF
 chmod +x "$ADMIN/scripts/masonry-proposals.sh"
 
@@ -87,13 +99,13 @@ if [[ "$JOBS" != *masonry-digest* ]]; then
 fi
 
 if [[ "$JOBS" != *masonry-proposals* ]]; then
-  if ollama list 2>/dev/null | awk '{print $1}' | grep -qx "$VISION_MODEL"; then
+  if curl -s "$VISION_HOST/api/tags" | grep -q "\"$VISION_MODEL\""; then
     hermes -p masonry-admin cron create "0 2 * * *" --name masonry-proposals \
       --no-agent --script masonry-proposals.sh --deliver telegram
   else
     echo
     echo "Cron delle proposte non creato: manca il modello $VISION_MODEL."
-    echo "  ollama pull $VISION_MODEL && bash hermes/install.sh"
+    echo "  (su $VISION_HOST) ollama pull $VISION_MODEL && bash hermes/install.sh"
   fi
 fi
 

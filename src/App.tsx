@@ -505,11 +505,70 @@ function App() {
           )}
 
           {activeView === 'Upload' && (
+            <section className="mb-4 rounded-md border bg-card p-4">
+              <h2 className="mb-1 font-semibold">Contribute through Telegram</h2>
+              <p className="mb-4 text-sm text-muted-foreground">
+                The quickest way to send photos is our Telegram bot. Every photo
+                is reviewed by hand before it becomes public.
+              </p>
+              <div className="flex flex-wrap items-start gap-6">
+                <a
+                  className="block w-44 shrink-0 rounded-md border bg-white p-2"
+                  href="https://t.me/the_masonry_archive_bot"
+                  rel="noreferrer"
+                  target="_blank"
+                >
+                  <img
+                    alt="QR code that opens the Telegram bot @the_masonry_archive_bot"
+                    className="block w-full"
+                    height={160}
+                    src={`${import.meta.env.BASE_URL}telegram-bot-qr.svg`}
+                    width={160}
+                  />
+                </a>
+                <div className="min-w-0 flex-1 text-sm">
+                  <p className="mb-2">
+                    Scan the code or open{' '}
+                    <a
+                      className="font-medium underline underline-offset-2"
+                      href="https://t.me/the_masonry_archive_bot"
+                      rel="noreferrer"
+                      target="_blank"
+                    >
+                      @the_masonry_archive_bot
+                    </a>
+                    , then tap <strong>Start</strong>.
+                  </p>
+                  <ol className="list-decimal space-y-1 pl-5 text-muted-foreground">
+                    <li>
+                      <span className="text-foreground">Have an invitation code?</span>{' '}
+                      Type it in the chat.
+                    </li>
+                    <li>
+                      <span className="text-foreground">No code?</span> Write in one
+                      message who you are (name, institution, role) and why you
+                      would like to contribute. The administrator will reply in the
+                      chat.
+                    </li>
+                    <li>
+                      Choose Italian or English, register, and send your photos{' '}
+                      <span className="text-foreground">as files</span>, so they keep
+                      their GPS position. Add a comment saying why each photo
+                      matters, for example “evident decay of the mortar joints”.
+                    </li>
+                  </ol>
+                </div>
+              </div>
+            </section>
+          )}
+
+          {activeView === 'Upload' && (
             <section className="rounded-md border bg-card p-4">
               <h2 className="mb-1 font-semibold">Contribute an image</h2>
               <p className="mb-4 text-sm text-muted-foreground">
                 Uploads require registration and are reviewed before becoming
-                public.
+                public. Uploading from this page is not active yet: please use
+                the Telegram bot above.
               </p>
               <div className="grid gap-3">
                 <label className="field">

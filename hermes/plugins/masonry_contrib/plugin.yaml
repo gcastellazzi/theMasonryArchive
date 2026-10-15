@@ -6,6 +6,8 @@ provides_tools:
   - masonry_register
   - masonry_profile
   - masonry_submit_photo
+  - masonry_set_language
+  - masonry_add_comment
   - masonry_my_submissions
   - masonry_delete_my_data
 provides_hooks:

@@ -25,7 +25,7 @@
 \newcommand{\botname}{@the\_masonry\_archive\_bot}
 
 % Codice d'invito. Lasciato vuoto, la slide mostra una riga da compilare a mano
-% o alla lavagna; per proiettarlo, scriverlo qui:  \renewcommand{\invitecode}{TMA2026!}
+% o alla lavagna; per proiettarlo, scriverlo qui:  \renewcommand{\invitecode}{CODICE2026}
 \ifdefined\invitecode\else\def\invitecode{}\fi
 
 % --- Aspetto: intonaco di calce e rosso mattone, come il sito -----------------
@@ -118,12 +118,13 @@
         \passo{\tr{Apri il bot e premi Avvia}{Open the bot and tap Start}}
              {\tr{Dopo Avvia il bot non risponde: è normale, vai al passo successivo.}
                  {The bot doesn't reply to Start. That's expected: go on to the next step.}}
-        \passo{\tr{Scrivi il codice d'invito}{Type the invitation code}}
-             {\tr{Te lo dà il docente o chi ti ha invitato.}{Your lecturer or whoever invited you will give it to you.}}
-        \passo{\tr{Rispondi a qualche domanda}{Answer a few questions}}
-             {\tr{Nome, cognome, affiliazione e ruolo: studente, dottorando, ricercatore o professionista.
+        \passo{\tr{Scrivi il codice d'invito, o chiedilo}{Type the invitation code, or ask for one}}
+             {\tr{Senza codice: scrivi chi sei e perché vuoi contribuire, la richiesta arriva all'amministratore.}
+                 {No code? Write who you are and why you'd like to contribute: your request goes to the administrator.}}
+        \passo{\tr{Scegli la lingua e rispondi a qualche domanda}{Choose your language and answer a few questions}}
+             {\tr{IT o EN, poi nome, cognome, affiliazione e ruolo: studente, dottorando, ricercatore o professionista.
                   ORCID, laboratorio ed email sono facoltativi.}
-                 {First name, last name, affiliation and role: student, PhD candidate, researcher or professional.
+                 {IT or EN, then first name, last name, affiliation and role: student, PhD candidate, researcher or professional.
                   ORCID, lab and email are optional.}}
         \passo{\tr{Accetta licenza e informativa}{Accept the licence and privacy notice}}
              {\tr{Rispondi «sì» se sei d'accordo: le foto devono essere tue e le concedi con licenza CC BY 4.0.}
@@ -158,8 +159,10 @@
 \begin{frame}{\tr{Ogni volta che mandi una foto}{Every time you send a photo}}
   \begin{enumerate}
     \passo{\tr{Inviala come file, non come foto}{Send it as a file, not as a photo}}
-         {\tr{Puoi aggiungere una didascalia su cosa mostra. Più foto di fila vanno bene.}
-             {You can add a caption saying what it shows. Several photos in a row are fine.}}
+         {\tr{Più foto di fila vanno bene.}{Several photos in a row are fine.}}
+    \passo{\tr{Aggiungi un commento}{Add a comment}}
+         {\tr{Nella didascalia o subito dopo: perché l'hai caricata («evidente stato di degrado», «fessura sopra l'arco»). Facoltativo.}
+             {In the caption or right after: why you sent it (``evident decay'', ``crack above the arch''). Optional.}}
     \passo{\tr{Se serve, indica il luogo}{If asked, say where it was taken}}
          {\tr{Se la foto non contiene la posizione GPS, il bot ti chiede dove l'hai scattata: basta il nome del luogo.}
              {If the photo has no GPS position, the bot asks where you took it: the place name is enough.}}

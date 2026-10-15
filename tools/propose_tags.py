@@ -170,7 +170,9 @@ def main() -> int:
     for record in queue[: args.limit]:
         try:
             answer = ask(args.model, prompt_for(record, vocab, tags), image_payload(PUBLIC / record["thumbnail"]), args.timeout)
-        except (urllib.error.URLError, TimeoutError, KeyError, ValueError) as error:
+        # OSError copre rete, timeout e connessione chiusa dal server (anche il caso
+        # in cui il processo del modello viene terminato per mancanza di memoria).
+        except (OSError, KeyError, ValueError) as error:
             failures.append(f"{record['id']}: {error}")
             if isinstance(error, urllib.error.HTTPError) and error.code == 404:
                 print(f"Modello {args.model} non trovato: `ollama pull {args.model}`", file=sys.stderr)

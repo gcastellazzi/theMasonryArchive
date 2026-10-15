@@ -30,6 +30,8 @@ Uso da riga di comando:
     python3 tools/intake_queue.py contributors
     python3 tools/intake_queue.py stats
     python3 tools/intake_queue.py invite [CODICE | off]
+    python3 tools/intake_queue.py requests
+    python3 tools/intake_queue.py approve-request <id> | reject-request <id> [--note "..."]
 
 Ogni comando accetta `--json` per un output leggibile da un altro programma.
 """
@@ -270,7 +272,7 @@ class IntakeError(Exception):
 
 
 def public_profile(contributor: dict[str, Any]) -> dict[str, Any]:
-    keys = ("firstName", "lastName", "affiliation", "role", "orcid", "lab", "email", "acceptedTermsAt")
+    keys = ("firstName", "lastName", "affiliation", "role", "orcid", "lab", "email", "language", "acceptedTermsAt")
     return {key: contributor.get(key) for key in keys if contributor.get(key)}
 
 
@@ -304,6 +306,7 @@ def register_contributor(user_id: str, username: str, fields: dict[str, Any]) ->
                 "orcid": (fields.get("orcid") or "").strip()[:40],
                 "lab": (fields.get("lab") or "").strip()[:160],
                 "email": (fields.get("email") or "").strip()[:160],
+                "language": _language(fields.get("language")) or current.get("language") or get_language(user_id),
                 "acceptedTermsAt": current.get("acceptedTermsAt") or now(),
                 "updatedAt": now(),
             }
@@ -352,6 +355,143 @@ def admit(user_id: str) -> None:
         invited = _load(INCOMING / "invited.json", {})
         invited.setdefault(contributor_key(user_id), now())
         _save(INCOMING / "invited.json", invited)
+
+
+# --------------------------------------------------------------------------
+# Lingua e prime battute
+#
+# La lingua (it/en) si sceglie subito dopo il codice d'invito e vale per i
+# messaggi del bot e per le notifiche di esito. Sta in preferences.json, insieme
+# al segno che lo sconosciuto ha gia' ricevuto il messaggio di benvenuto, cosi'
+# la volta dopo il suo testo si legge come richiesta d'invito.
+
+LANGUAGES = ("it", "en")
+_LANGUAGE_WORDS = {
+    "it": {"it", "ita", "italiano", "italian", "🇮🇹"},
+    "en": {"en", "eng", "english", "inglese", "🇬🇧", "🇺🇸"},
+}
+
+
+def _language(value: Any) -> str:
+    value = str(value or "").strip().lower()
+    return value if value in LANGUAGES else ""
+
+
+def language_choice(text: str) -> str:
+    """'it' o 'en' se il messaggio e' solo una scelta di lingua, altrimenti ''."""
+    word = (text or "").strip().lower().strip(".!")
+    return next((lang for lang, words in _LANGUAGE_WORDS.items() if word in words), "")
+
+
+def _preferences() -> dict[str, dict[str, Any]]:
+    return _load(INCOMING / "preferences.json", {})
+
+
+def _set_preference(user_id: str, **values: Any) -> None:
+    with locked():
+        prefs = _preferences()
+        prefs.setdefault(contributor_key(user_id), {}).update(values)
+        _save(INCOMING / "preferences.json", prefs)
+
+
+def get_language(user_id: str) -> str:
+    contributor = get_contributor(user_id) or {}
+    return contributor.get("language") or _preferences().get(contributor_key(user_id), {}).get("language", "")
+
+
+def set_language(user_id: str, language: str) -> str:
+    language = _language(language)
+    if not language:
+        raise IntakeError("bad_language", "Lingue disponibili: it, en.")
+    _set_preference(user_id, language=language)
+    with locked():
+        contributors = load_contributors()
+        key = contributor_key(user_id)
+        if key in contributors:
+            contributors[key]["language"] = language
+            _save(INCOMING / "contributors.json", contributors)
+    return language
+
+
+def was_welcomed(user_id: str) -> bool:
+    return bool(_preferences().get(contributor_key(user_id), {}).get("welcomedAt"))
+
+
+def mark_welcomed(user_id: str) -> None:
+    _set_preference(user_id, welcomedAt=now())
+
+
+# --------------------------------------------------------------------------
+# Richieste d'invito
+#
+# Chi non ha il codice scrive al bot chi e'; la richiesta arriva
+# all'amministratore, che la approva (accesso diretto, senza codice) o la rifiuta.
+
+
+def load_requests() -> list[dict[str, Any]]:
+    return _load(INCOMING / "invite_requests.json", [])
+
+
+def request_invite(user_id: str, username: str, text: str) -> dict[str, Any]:
+    text = " ".join((text or "").split())
+    with locked():
+        requests = load_requests()
+        key = contributor_key(user_id)
+        if any(r["userId"] == key and r["status"] == "pending" for r in requests):
+            raise IntakeError("already_requested", "Richiesta gia' inviata: attendi la risposta.")
+        if sum(1 for r in requests if r["userId"] == key) >= 3:
+            raise IntakeError("too_many_requests", "Hai gia' inviato troppe richieste.")
+        entry = {
+            "id": uuid.uuid4().hex[:8],
+            "userId": key,
+            "telegramUserId": str(user_id),
+            "telegramUsername": username or "",
+            "text": text[:800],
+            "createdAt": now(),
+            "status": "pending",
+        }
+        requests.append(entry)
+        _save(INCOMING / "invite_requests.json", requests)
+        return entry
+
+
+def decide_request(request_id: str, approve: bool, note: str = "") -> dict[str, Any]:
+    with locked():
+        requests = load_requests()
+        matches = [r for r in requests if r["id"].startswith(request_id) and r["status"] == "pending"]
+        if len(matches) != 1:
+            raise IntakeError("not_found", f"richiesta in attesa non trovata o ambigua: {request_id}")
+        entry = matches[0]
+        entry.update({"status": "approved" if approve else "rejected", "decidedAt": now(), "note": note.strip()})
+        _save(INCOMING / "invite_requests.json", requests)
+    if approve:
+        admit(entry["telegramUserId"])
+    text = WELCOME_APPROVED if approve else REQUEST_REJECTED
+    if note.strip():
+        text += f"\n\n{note.strip()}"
+    send_to_contributor(entry["telegramUserId"], text)
+    return entry
+
+
+WELCOME_APPROVED = (
+    "✅ La tua richiesta e' stata accettata: benvenuto in The Masonry Archive!\n"
+    "Scrivi IT per continuare in italiano.\n\n"
+    "✅ Your request has been approved: welcome to The Masonry Archive!\n"
+    "Type EN to continue in English."
+)
+REQUEST_REJECTED = (
+    "La tua richiesta di accesso a The Masonry Archive non e' stata accettata.\n"
+    "Your request to join The Masonry Archive was not approved."
+)
+
+
+def send_to_contributor(telegram_user_id: str, text: str) -> bool:
+    """Messaggio dal bot dei contributori, senza passare dal modello."""
+    result = subprocess.run(
+        ["hermes", "-p", CONTRIB_PROFILE, "send", "-q", "--to", f"telegram:{telegram_user_id}", text],
+        capture_output=True,
+    )
+    return result.returncode == 0
 
 
 def submit(
@@ -445,6 +585,25 @@ def submit(
         return entry
 
 
+def add_comment(user_id: str, submission_id: str, comment: str) -> dict[str, Any]:
+    """Aggiunge un commento del contributore a una sua foto non ancora entrata nell'archivio."""
+    comment = " ".join((comment or "").split())[:1000]
+    if not comment:
+        raise IntakeError("empty_comment", "Il commento e' vuoto.")
+    key = contributor_key(user_id)
+    with locked():
+        submissions = load_submissions()
+        mine = [s for s in submissions if s["contributorId"] == key and s["status"] in ("pending", "accepted")]
+        # Senza id, il commento va all'ultima foto inviata: e' il caso tipico.
+        matches = [s for s in mine if s["id"].startswith(submission_id)] if submission_id else mine[-1:]
+        if len(matches) != 1:
+            raise IntakeError("not_found", "Non trovo quella foto fra i tuoi invii in attesa.")
+        entry = matches[0]
+        entry["notes"] = (f"{entry['notes']} — {comment}" if entry.get("notes") else comment)[:2000]
+        _save(INCOMING / "submissions.json", submissions)
+        return entry
+
+
 def submissions_for(user_id: str) -> list[dict[str, Any]]:
     key = contributor_key(user_id)
     return [s for s in load_submissions() if s["contributorId"] == key]
@@ -529,6 +688,16 @@ def apply(dry_run: bool = False) -> list[dict[str, Any]]:
             # autore e affiliazione a tutto cio' che trova dentro.
             photo = Path(staging) / Path(entry["file"]).name
             shutil.copyfile(INCOMING / entry["file"], photo)
+            if entry.get("positionSource") == "contributor" and entry.get("lat") is not None:
+                # La posizione data in chat entra come sidecar XMP, che photo_meta legge
+                # prima dell'EXIF: cosi' l'ingest geocodifica il luogo e sceglie l'id come
+                # per ogni altra foto, invece di creare un record "unlocated".
+                photo.with_suffix(".xmp").write_text(
+                    '<x:xmpmeta xmlns:x="adobe:ns:meta/"><rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">'
+                    f'<rdf:Description xmlns:exif="http://ns.adobe.com/exif/1.0/" exif:GPSLatitude="{entry["lat"]}" '
+                    f'exif:GPSLongitude="{entry["lng"]}"/></rdf:RDF></x:xmpmeta>\n',
+                    encoding="utf-8",
+                )
             command = [sys.executable, str(INGEST), "--source", staging, "--author", author,
                        "--affiliation", person.get("affiliation", "")]
             if dry_run:
@@ -564,10 +733,20 @@ def apply(dry_run: bool = False) -> list[dict[str, Any]]:
 
 
 MESSAGES = {
-    "accepted": "La tua foto «{name}» e' stata accettata: entrera' nell'archivio dopo la catalogazione.",
-    "rejected": "La tua foto «{name}» non e' stata accettata.",
-    "ingested": "La tua foto «{name}» e' entrata nell'archivio (scheda {record}). Grazie!",
+    "it": {
+        "accepted": "La tua foto «{name}» e' stata accettata: entrera' nell'archivio dopo la catalogazione.",
+        "rejected": "La tua foto «{name}» non e' stata accettata.",
+        "ingested": "La tua foto «{name}» e' entrata nell'archivio (scheda {record}). Grazie!",
+        "note": "Nota",
+    },
+    "en": {
+        "accepted": "Your photo “{name}” has been accepted: it will join the archive once it is catalogued.",
+        "rejected": "Your photo “{name}” was not accepted.",
+        "ingested": "Your photo “{name}” is now in the archive (record {record}). Thank you!",
+        "note": "Note",
+    },
 }
+STATUS_MESSAGES = ("accepted", "rejected", "ingested")
 
 
 def notify(dry_run: bool = False) -> list[str]:
@@ -578,18 +757,18 @@ def notify(dry_run: bool = False) -> list[str]:
         contributors = load_contributors()
         for entry in submissions:
             status = entry["status"]
-            if status == entry.get("notifiedStatus") or status not in MESSAGES:
+            if status == entry.get("notifiedStatus") or status not in STATUS_MESSAGES:
                 continue
             person = contributors.get(entry["contributorId"])
             if not person:
                 continue
-            text = MESSAGES[status].format(name=entry["originalName"], record=entry.get("recordId"))
+            words = MESSAGES.get(person.get("language") or "it", MESSAGES["it"])
+            text = words[status].format(name=entry["originalName"], record=entry.get("recordId"))
             if entry.get("reviewNote"):
-                text += f"\nNota: {entry['reviewNote']}"
+                text += f"\n{words['note']}: {entry['reviewNote']}"
             target = f"telegram:{person['telegramUserId']}"
             if not dry_run:
-                result = subprocess.run(["hermes", "-p", CONTRIB_PROFILE, "send", "-q", "--to", target, text])
-                if result.returncode != 0:
+                if not send_to_contributor(person["telegramUserId"], text):
                     print(f"  invio fallito per {entry['id']}", file=sys.stderr)
                     continue
                 entry["notifiedStatus"] = status
@@ -606,7 +785,8 @@ def stats() -> dict[str, Any]:
         "contributors": len(load_contributors()),
         "submissions": len(submissions),
         **counts,
-        "toNotify": sum(1 for s in submissions if s["status"] != s.get("notifiedStatus") and s["status"] in MESSAGES),
+        "toNotify": sum(1 for s in submissions if s["status"] != s.get("notifiedStatus") and s["status"] in STATUS_MESSAGES),
+        "inviteRequests": sum(1 for r in load_requests() if r["status"] == "pending"),
         "deletionRequests": [d for d in _load(INCOMING / "deletions.json", []) if not d["handled"]],
     }
 
@@ -640,6 +820,13 @@ def main() -> int:
     sub.add_parser("contributors", help="elenca i contributori")
     sub.add_parser("stats", help="riepilogo della coda")
     sub.add_parser("digest", help="riepilogo per il bot admin; nulla se non c'e' niente da fare")
+    sub.add_parser("requests", help="richieste d'invito in attesa")
+    approve = sub.add_parser("approve-request", help="accetta una richiesta d'invito")
+    approve.add_argument("id")
+    approve.add_argument("--note", default="")
+    deny = sub.add_parser("reject-request", help="rifiuta una richiesta d'invito")
+    deny.add_argument("id")
+    deny.add_argument("--note", default="")
     invite = sub.add_parser("invite", help="mostra o cambia il codice d'invito")
     invite.add_argument("code", nargs="?", help="nuovo codice; 'off' per aprire il bot a tutti")
     args = parser.parse_args()
@@ -664,8 +851,10 @@ def main() -> int:
         # nulla quando l'output e' vuoto.
         summary = stats()
         lines = []
+        if summary["inviteRequests"]:
+            lines.append(f"🙋 {summary['inviteRequests']} richieste d'invito: /richieste")
         if summary["pending"]:
-            lines.append(f"📥 {summary['pending']} foto da moderare")
+            lines.append(f"📥 {summary['pending']} foto da moderare: /coda")
         if summary["accepted"]:
             lines.append(f"✅ {summary['accepted']} accettate da far entrare nell'archivio (apply)")
         if summary["toNotify"]:
@@ -675,6 +864,16 @@ def main() -> int:
         output = ("The Masonry Archive\n" + "\n".join(lines)) if lines else ""
         if not output:
             return 0
+    elif args.command == "requests":
+        rows = [r for r in load_requests() if r["status"] == "pending"]
+        output = rows if args.json else "\n".join(
+            f"{r['id']}  {r['createdAt'][:16].replace('T', ' ')}  @{r['telegramUsername'] or '—'}\n    {r['text']}" for r in rows
+        ) or "nessuna richiesta in attesa"
+    elif args.command in ("approve-request", "reject-request"):
+        try:
+            output = decide_request(args.id, args.command == "approve-request", args.note)
+        except IntakeError as error:
+            sys.exit(error.message)
     elif args.command == "invite":
         if args.code:
             set_invite_code("" if args.code.lower() == "off" else args.code)

@@ -21,6 +21,7 @@ from __future__ import annotations
 
 import json
 import os
+import subprocess
 import sys
 from pathlib import Path
 
@@ -28,6 +29,8 @@ REPO = Path(os.environ.get("MASONRY_REPO") or Path(__file__).resolve().parents[3
 sys.path.insert(0, str(REPO / "tools"))
 
 import intake_queue as queue  # noqa: E402
+
+ADMIN_PROFILE = os.environ.get("MASONRY_ADMIN_PROFILE", "masonry-admin")
 
 
 def _reply(**payload) -> str:
@@ -106,6 +109,7 @@ def register_contributor(args, user_id, username):
             "orcid": args.get("orcid"),
             "lab": args.get("lab"),
             "email": args.get("email"),
+            "language": args.get("language"),
             "acceptTerms": args.get("accept_terms") is True,
         },
     )
@@ -115,11 +119,12 @@ def register_contributor(args, user_id, username):
 def profile(args, user_id, username):
     del args, username
     contributor = queue.get_contributor(user_id)
+    language = queue.get_language(user_id) or None
     if not contributor:
-        return _reply(success=True, registered=False, roles=list(queue.ROLES))
+        return _reply(success=True, registered=False, language=language, roles=list(queue.ROLES))
     mine = queue.submissions_for(user_id)
     counts = {status: sum(1 for s in mine if s["status"] == status) for status in queue.STATUSES}
-    return _reply(success=True, registered=True, profile=queue.public_profile(contributor), submissions=counts)
+    return _reply(success=True, registered=True, language=language, profile=queue.public_profile(contributor), submissions=counts)
 
 
 def submit_photo(args, user_id, username):
@@ -156,6 +161,17 @@ def submit_photo(args, user_id, username):
         },
         message="Foto ricevuta: e' in attesa di moderazione. Riceverai un messaggio quando verra' esaminata.",
     )
+
+
+def set_language(args, user_id, username):
+    del username
+    return _reply(success=True, language=queue.set_language(user_id, str(args.get("language") or "")))
+
+
+def add_comment(args, user_id, username):
+    del username
+    entry = queue.add_comment(user_id, str(args.get("submission_id") or ""), str(args.get("comment") or ""))
+    return _reply(success=True, submission={"id": entry["id"], "file": entry["originalName"], "notes": entry["notes"]})
 
 
 def my_submissions(args, user_id, username):
@@ -202,6 +218,7 @@ TOOLS = [
             "orcid": {"type": "string", "description": "Optional ORCID iD"},
             "lab": {"type": "string", "description": "Optional laboratory or research group"},
             "email": {"type": "string", "description": "Optional contact email"},
+            "language": {"type": "string", "enum": list(queue.LANGUAGES), "description": "Language for messages"},
         },
         ["first_name", "last_name", "affiliation", "role", "accept_terms"],
     ),
@@ -228,6 +245,25 @@ TOOLS = [
             "longitude": {"type": "number"},
         },
         ["file_path"],
+    ),
+    (
+        "masonry_set_language",
+        set_language,
+        "Set the language (it or en) used for the user's messages and review notifications.",
+        {"language": {"type": "string", "enum": list(queue.LANGUAGES)}},
+        ["language"],
+    ),
+    (
+        "masonry_add_comment",
+        add_comment,
+        "Add the user's comment to a photo they already sent and that is still under review: why they "
+        "sent it, what it shows (e.g. 'evident decay of the mortar joints'). Without submission_id the "
+        "comment goes to their most recent photo.",
+        {
+            "submission_id": {"type": "string", "description": "Id returned by masonry_submit_photo; optional"},
+            "comment": _STRING,
+        },
+        ["comment"],
     ),
     (
         "masonry_my_submissions",
@@ -257,25 +293,74 @@ TOOLS = [
 # sconosciuto non tiene occupata la CPU. L'hook gira solo per questo profilo.
 
 WELCOME_LOCKED = (
-    "👋 Questo bot raccoglie foto di murature storiche per The Masonry Archive.\n"
-    "Per iniziare scrivi qui il codice d'invito che ti e' stato dato.\n\n"
-    "This bot collects photos of historic masonry for The Masonry Archive.\n"
-    "To start, type the invitation code you were given."
+    "🧱 The Masonry Archive\n\n"
+    "🇮🇹 Questo bot raccoglie foto di murature storiche per un archivio di ricerca aperto.\n"
+    "• Hai un codice d'invito? Scrivilo qui.\n"
+    "• Non ce l'hai? Scrivi in un messaggio chi sei (nome, ente, ruolo) e perche' vuoi contribuire: "
+    "la richiesta arriva all'amministratore.\n\n"
+    "🇬🇧 This bot collects photos of historic masonry for an open research archive.\n"
+    "• Have an invitation code? Type it here.\n"
+    "• No code? Write in one message who you are (name, institution, role) and why you'd like to "
+    "contribute: your request goes to the administrator."
 )
+CHOOSE_LANGUAGE = (
+    "🧱 Benvenuto in The Masonry Archive! · Welcome to The Masonry Archive!\n\n"
+    "In che lingua preferisci i messaggi? Scrivi IT o EN.\n"
+    "Which language would you like? Type IT or EN."
+)
+REQUEST_SENT = (
+    "📨 Richiesta inviata all'amministratore: riceverai qui la risposta.\n"
+    "📨 Request sent to the administrator: you'll get the answer here."
+)
+REQUEST_PENDING = (
+    "⏳ La tua richiesta e' gia' all'esame dell'amministratore.\n"
+    "⏳ Your request is already with the administrator."
+)
+# Un messaggio piu' corto non e' una presentazione ("ciao", "?"): si ripete il benvenuto.
+MIN_REQUEST_LENGTH = 20
+
+
+def _notify_admin(entry) -> None:
+    """Avvisa l'amministratore dal suo bot, senza aspettare: l'hook deve restare rapido."""
+    # Posizione nella lista di /richieste: /ammettiN e' cliccabile, "/ammetti <id>" no.
+    pending = sorted((r for r in queue.load_requests() if r["status"] == "pending"), key=lambda r: r["createdAt"])
+    n = next((i for i, r in enumerate(pending, 1) if r["id"] == entry["id"]), 0)
+    admit = f"/ammetti{n}" if 0 < n <= 10 else f"/ammetti {entry['id']}"
+    text = (f"🙋 Richiesta d'invito da @{entry['telegramUsername'] or '—'}:\n"
+            f"{entry['text']}\n\n{admit}  ·  /respingi {entry['id']} [motivo]")
+    subprocess.Popen(["hermes", "-p", ADMIN_PROFILE, "send", "-q", "--to", "telegram", text],
+                     stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, start_new_session=True)
 
 
 def gate(platform, source, text, **kwargs):
     del kwargs
-    user_id = str((source or {}).get("user_id") or "")
-    if platform != "telegram" or not user_id or queue.is_admitted(user_id):
+    source = source or {}
+    user_id = str(source.get("user_id") or "")
+    if platform != "telegram" or not user_id or source.get("chat_type") in ("group", "forum", "channel"):
         return None
+    text = text or ""
+
+    if queue.is_admitted(user_id):
+        # Prima scelta di lingua: si registra e il messaggio prosegue al modello,
+        # che saluta e avvia la registrazione nella lingua scelta.
+        if not queue.get_language(user_id) and queue.language_choice(text):
+            queue.set_language(user_id, queue.language_choice(text))
+        return None
+
     code = queue.invite_code()
-    if not code:
-        return None  # nessun codice impostato: bot aperto a tutti
-    if code in "".join((text or "").split()).upper():
+    if not code or code in "".join(text.split()).upper():
         queue.admit(user_id)
-        return None  # il messaggio prosegue al modello, che avvia la registrazione
-    return {"action": "handled", "reply": WELCOME_LOCKED}
+        return {"action": "handled", "reply": CHOOSE_LANGUAGE}
+
+    if not queue.was_welcomed(user_id) or len(text.strip()) < MIN_REQUEST_LENGTH:
+        queue.mark_welcomed(user_id)
+        return {"action": "handled", "reply": WELCOME_LOCKED}
+    try:
+        entry = queue.request_invite(user_id, str(source.get("user_name") or ""), text)
+    except queue.IntakeError:
+        return {"action": "handled", "reply": REQUEST_PENDING}
+    _notify_admin(entry)
+    return {"action": "handled", "reply": REQUEST_SENT}
 
 
 def register(ctx) -> None:

@@ -5,7 +5,7 @@ Due profili [Hermes](https://github.com/NousResearch/hermes-agent), serviti dall
 | Profilo | Chi lo usa | Strumenti |
 |---|---|---|
 | `masonry-contrib` | studenti e ricercatori, ammessi con un codice d'invito | solo i cinque del plugin `masonry_contrib` |
-| `masonry-admin` | solo l'amministratore | terminale nel repository, skill `masonry-admin` |
+| `masonry-admin` | solo l'amministratore | solo il terminale nel repository; le procedure sono nel suo SOUL |
 
 ## Il percorso di una foto
 
@@ -40,7 +40,7 @@ hermes gateway restart                     # il gateway attivo inizia a servire 
 ollama pull qwen3.5:9b && bash hermes/install.sh   # crea il cron delle proposte notturne
 ```
 
-SOUL, skill e plugin sono link simbolici a questa cartella: dopo un `git pull` basta `hermes gateway restart`.
+SOUL e plugin sono link simbolici a questa cartella: dopo un `git pull` basta `hermes gateway restart`.
 
 `intake_queue.py apply` usa la pipeline di ingest, che richiede ImageMagick 7 (comando `magick`).
 
@@ -53,3 +53,12 @@ sudo systemctl daemon-reload && sudo systemctl restart ollama
 ```
 
 `propose_tags.py` usa invece l'API nativa di Ollama e chiede solo 8k: di notte il 9B non alloca 64k che non gli servono.
+
+## Modelli su una workstation remota (facoltativo)
+
+Sul portatile che ospita il gateway i modelli sono lenti e il 9B esaurisce la memoria. I due profili possono usare l'Ollama di una workstation, raggiunto con un tunnel SSH (servizio utente `masonry-ollama-tunnel`, porta locale 11435). La porta di Ollama non viene mai esposta in rete.
+
+- Lato workstation: chiave SSH dedicata con `command="echo solo-tunnel",restrict,port-forwarding,permitopen="127.0.0.1:11434"` (niente comandi, niente altre porte), accesso con password disattivato, porta 22 aperta solo all'IP del portatile.
+- Il contesto si incorpora in una variante del modello invece che nelle variabili d'ambiente del server: `curl localhost:11435/api/create -d '{"model":"qwen35-4b-hermes","from":"qwen3.5:4b","parameters":{"num_ctx":65536}}'`.
+- Nei profili: `providers.ollama-server` con `api: http://127.0.0.1:11435/v1`, e `model.provider`/`model.base_url`/`model.default` che lo usano. Il bot dei contributori ha l'Ollama locale come riserva (`fallback_providers`); il bot admin no, perche' col 4B locale le sue risposte non arriverebbero in tempo.
+- Proposte notturne: `MASONRY_OLLAMA_HOST=http://127.0.0.1:11435 MASONRY_PROPOSALS_LIMIT=100 bash hermes/install.sh`.
