@@ -1,1 +1,494 @@
-[]
+[
+  {
+    "recordId": "unlocated-cc948b",
+    "author": "Hermes · qwen3.5:9b",
+    "rationale": "The image clearly shows a wall constructed with rectangular clay bricks laid in a running bond pattern with visible signs of weathering and horizontal cracking. (confidence 0.95)",
+    "submittedAt": "2026-10-15T13:59:02+00:00",
+    "status": "pending",
+    "id": "ai-unlocated-cc948b-title",
+    "kind": "text",
+    "field": "title",
+    "value": "Weathered brick wall with horizontal cracking"
+  },
+  {
+    "recordId": "unlocated-cc948b",
+    "author": "Hermes · qwen3.5:9b",
+    "rationale": "The image clearly shows a wall constructed with rectangular clay bricks laid in a running bond pattern with visible signs of weathering and horizontal cracking. (confidence 0.95)",
+    "submittedAt": "2026-10-15T13:59:02+00:00",
+    "status": "pending",
+    "id": "ai-unlocated-cc948b-element",
+    "kind": "text",
+    "field": "element",
+    "value": "Wall"
+  },
+  {
+    "recordId": "unlocated-cc948b",
+    "author": "Hermes · qwen3.5:9b",
+    "rationale": "The image clearly shows a wall constructed with rectangular clay bricks laid in a running bond pattern with visible signs of weathering and horizontal cracking. (confidence 0.95)",
+    "submittedAt": "2026-10-15T13:59:02+00:00",
+    "status": "pending",
+    "id": "ai-unlocated-cc948b-technique",
+    "kind": "text",
+    "field": "technique",
+    "value": "Brick masonry"
+  },
+  {
+    "recordId": "unlocated-cc948b",
+    "author": "Hermes · qwen3.5:9b",
+    "rationale": "The image clearly shows a wall constructed with rectangular clay bricks laid in a running bond pattern with visible signs of weathering and horizontal cracking. (confidence 0.95)",
+    "submittedAt": "2026-10-15T13:59:02+00:00",
+    "status": "pending",
+    "id": "ai-unlocated-cc948b-material",
+    "kind": "text",
+    "field": "material",
+    "value": "Clay brick and lime mortar"
+  },
+  {
+    "recordId": "unlocated-cc948b",
+    "author": "Hermes · qwen3.5:9b",
+    "rationale": "The image clearly shows a wall constructed with rectangular clay bricks laid in a running bond pattern with visible signs of weathering and horizontal cracking. (confidence 0.95)",
+    "submittedAt": "2026-10-15T13:59:02+00:00",
+    "status": "pending",
+    "id": "ai-unlocated-cc948b-tag-brickwork",
+    "kind": "tag",
+    "value": "brickwork"
+  },
+  {
+    "recordId": "unlocated-cc948b",
+    "author": "Hermes · qwen3.5:9b",
+    "rationale": "The image clearly shows a wall constructed with rectangular clay bricks laid in a running bond pattern with visible signs of weathering and horizontal cracking. (confidence 0.95)",
+    "submittedAt": "2026-10-15T13:59:02+00:00",
+    "status": "pending",
+    "id": "ai-unlocated-cc948b-tag-degradation",
+    "kind": "tag",
+    "value": "degradation"
+  },
+  {
+    "recordId": "unlocated-cc948b",
+    "author": "Hermes · qwen3.5:9b",
+    "rationale": "The image clearly shows a wall constructed with rectangular clay bricks laid in a running bond pattern with visible signs of weathering and horizontal cracking. (confidence 0.95)",
+    "submittedAt": "2026-10-15T13:59:02+00:00",
+    "status": "pending",
+    "id": "ai-unlocated-cc948b-tag-crack-pattern",
+    "kind": "tag",
+    "value": "crack pattern"
+  },
+  {
+    "recordId": "unlocated-cc948b",
+    "author": "Hermes · qwen3.5:9b",
+    "rationale": "The image clearly shows a wall constructed with rectangular clay bricks laid in a running bond pattern with visible signs of weathering and horizontal cracking. (confidence 0.95)",
+    "submittedAt": "2026-10-15T13:59:02+00:00",
+    "status": "pending",
+    "id": "ai-unlocated-cc948b-tag-weathering",
+    "kind": "tag",
+    "value": "weathering"
+  },
+  {
+    "recordId": "unlocated-cc948b",
+    "author": "Hermes · qwen3.5:9b",
+    "rationale": "The image clearly shows a wall constructed with rectangular clay bricks laid in a running bond pattern with visible signs of weathering and horizontal cracking. (confidence 0.95)",
+    "submittedAt": "2026-10-15T13:59:02+00:00",
+    "status": "pending",
+    "id": "ai-unlocated-cc948b-tag-running-bond",
+    "kind": "tag",
+    "value": "running bond"
+  },
+  {
+    "recordId": "city-of-edinburgh-e37a4e",
+    "author": "Hermes · qwen3.5:9b",
+    "rationale": "The image shows a tall stone structure with precisely cut blocks (ashlar) arranged in regular courses and pointed arches characteristic of Gothic Revival architecture, illuminated against a night sky. (confidence 0.85)",
+    "submittedAt": "2026-10-15T13:59:28+00:00",
+    "status": "pending",
+    "id": "ai-city-of-edinburgh-e37a4e-title",
+    "kind": "text",
+    "field": "title",
+    "value": "Illuminated Gothic stone tower with pointed arches"
+  },
+  {
+    "recordId": "city-of-edinburgh-e37a4e",
+    "author": "Hermes · qwen3.5:9b",
+    "rationale": "The image shows a tall stone structure with precisely cut blocks (ashlar) arranged in regular courses and pointed arches characteristic of Gothic Revival architecture, illuminated against a night sky. (confidence 0.85)",
+    "submittedAt": "2026-10-15T13:59:28+00:00",
+    "status": "pending",
+    "id": "ai-city-of-edinburgh-e37a4e-element",
+    "kind": "text",
+    "field": "element",
+    "value": "Tower"
+  },
+  {
+    "recordId": "city-of-edinburgh-e37a4e",
+    "author": "Hermes · qwen3.5:9b",
+    "rationale": "The image shows a tall stone structure with precisely cut blocks (ashlar) arranged in regular courses and pointed arches characteristic of Gothic Revival architecture, illuminated against a night sky. (confidence 0.85)",
+    "submittedAt": "2026-10-15T13:59:28+00:00",
+    "status": "pending",
+    "id": "ai-city-of-edinburgh-e37a4e-technique",
+    "kind": "text",
+    "field": "technique",
+    "value": "Ashlar stone masonry"
+  },
+  {
+    "recordId": "city-of-edinburgh-e37a4e",
+    "author": "Hermes · qwen3.5:9b",
+    "rationale": "The image shows a tall stone structure with precisely cut blocks (ashlar) arranged in regular courses and pointed arches characteristic of Gothic Revival architecture, illuminated against a night sky. (confidence 0.85)",
+    "submittedAt": "2026-10-15T13:59:28+00:00",
+    "status": "pending",
+    "id": "ai-city-of-edinburgh-e37a4e-material",
+    "kind": "text",
+    "field": "material",
+    "value": "Sandstone and lime mortar"
+  },
+  {
+    "recordId": "city-of-edinburgh-e37a4e",
+    "author": "Hermes · qwen3.5:9b",
+    "rationale": "The image shows a tall stone structure with precisely cut blocks (ashlar) arranged in regular courses and pointed arches characteristic of Gothic Revival architecture, illuminated against a night sky. (confidence 0.85)",
+    "submittedAt": "2026-10-15T13:59:28+00:00",
+    "status": "pending",
+    "id": "ai-city-of-edinburgh-e37a4e-period",
+    "kind": "text",
+    "field": "period",
+    "value": "19th century"
+  },
+  {
+    "recordId": "city-of-edinburgh-e37a4e",
+    "author": "Hermes · qwen3.5:9b",
+    "rationale": "The image shows a tall stone structure with precisely cut blocks (ashlar) arranged in regular courses and pointed arches characteristic of Gothic Revival architecture, illuminated against a night sky. (confidence 0.85)",
+    "submittedAt": "2026-10-15T13:59:28+00:00",
+    "status": "pending",
+    "id": "ai-city-of-edinburgh-e37a4e-tag-gothic",
+    "kind": "tag",
+    "value": "gothic"
+  },
+  {
+    "recordId": "city-of-edinburgh-e37a4e",
+    "author": "Hermes · qwen3.5:9b",
+    "rationale": "The image shows a tall stone structure with precisely cut blocks (ashlar) arranged in regular courses and pointed arches characteristic of Gothic Revival architecture, illuminated against a night sky. (confidence 0.85)",
+    "submittedAt": "2026-10-15T13:59:28+00:00",
+    "status": "pending",
+    "id": "ai-city-of-edinburgh-e37a4e-tag-ashlar",
+    "kind": "tag",
+    "value": "ashlar"
+  },
+  {
+    "recordId": "city-of-edinburgh-e37a4e",
+    "author": "Hermes · qwen3.5:9b",
+    "rationale": "The image shows a tall stone structure with precisely cut blocks (ashlar) arranged in regular courses and pointed arches characteristic of Gothic Revival architecture, illuminated against a night sky. (confidence 0.85)",
+    "submittedAt": "2026-10-15T13:59:28+00:00",
+    "status": "pending",
+    "id": "ai-city-of-edinburgh-e37a4e-tag-arch",
+    "kind": "tag",
+    "value": "arch"
+  },
+  {
+    "recordId": "city-of-edinburgh-e37a4e",
+    "author": "Hermes · qwen3.5:9b",
+    "rationale": "The image shows a tall stone structure with precisely cut blocks (ashlar) arranged in regular courses and pointed arches characteristic of Gothic Revival architecture, illuminated against a night sky. (confidence 0.85)",
+    "submittedAt": "2026-10-15T13:59:28+00:00",
+    "status": "pending",
+    "id": "ai-city-of-edinburgh-e37a4e-tag-pinnacle",
+    "kind": "tag",
+    "value": "pinnacle"
+  },
+  {
+    "recordId": "city-of-edinburgh-e37a4e",
+    "author": "Hermes · qwen3.5:9b",
+    "rationale": "The image shows a tall stone structure with precisely cut blocks (ashlar) arranged in regular courses and pointed arches characteristic of Gothic Revival architecture, illuminated against a night sky. (confidence 0.85)",
+    "submittedAt": "2026-10-15T13:59:28+00:00",
+    "status": "pending",
+    "id": "ai-city-of-edinburgh-e37a4e-tag-stonework",
+    "kind": "tag",
+    "value": "stonework"
+  },
+  {
+    "recordId": "bibbona-8ecf92",
+    "author": "Hermes · qwen3.5:9b",
+    "rationale": "The image displays a wall constructed from irregularly shaped stones and bricks laid in rough courses with visible lime mortar joints. (confidence 0.85)",
+    "submittedAt": "2026-10-15T13:59:52+00:00",
+    "status": "pending",
+    "id": "ai-bibbona-8ecf92-title",
+    "kind": "text",
+    "field": "title",
+    "value": "Textured stone wall with mixed coursing"
+  },
+  {
+    "recordId": "bibbona-8ecf92",
+    "author": "Hermes · qwen3.5:9b",
+    "rationale": "The image displays a wall constructed from irregularly shaped stones and bricks laid in rough courses with visible lime mortar joints. (confidence 0.85)",
+    "submittedAt": "2026-10-15T13:59:52+00:00",
+    "status": "pending",
+    "id": "ai-bibbona-8ecf92-element",
+    "kind": "text",
+    "field": "element",
+    "value": "Wall"
+  },
+  {
+    "recordId": "bibbona-8ecf92",
+    "author": "Hermes · qwen3.5:9b",
+    "rationale": "The image displays a wall constructed from irregularly shaped stones and bricks laid in rough courses with visible lime mortar joints. (confidence 0.85)",
+    "submittedAt": "2026-10-15T13:59:52+00:00",
+    "status": "pending",
+    "id": "ai-bibbona-8ecf92-technique",
+    "kind": "text",
+    "field": "technique",
+    "value": "Roughly coursed rubble stone masonry"
+  },
+  {
+    "recordId": "bibbona-8ecf92",
+    "author": "Hermes · qwen3.5:9b",
+    "rationale": "The image displays a wall constructed from irregularly shaped stones and bricks laid in rough courses with visible lime mortar joints. (confidence 0.85)",
+    "submittedAt": "2026-10-15T13:59:52+00:00",
+    "status": "pending",
+    "id": "ai-bibbona-8ecf92-material",
+    "kind": "text",
+    "field": "material",
+    "value": "Mixed stone and brick with lime mortar"
+  },
+  {
+    "recordId": "bibbona-8ecf92",
+    "author": "Hermes · qwen3.5:9b",
+    "rationale": "The image displays a wall constructed from irregularly shaped stones and bricks laid in rough courses with visible lime mortar joints. (confidence 0.85)",
+    "submittedAt": "2026-10-15T13:59:52+00:00",
+    "status": "pending",
+    "id": "ai-bibbona-8ecf92-tag-stonework",
+    "kind": "tag",
+    "value": "stonework"
+  },
+  {
+    "recordId": "bibbona-8ecf92",
+    "author": "Hermes · qwen3.5:9b",
+    "rationale": "The image displays a wall constructed from irregularly shaped stones and bricks laid in rough courses with visible lime mortar joints. (confidence 0.85)",
+    "submittedAt": "2026-10-15T13:59:52+00:00",
+    "status": "pending",
+    "id": "ai-bibbona-8ecf92-tag-texture",
+    "kind": "tag",
+    "value": "texture"
+  },
+  {
+    "recordId": "bibbona-8ecf92",
+    "author": "Hermes · qwen3.5:9b",
+    "rationale": "The image displays a wall constructed from irregularly shaped stones and bricks laid in rough courses with visible lime mortar joints. (confidence 0.85)",
+    "submittedAt": "2026-10-15T13:59:52+00:00",
+    "status": "pending",
+    "id": "ai-bibbona-8ecf92-tag-weathering",
+    "kind": "tag",
+    "value": "weathering"
+  },
+  {
+    "recordId": "bibbona-8ecf92",
+    "author": "Hermes · qwen3.5:9b",
+    "rationale": "The image displays a wall constructed from irregularly shaped stones and bricks laid in rough courses with visible lime mortar joints. (confidence 0.85)",
+    "submittedAt": "2026-10-15T13:59:52+00:00",
+    "status": "pending",
+    "id": "ai-bibbona-8ecf92-tag-irregular-masonry",
+    "kind": "tag",
+    "value": "irregular masonry"
+  },
+  {
+    "recordId": "bibbona-8ecf92",
+    "author": "Hermes · qwen3.5:9b",
+    "rationale": "The image displays a wall constructed from irregularly shaped stones and bricks laid in rough courses with visible lime mortar joints. (confidence 0.85)",
+    "submittedAt": "2026-10-15T13:59:52+00:00",
+    "status": "pending",
+    "id": "ai-bibbona-8ecf92-tag-lime-mortar",
+    "kind": "tag",
+    "value": "lime mortar"
+  },
+  {
+    "recordId": "machupicchu-4f165c",
+    "author": "Hermes · qwen3.5:9b",
+    "rationale": "The image shows precisely cut and fitted granite blocks with minimal visible mortar, characteristic of Inca ashlar masonry from the 15th century. (confidence 0.90)",
+    "submittedAt": "2026-10-15T14:00:17+00:00",
+    "status": "pending",
+    "id": "ai-machupicchu-4f165c-title",
+    "kind": "text",
+    "field": "title",
+    "value": "Close-up of finely fitted granite ashlar masonry"
+  },
+  {
+    "recordId": "machupicchu-4f165c",
+    "author": "Hermes · qwen3.5:9b",
+    "rationale": "The image shows precisely cut and fitted granite blocks with minimal visible mortar, characteristic of Inca ashlar masonry from the 15th century. (confidence 0.90)",
+    "submittedAt": "2026-10-15T14:00:17+00:00",
+    "status": "pending",
+    "id": "ai-machupicchu-4f165c-element",
+    "kind": "text",
+    "field": "element",
+    "value": "Wall"
+  },
+  {
+    "recordId": "machupicchu-4f165c",
+    "author": "Hermes · qwen3.5:9b",
+    "rationale": "The image shows precisely cut and fitted granite blocks with minimal visible mortar, characteristic of Inca ashlar masonry from the 15th century. (confidence 0.90)",
+    "submittedAt": "2026-10-15T14:00:17+00:00",
+    "status": "pending",
+    "id": "ai-machupicchu-4f165c-technique",
+    "kind": "text",
+    "field": "technique",
+    "value": "Ashlar stone masonry"
+  },
+  {
+    "recordId": "machupicchu-4f165c",
+    "author": "Hermes · qwen3.5:9b",
+    "rationale": "The image shows precisely cut and fitted granite blocks with minimal visible mortar, characteristic of Inca ashlar masonry from the 15th century. (confidence 0.90)",
+    "submittedAt": "2026-10-15T14:00:17+00:00",
+    "status": "pending",
+    "id": "ai-machupicchu-4f165c-material",
+    "kind": "text",
+    "field": "material",
+    "value": "Granite and lime mortar"
+  },
+  {
+    "recordId": "machupicchu-4f165c",
+    "author": "Hermes · qwen3.5:9b",
+    "rationale": "The image shows precisely cut and fitted granite blocks with minimal visible mortar, characteristic of Inca ashlar masonry from the 15th century. (confidence 0.90)",
+    "submittedAt": "2026-10-15T14:00:17+00:00",
+    "status": "pending",
+    "id": "ai-machupicchu-4f165c-period",
+    "kind": "text",
+    "field": "period",
+    "value": "15th century"
+  },
+  {
+    "recordId": "machupicchu-4f165c",
+    "author": "Hermes · qwen3.5:9b",
+    "rationale": "The image shows precisely cut and fitted granite blocks with minimal visible mortar, characteristic of Inca ashlar masonry from the 15th century. (confidence 0.90)",
+    "submittedAt": "2026-10-15T14:00:17+00:00",
+    "status": "pending",
+    "id": "ai-machupicchu-4f165c-tag-ashlar",
+    "kind": "tag",
+    "value": "ashlar"
+  },
+  {
+    "recordId": "machupicchu-4f165c",
+    "author": "Hermes · qwen3.5:9b",
+    "rationale": "The image shows precisely cut and fitted granite blocks with minimal visible mortar, characteristic of Inca ashlar masonry from the 15th century. (confidence 0.90)",
+    "submittedAt": "2026-10-15T14:00:17+00:00",
+    "status": "pending",
+    "id": "ai-machupicchu-4f165c-tag-granite",
+    "kind": "tag",
+    "value": "granite"
+  },
+  {
+    "recordId": "machupicchu-4f165c",
+    "author": "Hermes · qwen3.5:9b",
+    "rationale": "The image shows precisely cut and fitted granite blocks with minimal visible mortar, characteristic of Inca ashlar masonry from the 15th century. (confidence 0.90)",
+    "submittedAt": "2026-10-15T14:00:17+00:00",
+    "status": "pending",
+    "id": "ai-machupicchu-4f165c-tag-stonework",
+    "kind": "tag",
+    "value": "stonework"
+  },
+  {
+    "recordId": "machupicchu-4f165c",
+    "author": "Hermes · qwen3.5:9b",
+    "rationale": "The image shows precisely cut and fitted granite blocks with minimal visible mortar, characteristic of Inca ashlar masonry from the 15th century. (confidence 0.90)",
+    "submittedAt": "2026-10-15T14:00:17+00:00",
+    "status": "pending",
+    "id": "ai-machupicchu-4f165c-tag-texture",
+    "kind": "tag",
+    "value": "texture"
+  },
+  {
+    "recordId": "machupicchu-4f165c",
+    "author": "Hermes · qwen3.5:9b",
+    "rationale": "The image shows precisely cut and fitted granite blocks with minimal visible mortar, characteristic of Inca ashlar masonry from the 15th century. (confidence 0.90)",
+    "submittedAt": "2026-10-15T14:00:17+00:00",
+    "status": "pending",
+    "id": "ai-machupicchu-4f165c-tag-weathering",
+    "kind": "tag",
+    "value": "weathering"
+  },
+  {
+    "recordId": "venice-02456d",
+    "author": "Hermes · qwen3.5:9b",
+    "rationale": "The image shows a wall constructed with both brick and stone blocks in an irregular pattern, separated by a distinct horizontal band of lighter-colored stone. (confidence 0.90)",
+    "submittedAt": "2026-10-15T14:00:42+00:00",
+    "status": "pending",
+    "id": "ai-venice-02456d-title",
+    "kind": "text",
+    "field": "title",
+    "value": "Brick and stone wall with horizontal band"
+  },
+  {
+    "recordId": "venice-02456d",
+    "author": "Hermes · qwen3.5:9b",
+    "rationale": "The image shows a wall constructed with both brick and stone blocks in an irregular pattern, separated by a distinct horizontal band of lighter-colored stone. (confidence 0.90)",
+    "submittedAt": "2026-10-15T14:00:42+00:00",
+    "status": "pending",
+    "id": "ai-venice-02456d-element",
+    "kind": "text",
+    "field": "element",
+    "value": "Wall"
+  },
+  {
+    "recordId": "venice-02456d",
+    "author": "Hermes · qwen3.5:9b",
+    "rationale": "The image shows a wall constructed with both brick and stone blocks in an irregular pattern, separated by a distinct horizontal band of lighter-colored stone. (confidence 0.90)",
+    "submittedAt": "2026-10-15T14:00:42+00:00",
+    "status": "pending",
+    "id": "ai-venice-02456d-technique",
+    "kind": "text",
+    "field": "technique",
+    "value": "Mixed stone and brick with lime mortar"
+  },
+  {
+    "recordId": "venice-02456d",
+    "author": "Hermes · qwen3.5:9b",
+    "rationale": "The image shows a wall constructed with both brick and stone blocks in an irregular pattern, separated by a distinct horizontal band of lighter-colored stone. (confidence 0.90)",
+    "submittedAt": "2026-10-15T14:00:42+00:00",
+    "status": "pending",
+    "id": "ai-venice-02456d-material",
+    "kind": "text",
+    "field": "material",
+    "value": "Mixed stone and brick with lime mortar"
+  },
+  {
+    "recordId": "venice-02456d",
+    "author": "Hermes · qwen3.5:9b",
+    "rationale": "The image shows a wall constructed with both brick and stone blocks in an irregular pattern, separated by a distinct horizontal band of lighter-colored stone. (confidence 0.90)",
+    "submittedAt": "2026-10-15T14:00:42+00:00",
+    "status": "pending",
+    "id": "ai-venice-02456d-tag-brickwork",
+    "kind": "tag",
+    "value": "brickwork"
+  },
+  {
+    "recordId": "venice-02456d",
+    "author": "Hermes · qwen3.5:9b",
+    "rationale": "The image shows a wall constructed with both brick and stone blocks in an irregular pattern, separated by a distinct horizontal band of lighter-colored stone. (confidence 0.90)",
+    "submittedAt": "2026-10-15T14:00:42+00:00",
+    "status": "pending",
+    "id": "ai-venice-02456d-tag-stonework",
+    "kind": "tag",
+    "value": "stonework"
+  },
+  {
+    "recordId": "venice-02456d",
+    "author": "Hermes · qwen3.5:9b",
+    "rationale": "The image shows a wall constructed with both brick and stone blocks in an irregular pattern, separated by a distinct horizontal band of lighter-colored stone. (confidence 0.90)",
+    "submittedAt": "2026-10-15T14:00:42+00:00",
+    "status": "pending",
+    "id": "ai-venice-02456d-tag-lime-mortar",
+    "kind": "tag",
+    "value": "lime mortar"
+  },
+  {
+    "recordId": "venice-02456d",
+    "author": "Hermes · qwen3.5:9b",
+    "rationale": "The image shows a wall constructed with both brick and stone blocks in an irregular pattern, separated by a distinct horizontal band of lighter-colored stone. (confidence 0.90)",
+    "submittedAt": "2026-10-15T14:00:42+00:00",
+    "status": "pending",
+    "id": "ai-venice-02456d-tag-weathering",
+    "kind": "tag",
+    "value": "weathering"
+  },
+  {
+    "recordId": "venice-02456d",
+    "author": "Hermes · qwen3.5:9b",
+    "rationale": "The image shows a wall constructed with both brick and stone blocks in an irregular pattern, separated by a distinct horizontal band of lighter-colored stone. (confidence 0.90)",
+    "submittedAt": "2026-10-15T14:00:42+00:00",
+    "status": "pending",
+    "id": "ai-venice-02456d-tag-irregular-masonry",
+    "kind": "tag",
+    "value": "irregular masonry"
+  }
+]
