@@ -507,7 +507,7 @@ function App() {
                 The quickest way to send photos is our Telegram bot. Every photo
                 is reviewed by hand before it becomes public.
               </p>
-              <div className="flex flex-wrap items-start gap-6">
+              <div className="flex flex-col items-start gap-4">
                 <a
                   className="block w-44 shrink-0 rounded-md border bg-white p-2"
                   href="https://t.me/the_masonry_archive_bot"
@@ -522,11 +522,11 @@ function App() {
                     width={160}
                   />
                 </a>
-                <div className="min-w-0 flex-1 text-sm">
+                <div className="min-w-0 w-full text-sm">
                   <p className="mb-2">
                     Scan the code or open{' '}
                     <a
-                      className="font-medium underline underline-offset-2"
+                      className="font-medium break-all underline underline-offset-2"
                       href="https://t.me/the_masonry_archive_bot"
                       rel="noreferrer"
                       target="_blank"
