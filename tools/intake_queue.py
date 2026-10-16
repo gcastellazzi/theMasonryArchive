@@ -413,6 +413,15 @@ def set_language(user_id: str, language: str) -> str:
     return language
 
 
+def get_registration(user_id: str) -> dict[str, Any] | None:
+    """Stato della registrazione guidata in corso (passo e risposte), se c'e'."""
+    return _preferences().get(contributor_key(user_id), {}).get("registration")
+
+
+def set_registration(user_id: str, state: dict[str, Any] | None) -> None:
+    _set_preference(user_id, registration=state)
+
+
 def was_welcomed(user_id: str) -> bool:
     return bool(_preferences().get(contributor_key(user_id), {}).get("welcomedAt"))
 

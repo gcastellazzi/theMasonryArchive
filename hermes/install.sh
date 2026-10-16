@@ -57,6 +57,11 @@ c memory.nudge_interval 0
 # Ollama serve il contesto impostato con OLLAMA_CONTEXT_LENGTH (vedi README): Hermes
 # deve conoscerlo per comprimere in tempo, invece di fidarsi dei 262k del modello.
 c model.context_length 65536
+# Niente ragionamento: per un flusso guidato non serve, e con qwen3.5 porta un turno
+# da ~7 a ~60 secondi.
+c agent.reasoning_effort low
+# `config set` scrive 'none' come YAML null (= default, ragionamento attivo): va scritto a mano.
+sed -i -E "s/^(\s*reasoning_effort:).*/\1 'none'/" "$CONTRIB/config.yaml"
 # Chi non e' autorizzato riceve un codice di abbinamento da girare all'amministratore.
 c unauthorized_dm_behavior pair
 

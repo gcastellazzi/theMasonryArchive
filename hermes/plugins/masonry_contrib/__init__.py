@@ -320,6 +320,118 @@ REQUEST_PENDING = (
 MIN_REQUEST_LENGTH = 20
 
 
+# --------------------------------------------------------------------------
+# Registrazione guidata
+#
+# Una serie fissa di domande non ha bisogno del modello: il portiere le pone e
+# raccoglie le risposte con testi fissi, all'istante. Il modello entra in gioco
+# solo da registrati, per le foto e le domande libere. ORCID, laboratorio ed
+# email restano facoltativi: si aggiungono dopo, chiedendolo al bot.
+
+STEPS = ("firstName", "lastName", "affiliation", "role", "terms")
+ROLE_WORDS = {
+    "Student": {"1", "student", "studente", "studentessa"},
+    "PhD candidate": {"2", "phd", "phd candidate", "dottorando", "dottoranda", "dottorato"},
+    "Researcher": {"3", "researcher", "ricercatore", "ricercatrice", "docente", "professore", "professoressa"},
+    "Professional": {"4", "professional", "professionista", "ingegnere", "architetto", "tecnico"},
+}
+YES = {"si", "sì", "yes", "y", "s", "ok", "okay", "accetto", "accetta", "i agree", "agree", "va bene", "certo", "d'accordo"}
+NO = {"no", "n", "non accetto", "rifiuto", "decline"}
+
+REGISTRATION = {
+    "it": {
+        "intro": "Perfetto, ti scrivo in italiano. Bastano cinque domande per registrarti.",
+        "firstName": "1/5 · Il tuo nome?",
+        "lastName": "2/5 · Il tuo cognome?",
+        "affiliation": "3/5 · La tua affiliazione (università, ente, studio)?",
+        "role": "4/5 · Il tuo ruolo? Rispondi con il numero:\n1 Studente · 2 Dottorando · 3 Ricercatore · 4 Professionista",
+        "terms": (
+            "5/5 · Inviando foto confermi di averle scattate tu e le concedi con licenza "
+            "Creative Commons Attribution 4.0 (CC BY 4.0): chiunque puo' riusarle citandoti.\n"
+            "Privacy: conserviamo nome, affiliazione, ruolo e il tuo ID Telegram solo per attribuirti le foto e "
+            "avvisarti dell'esito. Le foto restano private fino alla revisione; quelle non accettate vengono "
+            "eliminate. Puoi chiedere in ogni momento di cancellare i tuoi dati.\n\nAccetti? (si/no)"
+        ),
+        "invalid": "Non ho capito. ",
+        "declined": "Senza il consenso non posso registrarti. Se cambi idea, scrivi si.",
+        "photoFirst": "Prima completiamo la registrazione, poi potrai inviare le foto. ",
+        "done": (
+            "✅ Registrazione completata, {name}! Ora puoi inviare le foto.\n\n"
+            "📎 Inviale come FILE (graffetta → File), non come foto: Telegram cancella il GPS dalle foto "
+            "compresse. Nella didascalia scrivi pure perche' la carichi (es. «evidente stato di degrado»).\n"
+            "ORCID, laboratorio o email si possono aggiungere quando vuoi: chiedimelo."
+        ),
+    },
+    "en": {
+        "intro": "Great, I'll write to you in English. Five questions and you're registered.",
+        "firstName": "1/5 · Your first name?",
+        "lastName": "2/5 · Your last name?",
+        "affiliation": "3/5 · Your affiliation (university, institution, firm)?",
+        "role": "4/5 · Your role? Reply with the number:\n1 Student · 2 PhD candidate · 3 Researcher · 4 Professional",
+        "terms": (
+            "5/5 · By sending photos you confirm that you took them yourself and you license them under "
+            "Creative Commons Attribution 4.0 (CC BY 4.0): anyone may reuse them, crediting you.\n"
+            "Privacy: we keep your name, affiliation, role and Telegram ID only to credit your photos and tell "
+            "you the outcome. Photos stay private until reviewed; photos that aren't accepted are deleted. You "
+            "can ask to delete your data at any time.\n\nDo you agree? (yes/no)"
+        ),
+        "invalid": "Sorry, I didn't get that. ",
+        "declined": "I can't register you without your consent. If you change your mind, type yes.",
+        "photoFirst": "Let's finish the registration first, then you can send photos. ",
+        "done": (
+            "✅ You're registered, {name}! You can send photos now.\n\n"
+            "📎 Send them as FILES (paperclip → File), not as photos: Telegram strips the GPS from compressed "
+            "photos. Use the caption to say why you're sending it (e.g. \"evident decay\").\n"
+            "You can add ORCID, lab or email whenever you like: just ask me."
+        ),
+    },
+}
+
+
+def _question(language: str, step: int) -> str:
+    return REGISTRATION[language][STEPS[step]]
+
+
+def _registration_step(user_id: str, username: str, language: str, text: str):
+    words = REGISTRATION[language]
+    state = queue.get_registration(user_id)
+    if state is None:
+        # Registrazione mai iniziata (es. ammesso prima di questo flusso): il messaggio
+        # non e' una risposta, quindi si parte dalla prima domanda.
+        queue.set_registration(user_id, {"step": 0, "data": {}})
+        return {"action": "handled", "reply": words["intro"] + "\n\n" + _question(language, 0)}
+    step, data = int(state.get("step", 0)), dict(state.get("data") or {})
+    answer = " ".join(text.split())
+    if not answer:  # una foto o un allegato senza testo
+        return {"action": "handled", "reply": words["photoFirst"] + _question(language, step)}
+
+    field = STEPS[step]
+    if field in ("firstName", "lastName", "affiliation"):
+        if len(answer) > (160 if field == "affiliation" else 80) or answer.startswith("/"):
+            return {"action": "handled", "reply": words["invalid"] + _question(language, step)}
+        data[field] = answer
+    elif field == "role":
+        role = next((r for r, options in ROLE_WORDS.items() if answer.lower().strip(".") in options), "")
+        if not role:
+            return {"action": "handled", "reply": words["invalid"] + _question(language, step)}
+        data["role"] = role
+    else:  # terms
+        reply = answer.lower().strip(".!")
+        if reply in NO:
+            return {"action": "handled", "reply": words["declined"]}
+        if reply not in YES:
+            return {"action": "handled", "reply": words["invalid"] + _question(language, step)}
+        try:
+            queue.register_contributor(user_id, username, {**data, "language": language, "acceptTerms": True})
+        except queue.IntakeError as error:
+            return {"action": "handled", "reply": error.message}
+        queue.set_registration(user_id, None)
+        return {"action": "handled", "reply": words["done"].format(name=data.get("firstName", ""))}
+
+    queue.set_registration(user_id, {"step": step + 1, "data": data})
+    return {"action": "handled", "reply": _question(language, step + 1)}
+
+
 def _notify_admin(entry) -> None:
     """Avvisa l'amministratore dal suo bot, senza aspettare: l'hook deve restare rapido."""
     # Posizione nella lista di /richieste: /ammettiN e' cliccabile, "/ammetti <id>" no.
@@ -341,11 +453,17 @@ def gate(platform, source, text, **kwargs):
     text = text or ""
 
     if queue.is_admitted(user_id):
-        # Prima scelta di lingua: si registra e il messaggio prosegue al modello,
-        # che saluta e avvia la registrazione nella lingua scelta.
-        if not queue.get_language(user_id) and queue.language_choice(text):
-            queue.set_language(user_id, queue.language_choice(text))
-        return None
+        if queue.get_contributor(user_id):
+            return None  # registrato: foto e domande vanno al modello
+        language = queue.get_language(user_id)
+        if not language:
+            choice = queue.language_choice(text)
+            if not choice:
+                return {"action": "handled", "reply": CHOOSE_LANGUAGE}
+            queue.set_language(user_id, choice)
+            queue.set_registration(user_id, {"step": 0, "data": {}})
+            return {"action": "handled", "reply": REGISTRATION[choice]["intro"] + "\n\n" + _question(choice, 0)}
+        return _registration_step(user_id, str(source.get("user_name") or ""), language, text)
 
     code = queue.invite_code()
     if not code or code in "".join(text.split()).upper():
