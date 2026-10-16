@@ -49528,2670 +49528,2822 @@
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The image clearly shows a wall constructed with rectangular clay bricks laid in horizontal courses with visible lime mortar joints, exhibiting signs of weathering and age consistent with historic masonry from Ravenna. (confidence 0.95)",
     "submittedAt": "2026-10-15T17:00:24+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-ravenna-8e30c4-title",
     "kind": "text",
     "field": "title",
-    "value": "Ravenna brick wall with lime mortar joints"
+    "value": "Ravenna brick wall with lime mortar joints",
+    "reviewedAt": "2026-10-16T07:02:18.068Z"
   },
   {
     "recordId": "ravenna-8e30c4",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The image clearly shows a wall constructed with rectangular clay bricks laid in horizontal courses with visible lime mortar joints, exhibiting signs of weathering and age consistent with historic masonry from Ravenna. (confidence 0.95)",
     "submittedAt": "2026-10-15T17:00:24+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-ravenna-8e30c4-element",
     "kind": "text",
     "field": "element",
-    "value": "Wall"
+    "value": "Wall",
+    "reviewedAt": "2026-10-16T07:02:18.068Z"
   },
   {
     "recordId": "ravenna-8e30c4",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The image clearly shows a wall constructed with rectangular clay bricks laid in horizontal courses with visible lime mortar joints, exhibiting signs of weathering and age consistent with historic masonry from Ravenna. (confidence 0.95)",
     "submittedAt": "2026-10-15T17:00:24+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-ravenna-8e30c4-technique",
     "kind": "text",
     "field": "technique",
-    "value": "Brick masonry"
+    "value": "Brick masonry",
+    "reviewedAt": "2026-10-16T07:02:18.068Z"
   },
   {
     "recordId": "ravenna-8e30c4",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The image clearly shows a wall constructed with rectangular clay bricks laid in horizontal courses with visible lime mortar joints, exhibiting signs of weathering and age consistent with historic masonry from Ravenna. (confidence 0.95)",
     "submittedAt": "2026-10-15T17:00:24+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-ravenna-8e30c4-material",
     "kind": "text",
     "field": "material",
-    "value": "Clay brick and lime mortar"
+    "value": "Clay brick and lime mortar",
+    "reviewedAt": "2026-10-16T07:02:18.068Z"
   },
   {
     "recordId": "ravenna-8e30c4",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The image clearly shows a wall constructed with rectangular clay bricks laid in horizontal courses with visible lime mortar joints, exhibiting signs of weathering and age consistent with historic masonry from Ravenna. (confidence 0.95)",
     "submittedAt": "2026-10-15T17:00:24+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-ravenna-8e30c4-tag-brickwork",
     "kind": "tag",
-    "value": "brickwork"
+    "value": "brickwork",
+    "reviewedAt": "2026-10-16T07:02:18.068Z"
   },
   {
     "recordId": "ravenna-8e30c4",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The image clearly shows a wall constructed with rectangular clay bricks laid in horizontal courses with visible lime mortar joints, exhibiting signs of weathering and age consistent with historic masonry from Ravenna. (confidence 0.95)",
     "submittedAt": "2026-10-15T17:00:24+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-ravenna-8e30c4-tag-lime-mortar",
     "kind": "tag",
-    "value": "lime mortar"
+    "value": "lime mortar",
+    "reviewedAt": "2026-10-16T07:02:18.068Z"
   },
   {
     "recordId": "ravenna-8e30c4",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The image clearly shows a wall constructed with rectangular clay bricks laid in horizontal courses with visible lime mortar joints, exhibiting signs of weathering and age consistent with historic masonry from Ravenna. (confidence 0.95)",
     "submittedAt": "2026-10-15T17:00:24+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-ravenna-8e30c4-tag-weathering",
     "kind": "tag",
-    "value": "weathering"
+    "value": "weathering",
+    "reviewedAt": "2026-10-16T07:02:18.068Z"
   },
   {
     "recordId": "ravenna-8e30c4",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The image clearly shows a wall constructed with rectangular clay bricks laid in horizontal courses with visible lime mortar joints, exhibiting signs of weathering and age consistent with historic masonry from Ravenna. (confidence 0.95)",
     "submittedAt": "2026-10-15T17:00:24+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-ravenna-8e30c4-tag-texture",
     "kind": "tag",
-    "value": "texture"
+    "value": "texture",
+    "reviewedAt": "2026-10-16T07:02:18.068Z"
   },
   {
     "recordId": "ravenna-8e30c4",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The image clearly shows a wall constructed with rectangular clay bricks laid in horizontal courses with visible lime mortar joints, exhibiting signs of weathering and age consistent with historic masonry from Ravenna. (confidence 0.95)",
     "submittedAt": "2026-10-15T17:00:24+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-ravenna-8e30c4-tag-wall",
     "kind": "tag",
-    "value": "wall"
+    "value": "wall",
+    "reviewedAt": "2026-10-16T07:02:18.068Z"
   },
   {
     "recordId": "ravenna-2762dc",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The image shows a wall constructed with rectangular clay bricks laid in horizontal courses with visible lime mortar joints exhibiting signs of weathering and erosion. (confidence 0.95)",
     "submittedAt": "2026-10-15T17:00:31+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-ravenna-2762dc-title",
     "kind": "text",
     "field": "title",
-    "value": "Weathered brick wall with lime mortar"
+    "value": "Weathered brick wall with lime mortar",
+    "reviewedAt": "2026-10-16T07:02:03.181Z"
   },
   {
     "recordId": "ravenna-2762dc",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The image shows a wall constructed with rectangular clay bricks laid in horizontal courses with visible lime mortar joints exhibiting signs of weathering and erosion. (confidence 0.95)",
     "submittedAt": "2026-10-15T17:00:31+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-ravenna-2762dc-element",
     "kind": "text",
     "field": "element",
-    "value": "Wall"
+    "value": "Wall",
+    "reviewedAt": "2026-10-16T07:02:03.181Z"
   },
   {
     "recordId": "ravenna-2762dc",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The image shows a wall constructed with rectangular clay bricks laid in horizontal courses with visible lime mortar joints exhibiting signs of weathering and erosion. (confidence 0.95)",
     "submittedAt": "2026-10-15T17:00:31+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-ravenna-2762dc-technique",
     "kind": "text",
     "field": "technique",
-    "value": "Brick masonry"
+    "value": "Brick masonry",
+    "reviewedAt": "2026-10-16T07:02:03.181Z"
   },
   {
     "recordId": "ravenna-2762dc",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The image shows a wall constructed with rectangular clay bricks laid in horizontal courses with visible lime mortar joints exhibiting signs of weathering and erosion. (confidence 0.95)",
     "submittedAt": "2026-10-15T17:00:31+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-ravenna-2762dc-material",
     "kind": "text",
     "field": "material",
-    "value": "Clay brick and lime mortar"
+    "value": "Clay brick and lime mortar",
+    "reviewedAt": "2026-10-16T07:02:03.181Z"
   },
   {
     "recordId": "ravenna-2762dc",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The image shows a wall constructed with rectangular clay bricks laid in horizontal courses with visible lime mortar joints exhibiting signs of weathering and erosion. (confidence 0.95)",
     "submittedAt": "2026-10-15T17:00:31+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-ravenna-2762dc-tag-brickwork",
     "kind": "tag",
-    "value": "brickwork"
+    "value": "brickwork",
+    "reviewedAt": "2026-10-16T07:02:03.181Z"
   },
   {
     "recordId": "ravenna-2762dc",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The image shows a wall constructed with rectangular clay bricks laid in horizontal courses with visible lime mortar joints exhibiting signs of weathering and erosion. (confidence 0.95)",
     "submittedAt": "2026-10-15T17:00:31+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-ravenna-2762dc-tag-wall",
     "kind": "tag",
-    "value": "wall"
+    "value": "wall",
+    "reviewedAt": "2026-10-16T07:02:03.181Z"
   },
   {
     "recordId": "ravenna-2762dc",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The image shows a wall constructed with rectangular clay bricks laid in horizontal courses with visible lime mortar joints exhibiting signs of weathering and erosion. (confidence 0.95)",
     "submittedAt": "2026-10-15T17:00:31+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-ravenna-2762dc-tag-weathering",
     "kind": "tag",
-    "value": "weathering"
+    "value": "weathering",
+    "reviewedAt": "2026-10-16T07:02:03.181Z"
   },
   {
     "recordId": "ravenna-2762dc",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The image shows a wall constructed with rectangular clay bricks laid in horizontal courses with visible lime mortar joints exhibiting signs of weathering and erosion. (confidence 0.95)",
     "submittedAt": "2026-10-15T17:00:31+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-ravenna-2762dc-tag-lime-mortar",
     "kind": "tag",
-    "value": "lime mortar"
+    "value": "lime mortar",
+    "reviewedAt": "2026-10-16T07:02:03.181Z"
   },
   {
     "recordId": "ravenna-2762dc",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The image shows a wall constructed with rectangular clay bricks laid in horizontal courses with visible lime mortar joints exhibiting signs of weathering and erosion. (confidence 0.95)",
     "submittedAt": "2026-10-15T17:00:31+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-ravenna-2762dc-tag-erosion",
     "kind": "tag",
-    "value": "erosion"
+    "value": "erosion",
+    "reviewedAt": "2026-10-16T07:02:03.181Z"
   },
   {
     "recordId": "spello-5c0eda",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The image clearly shows an arch constructed from roughly coursed sandstone blocks with visible lime mortar joints, while the upper facade is made of brickwork; no definitive historical markers are present to determine the period. (confidence 0.85)",
     "submittedAt": "2026-10-15T17:00:39+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-spello-5c0eda-title",
     "kind": "text",
     "field": "title",
-    "value": "Rubble stone archway with upper brick facade"
+    "value": "Rubble stone archway with upper brick facade",
+    "reviewedAt": "2026-10-16T06:56:48.043Z"
   },
   {
     "recordId": "spello-5c0eda",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The image clearly shows an arch constructed from roughly coursed sandstone blocks with visible lime mortar joints, while the upper facade is made of brickwork; no definitive historical markers are present to determine the period. (confidence 0.85)",
     "submittedAt": "2026-10-15T17:00:39+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-spello-5c0eda-element",
     "kind": "text",
     "field": "element",
-    "value": "Arch"
+    "value": "Arch",
+    "reviewedAt": "2026-10-16T06:56:48.043Z"
   },
   {
     "recordId": "spello-5c0eda",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The image clearly shows an arch constructed from roughly coursed sandstone blocks with visible lime mortar joints, while the upper facade is made of brickwork; no definitive historical markers are present to determine the period. (confidence 0.85)",
     "submittedAt": "2026-10-15T17:00:39+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-spello-5c0eda-technique",
     "kind": "text",
     "field": "technique",
-    "value": "Roughly coursed rubble stone masonry"
+    "value": "Roughly coursed rubble stone masonry",
+    "reviewedAt": "2026-10-16T06:56:48.043Z"
   },
   {
     "recordId": "spello-5c0eda",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The image clearly shows an arch constructed from roughly coursed sandstone blocks with visible lime mortar joints, while the upper facade is made of brickwork; no definitive historical markers are present to determine the period. (confidence 0.85)",
     "submittedAt": "2026-10-15T17:00:39+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-spello-5c0eda-material",
     "kind": "text",
     "field": "material",
-    "value": "Sandstone and lime mortar"
+    "value": "Sandstone and lime mortar",
+    "reviewedAt": "2026-10-16T06:56:48.043Z"
   },
   {
     "recordId": "spello-5c0eda",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The image clearly shows an arch constructed from roughly coursed sandstone blocks with visible lime mortar joints, while the upper facade is made of brickwork; no definitive historical markers are present to determine the period. (confidence 0.85)",
     "submittedAt": "2026-10-15T17:00:39+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-spello-5c0eda-tag-arch",
     "kind": "tag",
-    "value": "arch"
+    "value": "arch",
+    "reviewedAt": "2026-10-16T06:56:48.043Z"
   },
   {
     "recordId": "spello-5c0eda",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The image clearly shows an arch constructed from roughly coursed sandstone blocks with visible lime mortar joints, while the upper facade is made of brickwork; no definitive historical markers are present to determine the period. (confidence 0.85)",
     "submittedAt": "2026-10-15T17:00:39+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-spello-5c0eda-tag-irregular-masonry",
     "kind": "tag",
-    "value": "irregular masonry"
+    "value": "irregular masonry",
+    "reviewedAt": "2026-10-16T06:56:48.043Z"
   },
   {
     "recordId": "spello-5c0eda",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The image clearly shows an arch constructed from roughly coursed sandstone blocks with visible lime mortar joints, while the upper facade is made of brickwork; no definitive historical markers are present to determine the period. (confidence 0.85)",
     "submittedAt": "2026-10-15T17:00:39+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-spello-5c0eda-tag-lime-mortar",
     "kind": "tag",
-    "value": "lime mortar"
+    "value": "lime mortar",
+    "reviewedAt": "2026-10-16T06:56:48.043Z"
   },
   {
     "recordId": "spello-5c0eda",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The image clearly shows an arch constructed from roughly coursed sandstone blocks with visible lime mortar joints, while the upper facade is made of brickwork; no definitive historical markers are present to determine the period. (confidence 0.85)",
     "submittedAt": "2026-10-15T17:00:39+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-spello-5c0eda-tag-stonework",
     "kind": "tag",
-    "value": "stonework"
+    "value": "stonework",
+    "reviewedAt": "2026-10-16T06:56:48.043Z"
   },
   {
     "recordId": "spello-5c0eda",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The image clearly shows an arch constructed from roughly coursed sandstone blocks with visible lime mortar joints, while the upper facade is made of brickwork; no definitive historical markers are present to determine the period. (confidence 0.85)",
     "submittedAt": "2026-10-15T17:00:39+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-spello-5c0eda-tag-texture",
     "kind": "tag",
-    "value": "texture"
+    "value": "texture",
+    "reviewedAt": "2026-10-16T06:56:48.043Z"
   },
   {
     "recordId": "spello-434e21",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The image shows a groin vault constructed from roughly squared stone blocks with visible lime mortar joints, typical of medieval Umbrian architecture. (confidence 0.85)",
     "submittedAt": "2026-10-15T17:00:47+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-spello-434e21-title",
     "kind": "text",
     "field": "title",
-    "value": "Stone groin vaulted arcade with bench"
+    "value": "Stone groin vaulted arcade with bench",
+    "reviewedAt": "2026-10-16T06:56:32.693Z"
   },
   {
     "recordId": "spello-434e21",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The image shows a groin vault constructed from roughly squared stone blocks with visible lime mortar joints, typical of medieval Umbrian architecture. (confidence 0.85)",
     "submittedAt": "2026-10-15T17:00:47+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-spello-434e21-element",
     "kind": "text",
     "field": "element",
-    "value": "Vault"
+    "value": "Vault",
+    "reviewedAt": "2026-10-16T06:56:32.693Z"
   },
   {
     "recordId": "spello-434e21",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The image shows a groin vault constructed from roughly squared stone blocks with visible lime mortar joints, typical of medieval Umbrian architecture. (confidence 0.85)",
     "submittedAt": "2026-10-15T17:00:47+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-spello-434e21-technique",
     "kind": "text",
     "field": "technique",
-    "value": "Squared rubble masonry"
+    "value": "Squared rubble masonry",
+    "reviewedAt": "2026-10-16T06:56:32.693Z"
   },
   {
     "recordId": "spello-434e21",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The image shows a groin vault constructed from roughly squared stone blocks with visible lime mortar joints, typical of medieval Umbrian architecture. (confidence 0.85)",
     "submittedAt": "2026-10-15T17:00:47+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-spello-434e21-material",
     "kind": "text",
     "field": "material",
-    "value": "Limestone and lime mortar"
+    "value": "Limestone and lime mortar",
+    "reviewedAt": "2026-10-16T06:56:32.693Z"
   },
   {
     "recordId": "spello-434e21",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The image shows a groin vault constructed from roughly squared stone blocks with visible lime mortar joints, typical of medieval Umbrian architecture. (confidence 0.85)",
     "submittedAt": "2026-10-15T17:00:47+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-spello-434e21-period",
     "kind": "text",
     "field": "period",
-    "value": "13th century"
+    "value": "13th century",
+    "reviewedAt": "2026-10-16T06:56:32.693Z"
   },
   {
     "recordId": "spello-434e21",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The image shows a groin vault constructed from roughly squared stone blocks with visible lime mortar joints, typical of medieval Umbrian architecture. (confidence 0.85)",
     "submittedAt": "2026-10-15T17:00:47+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-spello-434e21-tag-arch",
     "kind": "tag",
-    "value": "arch"
+    "value": "arch",
+    "reviewedAt": "2026-10-16T06:56:32.693Z"
   },
   {
     "recordId": "spello-434e21",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The image shows a groin vault constructed from roughly squared stone blocks with visible lime mortar joints, typical of medieval Umbrian architecture. (confidence 0.85)",
     "submittedAt": "2026-10-15T17:00:47+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-spello-434e21-tag-vault",
     "kind": "tag",
-    "value": "vault"
+    "value": "vault",
+    "reviewedAt": "2026-10-16T06:56:32.693Z"
   },
   {
     "recordId": "spello-434e21",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The image shows a groin vault constructed from roughly squared stone blocks with visible lime mortar joints, typical of medieval Umbrian architecture. (confidence 0.85)",
     "submittedAt": "2026-10-15T17:00:47+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-spello-434e21-tag-wall",
     "kind": "tag",
-    "value": "wall"
+    "value": "wall",
+    "reviewedAt": "2026-10-16T06:56:32.693Z"
   },
   {
     "recordId": "spello-434e21",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The image shows a groin vault constructed from roughly squared stone blocks with visible lime mortar joints, typical of medieval Umbrian architecture. (confidence 0.85)",
     "submittedAt": "2026-10-15T17:00:47+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-spello-434e21-tag-lime-mortar",
     "kind": "tag",
-    "value": "lime mortar"
+    "value": "lime mortar",
+    "reviewedAt": "2026-10-16T06:56:32.693Z"
   },
   {
     "recordId": "spello-434e21",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The image shows a groin vault constructed from roughly squared stone blocks with visible lime mortar joints, typical of medieval Umbrian architecture. (confidence 0.85)",
     "submittedAt": "2026-10-15T17:00:47+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-spello-434e21-tag-stonework",
     "kind": "tag",
-    "value": "stonework"
+    "value": "stonework",
+    "reviewedAt": "2026-10-16T06:56:32.693Z"
   },
   {
     "recordId": "spello-f56f1f",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The image clearly shows a series of brick barrel vaults with visible lime mortar joints and consistent coursing typical of medieval construction in Umbria. (confidence 0.95)",
     "submittedAt": "2026-10-15T17:00:54+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-spello-f56f1f-title",
     "kind": "text",
     "field": "title",
-    "value": "Brick barrel vault with lime mortar joints"
+    "value": "Brick barrel vault with lime mortar joints",
+    "reviewedAt": "2026-10-16T06:56:15.499Z"
   },
   {
     "recordId": "spello-f56f1f",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The image clearly shows a series of brick barrel vaults with visible lime mortar joints and consistent coursing typical of medieval construction in Umbria. (confidence 0.95)",
     "submittedAt": "2026-10-15T17:00:54+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-spello-f56f1f-element",
     "kind": "text",
     "field": "element",
-    "value": "Vault"
+    "value": "Vault",
+    "reviewedAt": "2026-10-16T06:56:15.499Z"
   },
   {
     "recordId": "spello-f56f1f",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The image clearly shows a series of brick barrel vaults with visible lime mortar joints and consistent coursing typical of medieval construction in Umbria. (confidence 0.95)",
     "submittedAt": "2026-10-15T17:00:54+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-spello-f56f1f-technique",
     "kind": "text",
     "field": "technique",
-    "value": "Brick masonry"
+    "value": "Brick masonry",
+    "reviewedAt": "2026-10-16T06:56:15.499Z"
   },
   {
     "recordId": "spello-f56f1f",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The image clearly shows a series of brick barrel vaults with visible lime mortar joints and consistent coursing typical of medieval construction in Umbria. (confidence 0.95)",
     "submittedAt": "2026-10-15T17:00:54+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-spello-f56f1f-material",
     "kind": "text",
     "field": "material",
-    "value": "Clay brick and lime mortar"
+    "value": "Clay brick and lime mortar",
+    "reviewedAt": "2026-10-16T06:56:15.499Z"
   },
   {
     "recordId": "spello-f56f1f",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The image clearly shows a series of brick barrel vaults with visible lime mortar joints and consistent coursing typical of medieval construction in Umbria. (confidence 0.95)",
     "submittedAt": "2026-10-15T17:00:54+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-spello-f56f1f-period",
     "kind": "text",
     "field": "period",
-    "value": "13th century"
+    "value": "13th century",
+    "reviewedAt": "2026-10-16T06:56:15.499Z"
   },
   {
     "recordId": "spello-f56f1f",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The image clearly shows a series of brick barrel vaults with visible lime mortar joints and consistent coursing typical of medieval construction in Umbria. (confidence 0.95)",
     "submittedAt": "2026-10-15T17:00:54+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-spello-f56f1f-tag-brickwork",
     "kind": "tag",
-    "value": "brickwork"
+    "value": "brickwork",
+    "reviewedAt": "2026-10-16T06:56:15.499Z"
   },
   {
     "recordId": "spello-f56f1f",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The image clearly shows a series of brick barrel vaults with visible lime mortar joints and consistent coursing typical of medieval construction in Umbria. (confidence 0.95)",
     "submittedAt": "2026-10-15T17:00:54+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-spello-f56f1f-tag-arch",
     "kind": "tag",
-    "value": "arch"
+    "value": "arch",
+    "reviewedAt": "2026-10-16T06:56:15.499Z"
   },
   {
     "recordId": "spello-f56f1f",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The image clearly shows a series of brick barrel vaults with visible lime mortar joints and consistent coursing typical of medieval construction in Umbria. (confidence 0.95)",
     "submittedAt": "2026-10-15T17:00:54+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-spello-f56f1f-tag-vault",
     "kind": "tag",
-    "value": "vault"
+    "value": "vault",
+    "reviewedAt": "2026-10-16T06:56:15.499Z"
   },
   {
     "recordId": "spello-f56f1f",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The image clearly shows a series of brick barrel vaults with visible lime mortar joints and consistent coursing typical of medieval construction in Umbria. (confidence 0.95)",
     "submittedAt": "2026-10-15T17:00:54+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-spello-f56f1f-tag-lime-mortar",
     "kind": "tag",
-    "value": "lime mortar"
+    "value": "lime mortar",
+    "reviewedAt": "2026-10-16T06:56:15.499Z"
   },
   {
     "recordId": "spello-f56f1f",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The image clearly shows a series of brick barrel vaults with visible lime mortar joints and consistent coursing typical of medieval construction in Umbria. (confidence 0.95)",
     "submittedAt": "2026-10-15T17:00:54+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-spello-f56f1f-tag-texture",
     "kind": "tag",
-    "value": "texture"
+    "value": "texture",
+    "reviewedAt": "2026-10-16T06:56:15.499Z"
   },
   {
     "recordId": "spello-840b2e",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The image clearly shows a series of brick barrel vaults with visible lime mortar joints and consistent brick bonding patterns typical of historic masonry. (confidence 0.95)",
     "submittedAt": "2026-10-15T17:01:01+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-spello-840b2e-title",
     "kind": "text",
     "field": "title",
-    "value": "Brick barrel vault with lime mortar joints"
+    "value": "Brick barrel vault with lime mortar joints",
+    "reviewedAt": "2026-10-16T06:55:16.562Z"
   },
   {
     "recordId": "spello-840b2e",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The image clearly shows a series of brick barrel vaults with visible lime mortar joints and consistent brick bonding patterns typical of historic masonry. (confidence 0.95)",
     "submittedAt": "2026-10-15T17:01:01+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-spello-840b2e-element",
     "kind": "text",
     "field": "element",
-    "value": "Vault"
+    "value": "Vault",
+    "reviewedAt": "2026-10-16T06:55:16.562Z"
   },
   {
     "recordId": "spello-840b2e",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The image clearly shows a series of brick barrel vaults with visible lime mortar joints and consistent brick bonding patterns typical of historic masonry. (confidence 0.95)",
     "submittedAt": "2026-10-15T17:01:01+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-spello-840b2e-technique",
     "kind": "text",
     "field": "technique",
-    "value": "Brick masonry"
+    "value": "Brick masonry",
+    "reviewedAt": "2026-10-16T06:55:16.562Z"
   },
   {
     "recordId": "spello-840b2e",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The image clearly shows a series of brick barrel vaults with visible lime mortar joints and consistent brick bonding patterns typical of historic masonry. (confidence 0.95)",
     "submittedAt": "2026-10-15T17:01:01+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-spello-840b2e-material",
     "kind": "text",
     "field": "material",
-    "value": "Clay brick and lime mortar"
+    "value": "Clay brick and lime mortar",
+    "reviewedAt": "2026-10-16T06:55:16.562Z"
   },
   {
     "recordId": "spello-840b2e",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The image clearly shows a series of brick barrel vaults with visible lime mortar joints and consistent brick bonding patterns typical of historic masonry. (confidence 0.95)",
     "submittedAt": "2026-10-15T17:01:01+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-spello-840b2e-tag-brickwork",
     "kind": "tag",
-    "value": "brickwork"
+    "value": "brickwork",
+    "reviewedAt": "2026-10-16T06:55:16.562Z"
   },
   {
     "recordId": "spello-840b2e",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The image clearly shows a series of brick barrel vaults with visible lime mortar joints and consistent brick bonding patterns typical of historic masonry. (confidence 0.95)",
     "submittedAt": "2026-10-15T17:01:01+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-spello-840b2e-tag-arch",
     "kind": "tag",
-    "value": "arch"
+    "value": "arch",
+    "reviewedAt": "2026-10-16T06:55:16.562Z"
   },
   {
     "recordId": "spello-840b2e",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The image clearly shows a series of brick barrel vaults with visible lime mortar joints and consistent brick bonding patterns typical of historic masonry. (confidence 0.95)",
     "submittedAt": "2026-10-15T17:01:01+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-spello-840b2e-tag-vault",
     "kind": "tag",
-    "value": "vault"
+    "value": "vault",
+    "reviewedAt": "2026-10-16T06:55:16.562Z"
   },
   {
     "recordId": "spello-840b2e",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The image clearly shows a series of brick barrel vaults with visible lime mortar joints and consistent brick bonding patterns typical of historic masonry. (confidence 0.95)",
     "submittedAt": "2026-10-15T17:01:01+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-spello-840b2e-tag-lime-mortar",
     "kind": "tag",
-    "value": "lime mortar"
+    "value": "lime mortar",
+    "reviewedAt": "2026-10-16T06:55:16.562Z"
   },
   {
     "recordId": "spello-840b2e",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The image clearly shows a series of brick barrel vaults with visible lime mortar joints and consistent brick bonding patterns typical of historic masonry. (confidence 0.95)",
     "submittedAt": "2026-10-15T17:01:01+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-spello-840b2e-tag-texture",
     "kind": "tag",
-    "value": "texture"
+    "value": "texture",
+    "reviewedAt": "2026-10-16T06:55:16.562Z"
   },
   {
     "recordId": "spello-a58c61",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The interior shows finely dressed stone blocks forming the vault and pilasters, typical of Baroque architecture in Umbria using local limestone. (confidence 0.85)",
     "submittedAt": "2026-10-15T17:01:09+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-spello-a58c61-title",
     "kind": "text",
     "field": "title",
-    "value": "Ashlar stone vaulted nave with pilasters"
+    "value": "Ashlar stone vaulted nave with pilasters",
+    "reviewedAt": "2026-10-16T06:54:53.301Z"
   },
   {
     "recordId": "spello-a58c61",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The interior shows finely dressed stone blocks forming the vault and pilasters, typical of Baroque architecture in Umbria using local limestone. (confidence 0.85)",
     "submittedAt": "2026-10-15T17:01:09+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-spello-a58c61-element",
     "kind": "text",
     "field": "element",
-    "value": "Vault"
+    "value": "Vault",
+    "reviewedAt": "2026-10-16T06:54:53.301Z"
   },
   {
     "recordId": "spello-a58c61",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The interior shows finely dressed stone blocks forming the vault and pilasters, typical of Baroque architecture in Umbria using local limestone. (confidence 0.85)",
     "submittedAt": "2026-10-15T17:01:09+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-spello-a58c61-technique",
     "kind": "text",
     "field": "technique",
-    "value": "Ashlar stone masonry"
+    "value": "Ashlar stone masonry",
+    "reviewedAt": "2026-10-16T06:54:53.301Z"
   },
   {
     "recordId": "spello-a58c61",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The interior shows finely dressed stone blocks forming the vault and pilasters, typical of Baroque architecture in Umbria using local limestone. (confidence 0.85)",
     "submittedAt": "2026-10-15T17:01:09+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-spello-a58c61-material",
     "kind": "text",
     "field": "material",
-    "value": "Limestone and lime mortar"
+    "value": "Limestone and lime mortar",
+    "reviewedAt": "2026-10-16T06:54:53.301Z"
   },
   {
     "recordId": "spello-a58c61",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The interior shows finely dressed stone blocks forming the vault and pilasters, typical of Baroque architecture in Umbria using local limestone. (confidence 0.85)",
     "submittedAt": "2026-10-15T17:01:09+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-spello-a58c61-period",
     "kind": "text",
     "field": "period",
-    "value": "17th century"
+    "value": "17th century",
+    "reviewedAt": "2026-10-16T06:54:53.301Z"
   },
   {
     "recordId": "spello-a58c61",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The interior shows finely dressed stone blocks forming the vault and pilasters, typical of Baroque architecture in Umbria using local limestone. (confidence 0.85)",
     "submittedAt": "2026-10-15T17:01:09+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-spello-a58c61-tag-church",
     "kind": "tag",
-    "value": "church"
+    "value": "church",
+    "reviewedAt": "2026-10-16T06:54:53.301Z"
   },
   {
     "recordId": "spello-a58c61",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The interior shows finely dressed stone blocks forming the vault and pilasters, typical of Baroque architecture in Umbria using local limestone. (confidence 0.85)",
     "submittedAt": "2026-10-15T17:01:09+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-spello-a58c61-tag-vault",
     "kind": "tag",
-    "value": "vault"
+    "value": "vault",
+    "reviewedAt": "2026-10-16T06:54:53.301Z"
   },
   {
     "recordId": "spello-a58c61",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The interior shows finely dressed stone blocks forming the vault and pilasters, typical of Baroque architecture in Umbria using local limestone. (confidence 0.85)",
     "submittedAt": "2026-10-15T17:01:09+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-spello-a58c61-tag-ashlar",
     "kind": "tag",
-    "value": "ashlar"
+    "value": "ashlar",
+    "reviewedAt": "2026-10-16T06:54:53.301Z"
   },
   {
     "recordId": "spello-a58c61",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The interior shows finely dressed stone blocks forming the vault and pilasters, typical of Baroque architecture in Umbria using local limestone. (confidence 0.85)",
     "submittedAt": "2026-10-15T17:01:09+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-spello-a58c61-tag-pilaster",
     "kind": "tag",
-    "value": "pilaster"
+    "value": "pilaster",
+    "reviewedAt": "2026-10-16T06:54:53.301Z"
   },
   {
     "recordId": "spello-a58c61",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The interior shows finely dressed stone blocks forming the vault and pilasters, typical of Baroque architecture in Umbria using local limestone. (confidence 0.85)",
     "submittedAt": "2026-10-15T17:01:09+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-spello-a58c61-tag-lime-mortar",
     "kind": "tag",
-    "value": "lime mortar"
+    "value": "lime mortar",
+    "reviewedAt": "2026-10-16T06:54:53.301Z"
   },
   {
     "recordId": "spello-f80689",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The image clearly shows a brick barrel vault archway set within a rough stone wall, with visible mortar joints and a wooden door below; no definitive historical markers are present to assign a specific period. (confidence 0.95)",
     "submittedAt": "2026-10-15T17:01:17+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-spello-f80689-title",
     "kind": "text",
     "field": "title",
-    "value": "Brick barrel vault over wooden door in stone wall"
+    "value": "Brick barrel vault over wooden door in stone wall",
+    "reviewedAt": "2026-10-16T06:54:49.396Z"
   },
   {
     "recordId": "spello-f80689",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The image clearly shows a brick barrel vault archway set within a rough stone wall, with visible mortar joints and a wooden door below; no definitive historical markers are present to assign a specific period. (confidence 0.95)",
     "submittedAt": "2026-10-15T17:01:17+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-spello-f80689-element",
     "kind": "text",
     "field": "element",
-    "value": "Arch"
+    "value": "Arch",
+    "reviewedAt": "2026-10-16T06:54:49.396Z"
   },
   {
     "recordId": "spello-f80689",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The image clearly shows a brick barrel vault archway set within a rough stone wall, with visible mortar joints and a wooden door below; no definitive historical markers are present to assign a specific period. (confidence 0.95)",
     "submittedAt": "2026-10-15T17:01:17+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-spello-f80689-technique",
     "kind": "text",
     "field": "technique",
-    "value": "Brick masonry"
+    "value": "Brick masonry",
+    "reviewedAt": "2026-10-16T06:54:49.396Z"
   },
   {
     "recordId": "spello-f80689",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The image clearly shows a brick barrel vault archway set within a rough stone wall, with visible mortar joints and a wooden door below; no definitive historical markers are present to assign a specific period. (confidence 0.95)",
     "submittedAt": "2026-10-15T17:01:17+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-spello-f80689-material",
     "kind": "text",
     "field": "material",
-    "value": "Clay brick and lime mortar"
+    "value": "Clay brick and lime mortar",
+    "reviewedAt": "2026-10-16T06:54:49.396Z"
   },
   {
     "recordId": "spello-f80689",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The image clearly shows a brick barrel vault archway set within a rough stone wall, with visible mortar joints and a wooden door below; no definitive historical markers are present to assign a specific period. (confidence 0.95)",
     "submittedAt": "2026-10-15T17:01:17+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-spello-f80689-tag-arch",
     "kind": "tag",
-    "value": "arch"
+    "value": "arch",
+    "reviewedAt": "2026-10-16T06:54:49.396Z"
   },
   {
     "recordId": "spello-f80689",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The image clearly shows a brick barrel vault archway set within a rough stone wall, with visible mortar joints and a wooden door below; no definitive historical markers are present to assign a specific period. (confidence 0.95)",
     "submittedAt": "2026-10-15T17:01:17+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-spello-f80689-tag-brickwork",
     "kind": "tag",
-    "value": "brickwork"
+    "value": "brickwork",
+    "reviewedAt": "2026-10-16T06:54:49.396Z"
   },
   {
     "recordId": "spello-f80689",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The image clearly shows a brick barrel vault archway set within a rough stone wall, with visible mortar joints and a wooden door below; no definitive historical markers are present to assign a specific period. (confidence 0.95)",
     "submittedAt": "2026-10-15T17:01:17+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-spello-f80689-tag-wall",
     "kind": "tag",
-    "value": "wall"
+    "value": "wall",
+    "reviewedAt": "2026-10-16T06:54:49.396Z"
   },
   {
     "recordId": "spello-f80689",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The image clearly shows a brick barrel vault archway set within a rough stone wall, with visible mortar joints and a wooden door below; no definitive historical markers are present to assign a specific period. (confidence 0.95)",
     "submittedAt": "2026-10-15T17:01:17+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-spello-f80689-tag-wooden-door",
     "kind": "tag",
-    "value": "wooden door"
+    "value": "wooden door",
+    "reviewedAt": "2026-10-16T06:54:49.396Z"
   },
   {
     "recordId": "spello-f80689",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The image clearly shows a brick barrel vault archway set within a rough stone wall, with visible mortar joints and a wooden door below; no definitive historical markers are present to assign a specific period. (confidence 0.95)",
     "submittedAt": "2026-10-15T17:01:17+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-spello-f80689-tag-stone-facade",
     "kind": "tag",
-    "value": "stone facade"
+    "value": "stone facade",
+    "reviewedAt": "2026-10-16T06:54:49.396Z"
   },
   {
     "recordId": "spello-0fb52e",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The image clearly shows a wall constructed of rectangular clay bricks laid in horizontal courses with visible lime mortar joints, featuring two arched openings with wooden doors. (confidence 0.95)",
     "submittedAt": "2026-10-15T17:01:24+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-spello-0fb52e-title",
     "kind": "text",
     "field": "title",
-    "value": "Brick facade with arched wooden windows"
+    "value": "Brick facade with arched wooden windows",
+    "reviewedAt": "2026-10-16T06:54:29.486Z"
   },
   {
     "recordId": "spello-0fb52e",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The image clearly shows a wall constructed of rectangular clay bricks laid in horizontal courses with visible lime mortar joints, featuring two arched openings with wooden doors. (confidence 0.95)",
     "submittedAt": "2026-10-15T17:01:24+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-spello-0fb52e-element",
     "kind": "text",
     "field": "element",
-    "value": "Wall"
+    "value": "Wall",
+    "reviewedAt": "2026-10-16T06:54:29.486Z"
   },
   {
     "recordId": "spello-0fb52e",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The image clearly shows a wall constructed of rectangular clay bricks laid in horizontal courses with visible lime mortar joints, featuring two arched openings with wooden doors. (confidence 0.95)",
     "submittedAt": "2026-10-15T17:01:24+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-spello-0fb52e-technique",
     "kind": "text",
     "field": "technique",
-    "value": "Brick masonry"
+    "value": "Brick masonry",
+    "reviewedAt": "2026-10-16T06:54:29.486Z"
   },
   {
     "recordId": "spello-0fb52e",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The image clearly shows a wall constructed of rectangular clay bricks laid in horizontal courses with visible lime mortar joints, featuring two arched openings with wooden doors. (confidence 0.95)",
     "submittedAt": "2026-10-15T17:01:24+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-spello-0fb52e-material",
     "kind": "text",
     "field": "material",
-    "value": "Clay brick and lime mortar"
+    "value": "Clay brick and lime mortar",
+    "reviewedAt": "2026-10-16T06:54:29.486Z"
   },
   {
     "recordId": "spello-0fb52e",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The image clearly shows a wall constructed of rectangular clay bricks laid in horizontal courses with visible lime mortar joints, featuring two arched openings with wooden doors. (confidence 0.95)",
     "submittedAt": "2026-10-15T17:01:24+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-spello-0fb52e-tag-brickwork",
     "kind": "tag",
-    "value": "brickwork"
+    "value": "brickwork",
+    "reviewedAt": "2026-10-16T06:54:29.486Z"
   },
   {
     "recordId": "spello-0fb52e",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The image clearly shows a wall constructed of rectangular clay bricks laid in horizontal courses with visible lime mortar joints, featuring two arched openings with wooden doors. (confidence 0.95)",
     "submittedAt": "2026-10-15T17:01:24+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-spello-0fb52e-tag-arch",
     "kind": "tag",
-    "value": "arch"
+    "value": "arch",
+    "reviewedAt": "2026-10-16T06:54:29.486Z"
   },
   {
     "recordId": "spello-0fb52e",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The image clearly shows a wall constructed of rectangular clay bricks laid in horizontal courses with visible lime mortar joints, featuring two arched openings with wooden doors. (confidence 0.95)",
     "submittedAt": "2026-10-15T17:01:24+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-spello-0fb52e-tag-facade",
     "kind": "tag",
-    "value": "facade"
+    "value": "facade",
+    "reviewedAt": "2026-10-16T06:54:29.486Z"
   },
   {
     "recordId": "spello-0fb52e",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The image clearly shows a wall constructed of rectangular clay bricks laid in horizontal courses with visible lime mortar joints, featuring two arched openings with wooden doors. (confidence 0.95)",
     "submittedAt": "2026-10-15T17:01:24+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-spello-0fb52e-tag-wooden-window",
     "kind": "tag",
-    "value": "wooden window"
+    "value": "wooden window",
+    "reviewedAt": "2026-10-16T06:54:29.486Z"
   },
   {
     "recordId": "spello-0fb52e",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The image clearly shows a wall constructed of rectangular clay bricks laid in horizontal courses with visible lime mortar joints, featuring two arched openings with wooden doors. (confidence 0.95)",
     "submittedAt": "2026-10-15T17:01:24+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-spello-0fb52e-tag-weathering",
     "kind": "tag",
-    "value": "weathering"
+    "value": "weathering",
+    "reviewedAt": "2026-10-16T06:54:29.486Z"
   },
   {
     "recordId": "spello-386665",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The image clearly shows a wall constructed with rectangular clay bricks laid in horizontal courses with visible lime mortar joints that show significant weathering and erosion. (confidence 0.90)",
     "submittedAt": "2026-10-15T17:01:31+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-spello-386665-title",
     "kind": "text",
     "field": "title",
-    "value": "Weathered brick wall with irregular mortar joints"
+    "value": "Weathered brick wall with irregular mortar joints",
+    "reviewedAt": "2026-10-16T06:53:59.960Z"
   },
   {
     "recordId": "spello-386665",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The image clearly shows a wall constructed with rectangular clay bricks laid in horizontal courses with visible lime mortar joints that show significant weathering and erosion. (confidence 0.90)",
     "submittedAt": "2026-10-15T17:01:31+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-spello-386665-element",
     "kind": "text",
     "field": "element",
-    "value": "Wall"
+    "value": "Wall",
+    "reviewedAt": "2026-10-16T06:53:59.960Z"
   },
   {
     "recordId": "spello-386665",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The image clearly shows a wall constructed with rectangular clay bricks laid in horizontal courses with visible lime mortar joints that show significant weathering and erosion. (confidence 0.90)",
     "submittedAt": "2026-10-15T17:01:31+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-spello-386665-technique",
     "kind": "text",
     "field": "technique",
-    "value": "Brick masonry"
+    "value": "Brick masonry",
+    "reviewedAt": "2026-10-16T06:53:59.960Z"
   },
   {
     "recordId": "spello-386665",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The image clearly shows a wall constructed with rectangular clay bricks laid in horizontal courses with visible lime mortar joints that show significant weathering and erosion. (confidence 0.90)",
     "submittedAt": "2026-10-15T17:01:31+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-spello-386665-material",
     "kind": "text",
     "field": "material",
-    "value": "Clay brick and lime mortar"
+    "value": "Clay brick and lime mortar",
+    "reviewedAt": "2026-10-16T06:53:59.960Z"
   },
   {
     "recordId": "spello-386665",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The image clearly shows a wall constructed with rectangular clay bricks laid in horizontal courses with visible lime mortar joints that show significant weathering and erosion. (confidence 0.90)",
     "submittedAt": "2026-10-15T17:01:31+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-spello-386665-tag-brickwork",
     "kind": "tag",
-    "value": "brickwork"
+    "value": "brickwork",
+    "reviewedAt": "2026-10-16T06:53:59.960Z"
   },
   {
     "recordId": "spello-386665",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The image clearly shows a wall constructed with rectangular clay bricks laid in horizontal courses with visible lime mortar joints that show significant weathering and erosion. (confidence 0.90)",
     "submittedAt": "2026-10-15T17:01:31+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-spello-386665-tag-weathering",
     "kind": "tag",
-    "value": "weathering"
+    "value": "weathering",
+    "reviewedAt": "2026-10-16T06:53:59.960Z"
   },
   {
     "recordId": "spello-386665",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The image clearly shows a wall constructed with rectangular clay bricks laid in horizontal courses with visible lime mortar joints that show significant weathering and erosion. (confidence 0.90)",
     "submittedAt": "2026-10-15T17:01:31+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-spello-386665-tag-erosion",
     "kind": "tag",
-    "value": "erosion"
+    "value": "erosion",
+    "reviewedAt": "2026-10-16T06:53:59.960Z"
   },
   {
     "recordId": "spello-386665",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The image clearly shows a wall constructed with rectangular clay bricks laid in horizontal courses with visible lime mortar joints that show significant weathering and erosion. (confidence 0.90)",
     "submittedAt": "2026-10-15T17:01:31+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-spello-386665-tag-mortar",
     "kind": "tag",
-    "value": "mortar"
+    "value": "mortar",
+    "reviewedAt": "2026-10-16T06:53:59.960Z"
   },
   {
     "recordId": "spello-386665",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The image clearly shows a wall constructed with rectangular clay bricks laid in horizontal courses with visible lime mortar joints that show significant weathering and erosion. (confidence 0.90)",
     "submittedAt": "2026-10-15T17:01:31+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-spello-386665-tag-texture",
     "kind": "tag",
-    "value": "texture"
+    "value": "texture",
+    "reviewedAt": "2026-10-16T06:53:59.960Z"
   },
   {
     "recordId": "spello-ba6dff",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The facade is constructed from irregularly shaped tuff stones laid in an uncoursed pattern with visible lime mortar joints, typical of medieval Umbrian architecture. (confidence 0.85)",
     "submittedAt": "2026-10-15T17:01:39+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-spello-ba6dff-title",
     "kind": "text",
     "field": "title",
-    "value": "Rubble stone facade with arched entryway"
+    "value": "Rubble stone facade with arched entryway",
+    "reviewedAt": "2026-10-16T06:53:53.793Z"
   },
   {
     "recordId": "spello-ba6dff",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The facade is constructed from irregularly shaped tuff stones laid in an uncoursed pattern with visible lime mortar joints, typical of medieval Umbrian architecture. (confidence 0.85)",
     "submittedAt": "2026-10-15T17:01:39+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-spello-ba6dff-element",
     "kind": "text",
     "field": "element",
-    "value": "Wall"
+    "value": "Wall",
+    "reviewedAt": "2026-10-16T06:53:53.793Z"
   },
   {
     "recordId": "spello-ba6dff",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The facade is constructed from irregularly shaped tuff stones laid in an uncoursed pattern with visible lime mortar joints, typical of medieval Umbrian architecture. (confidence 0.85)",
     "submittedAt": "2026-10-15T17:01:39+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-spello-ba6dff-technique",
     "kind": "text",
     "field": "technique",
-    "value": "Uncoursed rubble masonry"
+    "value": "Uncoursed rubble masonry",
+    "reviewedAt": "2026-10-16T06:53:53.793Z"
   },
   {
     "recordId": "spello-ba6dff",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The facade is constructed from irregularly shaped tuff stones laid in an uncoursed pattern with visible lime mortar joints, typical of medieval Umbrian architecture. (confidence 0.85)",
     "submittedAt": "2026-10-15T17:01:39+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-spello-ba6dff-material",
     "kind": "text",
     "field": "material",
-    "value": "Tuff and pozzolanic mortar"
+    "value": "Tuff and pozzolanic mortar",
+    "reviewedAt": "2026-10-16T06:53:53.793Z"
   },
   {
     "recordId": "spello-ba6dff",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The facade is constructed from irregularly shaped tuff stones laid in an uncoursed pattern with visible lime mortar joints, typical of medieval Umbrian architecture. (confidence 0.85)",
     "submittedAt": "2026-10-15T17:01:39+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-spello-ba6dff-period",
     "kind": "text",
     "field": "period",
-    "value": "13th century"
+    "value": "13th century",
+    "reviewedAt": "2026-10-16T06:53:53.793Z"
   },
   {
     "recordId": "spello-ba6dff",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The facade is constructed from irregularly shaped tuff stones laid in an uncoursed pattern with visible lime mortar joints, typical of medieval Umbrian architecture. (confidence 0.85)",
     "submittedAt": "2026-10-15T17:01:39+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-spello-ba6dff-tag-irregular-masonry",
     "kind": "tag",
-    "value": "irregular masonry"
+    "value": "irregular masonry",
+    "reviewedAt": "2026-10-16T06:53:53.793Z"
   },
   {
     "recordId": "spello-ba6dff",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The facade is constructed from irregularly shaped tuff stones laid in an uncoursed pattern with visible lime mortar joints, typical of medieval Umbrian architecture. (confidence 0.85)",
     "submittedAt": "2026-10-15T17:01:39+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-spello-ba6dff-tag-arch",
     "kind": "tag",
-    "value": "arch"
+    "value": "arch",
+    "reviewedAt": "2026-10-16T06:53:53.793Z"
   },
   {
     "recordId": "spello-ba6dff",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The facade is constructed from irregularly shaped tuff stones laid in an uncoursed pattern with visible lime mortar joints, typical of medieval Umbrian architecture. (confidence 0.85)",
     "submittedAt": "2026-10-15T17:01:39+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-spello-ba6dff-tag-facade",
     "kind": "tag",
-    "value": "facade"
+    "value": "facade",
+    "reviewedAt": "2026-10-16T06:53:53.793Z"
   },
   {
     "recordId": "spello-ba6dff",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The facade is constructed from irregularly shaped tuff stones laid in an uncoursed pattern with visible lime mortar joints, typical of medieval Umbrian architecture. (confidence 0.85)",
     "submittedAt": "2026-10-15T17:01:39+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-spello-ba6dff-tag-weathering",
     "kind": "tag",
-    "value": "weathering"
+    "value": "weathering",
+    "reviewedAt": "2026-10-16T06:53:53.793Z"
   },
   {
     "recordId": "spello-ba6dff",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The facade is constructed from irregularly shaped tuff stones laid in an uncoursed pattern with visible lime mortar joints, typical of medieval Umbrian architecture. (confidence 0.85)",
     "submittedAt": "2026-10-15T17:01:39+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-spello-ba6dff-tag-lime-mortar",
     "kind": "tag",
-    "value": "lime mortar"
+    "value": "lime mortar",
+    "reviewedAt": "2026-10-16T06:53:53.793Z"
   },
   {
     "recordId": "spello-1aeda7",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The image shows a brick barrel vault with visible lime mortar joints over a core of irregularly coursed stone and brick, consistent with traditional Umbrian construction techniques. (confidence 0.85)",
     "submittedAt": "2026-10-15T17:01:47+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-spello-1aeda7-title",
     "kind": "text",
     "field": "title",
-    "value": "Brick barrel vault over mixed stone and brick masonry"
+    "value": "Brick barrel vault over mixed stone and brick masonry",
+    "reviewedAt": "2026-10-16T06:53:49.395Z"
   },
   {
     "recordId": "spello-1aeda7",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The image shows a brick barrel vault with visible lime mortar joints over a core of irregularly coursed stone and brick, consistent with traditional Umbrian construction techniques. (confidence 0.85)",
     "submittedAt": "2026-10-15T17:01:47+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-spello-1aeda7-element",
     "kind": "text",
     "field": "element",
-    "value": "Arch"
+    "value": "Arch",
+    "reviewedAt": "2026-10-16T06:53:49.395Z"
   },
   {
     "recordId": "spello-1aeda7",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The image shows a brick barrel vault with visible lime mortar joints over a core of irregularly coursed stone and brick, consistent with traditional Umbrian construction techniques. (confidence 0.85)",
     "submittedAt": "2026-10-15T17:01:47+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-spello-1aeda7-technique",
     "kind": "text",
     "field": "technique",
-    "value": "Two-leaf masonry with rubble core"
+    "value": "Two-leaf masonry with rubble core",
+    "reviewedAt": "2026-10-16T06:53:49.395Z"
   },
   {
     "recordId": "spello-1aeda7",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The image shows a brick barrel vault with visible lime mortar joints over a core of irregularly coursed stone and brick, consistent with traditional Umbrian construction techniques. (confidence 0.85)",
     "submittedAt": "2026-10-15T17:01:47+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-spello-1aeda7-material",
     "kind": "text",
     "field": "material",
-    "value": "Mixed stone and brick with lime mortar"
+    "value": "Mixed stone and brick with lime mortar",
+    "reviewedAt": "2026-10-16T06:53:49.395Z"
   },
   {
     "recordId": "spello-1aeda7",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The image shows a brick barrel vault with visible lime mortar joints over a core of irregularly coursed stone and brick, consistent with traditional Umbrian construction techniques. (confidence 0.85)",
     "submittedAt": "2026-10-15T17:01:47+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-spello-1aeda7-tag-arch",
     "kind": "tag",
-    "value": "arch"
+    "value": "arch",
+    "reviewedAt": "2026-10-16T06:53:49.395Z"
   },
   {
     "recordId": "spello-1aeda7",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The image shows a brick barrel vault with visible lime mortar joints over a core of irregularly coursed stone and brick, consistent with traditional Umbrian construction techniques. (confidence 0.85)",
     "submittedAt": "2026-10-15T17:01:47+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-spello-1aeda7-tag-brickwork",
     "kind": "tag",
-    "value": "brickwork"
+    "value": "brickwork",
+    "reviewedAt": "2026-10-16T06:53:49.395Z"
   },
   {
     "recordId": "spello-1aeda7",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The image shows a brick barrel vault with visible lime mortar joints over a core of irregularly coursed stone and brick, consistent with traditional Umbrian construction techniques. (confidence 0.85)",
     "submittedAt": "2026-10-15T17:01:47+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-spello-1aeda7-tag-irregular-masonry",
     "kind": "tag",
-    "value": "irregular masonry"
+    "value": "irregular masonry",
+    "reviewedAt": "2026-10-16T06:53:49.395Z"
   },
   {
     "recordId": "spello-1aeda7",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The image shows a brick barrel vault with visible lime mortar joints over a core of irregularly coursed stone and brick, consistent with traditional Umbrian construction techniques. (confidence 0.85)",
     "submittedAt": "2026-10-15T17:01:47+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-spello-1aeda7-tag-lime-mortar",
     "kind": "tag",
-    "value": "lime mortar"
+    "value": "lime mortar",
+    "reviewedAt": "2026-10-16T06:53:49.395Z"
   },
   {
     "recordId": "spello-1aeda7",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The image shows a brick barrel vault with visible lime mortar joints over a core of irregularly coursed stone and brick, consistent with traditional Umbrian construction techniques. (confidence 0.85)",
     "submittedAt": "2026-10-15T17:01:47+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-spello-1aeda7-tag-weathering",
     "kind": "tag",
-    "value": "weathering"
-  },
-  {
-    "recordId": "spello-e05474",
-    "author": "Hermes · qwen3.5:9b",
-    "rationale": "The image shows an arch constructed from irregularly shaped stones with visible mortar joints, consistent with roughly coursed rubble stone masonry typical of historic Umbrian architecture. (confidence 0.85)",
-    "submittedAt": "2026-10-15T17:01:55+00:00",
-    "status": "pending",
-    "id": "ai-spello-e05474-title",
-    "kind": "text",
-    "field": "title",
-    "value": "Rubble stone archway with climbing ivy"
-  },
-  {
-    "recordId": "spello-e05474",
-    "author": "Hermes · qwen3.5:9b",
-    "rationale": "The image shows an arch constructed from irregularly shaped stones with visible mortar joints, consistent with roughly coursed rubble stone masonry typical of historic Umbrian architecture. (confidence 0.85)",
-    "submittedAt": "2026-10-15T17:01:55+00:00",
-    "status": "pending",
-    "id": "ai-spello-e05474-element",
-    "kind": "text",
-    "field": "element",
-    "value": "Arch"
-  },
-  {
-    "recordId": "spello-e05474",
-    "author": "Hermes · qwen3.5:9b",
-    "rationale": "The image shows an arch constructed from irregularly shaped stones with visible mortar joints, consistent with roughly coursed rubble stone masonry typical of historic Umbrian architecture. (confidence 0.85)",
-    "submittedAt": "2026-10-15T17:01:55+00:00",
-    "status": "pending",
-    "id": "ai-spello-e05474-technique",
-    "kind": "text",
-    "field": "technique",
-    "value": "Roughly coursed rubble stone masonry"
-  },
-  {
-    "recordId": "spello-e05474",
-    "author": "Hermes · qwen3.5:9b",
-    "rationale": "The image shows an arch constructed from irregularly shaped stones with visible mortar joints, consistent with roughly coursed rubble stone masonry typical of historic Umbrian architecture. (confidence 0.85)",
-    "submittedAt": "2026-10-15T17:01:55+00:00",
-    "status": "pending",
-    "id": "ai-spello-e05474-material",
-    "kind": "text",
-    "field": "material",
-    "value": "Tuff and pozzolanic mortar"
-  },
-  {
-    "recordId": "spello-e05474",
-    "author": "Hermes · qwen3.5:9b",
-    "rationale": "The image shows an arch constructed from irregularly shaped stones with visible mortar joints, consistent with roughly coursed rubble stone masonry typical of historic Umbrian architecture. (confidence 0.85)",
-    "submittedAt": "2026-10-15T17:01:55+00:00",
-    "status": "pending",
-    "id": "ai-spello-e05474-tag-arch",
-    "kind": "tag",
-    "value": "arch"
-  },
-  {
-    "recordId": "spello-e05474",
-    "author": "Hermes · qwen3.5:9b",
-    "rationale": "The image shows an arch constructed from irregularly shaped stones with visible mortar joints, consistent with roughly coursed rubble stone masonry typical of historic Umbrian architecture. (confidence 0.85)",
-    "submittedAt": "2026-10-15T17:01:55+00:00",
-    "status": "pending",
-    "id": "ai-spello-e05474-tag-irregular-masonry",
-    "kind": "tag",
-    "value": "irregular masonry"
-  },
-  {
-    "recordId": "spello-e05474",
-    "author": "Hermes · qwen3.5:9b",
-    "rationale": "The image shows an arch constructed from irregularly shaped stones with visible mortar joints, consistent with roughly coursed rubble stone masonry typical of historic Umbrian architecture. (confidence 0.85)",
-    "submittedAt": "2026-10-15T17:01:55+00:00",
-    "status": "pending",
-    "id": "ai-spello-e05474-tag-lime-mortar",
-    "kind": "tag",
-    "value": "lime mortar"
-  },
-  {
-    "recordId": "spello-e05474",
-    "author": "Hermes · qwen3.5:9b",
-    "rationale": "The image shows an arch constructed from irregularly shaped stones with visible mortar joints, consistent with roughly coursed rubble stone masonry typical of historic Umbrian architecture. (confidence 0.85)",
-    "submittedAt": "2026-10-15T17:01:55+00:00",
-    "status": "pending",
-    "id": "ai-spello-e05474-tag-weathering",
-    "kind": "tag",
-    "value": "weathering"
-  },
-  {
-    "recordId": "spello-e05474",
-    "author": "Hermes · qwen3.5:9b",
-    "rationale": "The image shows an arch constructed from irregularly shaped stones with visible mortar joints, consistent with roughly coursed rubble stone masonry typical of historic Umbrian architecture. (confidence 0.85)",
-    "submittedAt": "2026-10-15T17:01:55+00:00",
-    "status": "pending",
-    "id": "ai-spello-e05474-tag-building",
-    "kind": "tag",
-    "value": "building"
+    "value": "weathering",
+    "reviewedAt": "2026-10-16T06:53:49.395Z"
   },
   {
     "recordId": "spello-f79f9d",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The image shows a wall constructed from irregularly shaped stones laid without regular horizontal courses, consistent with uncoursed rubble masonry typical of tuff in Umbria. (confidence 0.90)",
     "submittedAt": "2026-10-15T17:02:02+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-spello-f79f9d-title",
     "kind": "text",
     "field": "title",
-    "value": "Rubble stone wall with hanging flower boxes"
+    "value": "Rubble stone wall with hanging flower boxes",
+    "reviewedAt": "2026-10-16T06:53:31.057Z"
   },
   {
     "recordId": "spello-f79f9d",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The image shows a wall constructed from irregularly shaped stones laid without regular horizontal courses, consistent with uncoursed rubble masonry typical of tuff in Umbria. (confidence 0.90)",
     "submittedAt": "2026-10-15T17:02:02+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-spello-f79f9d-element",
     "kind": "text",
     "field": "element",
-    "value": "Wall"
+    "value": "Wall",
+    "reviewedAt": "2026-10-16T06:53:31.057Z"
   },
   {
     "recordId": "spello-f79f9d",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The image shows a wall constructed from irregularly shaped stones laid without regular horizontal courses, consistent with uncoursed rubble masonry typical of tuff in Umbria. (confidence 0.90)",
     "submittedAt": "2026-10-15T17:02:02+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-spello-f79f9d-technique",
     "kind": "text",
     "field": "technique",
-    "value": "Uncoursed rubble masonry"
+    "value": "Uncoursed rubble masonry",
+    "reviewedAt": "2026-10-16T06:53:31.057Z"
   },
   {
     "recordId": "spello-f79f9d",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The image shows a wall constructed from irregularly shaped stones laid without regular horizontal courses, consistent with uncoursed rubble masonry typical of tuff in Umbria. (confidence 0.90)",
     "submittedAt": "2026-10-15T17:02:02+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-spello-f79f9d-material",
     "kind": "text",
     "field": "material",
-    "value": "Tuff and pozzolanic mortar"
+    "value": "Tuff and pozzolanic mortar",
+    "reviewedAt": "2026-10-16T06:53:31.057Z"
   },
   {
     "recordId": "spello-f79f9d",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The image shows a wall constructed from irregularly shaped stones laid without regular horizontal courses, consistent with uncoursed rubble masonry typical of tuff in Umbria. (confidence 0.90)",
     "submittedAt": "2026-10-15T17:02:02+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-spello-f79f9d-tag-stonework",
     "kind": "tag",
-    "value": "stonework"
+    "value": "stonework",
+    "reviewedAt": "2026-10-16T06:53:31.057Z"
   },
   {
     "recordId": "spello-f79f9d",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The image shows a wall constructed from irregularly shaped stones laid without regular horizontal courses, consistent with uncoursed rubble masonry typical of tuff in Umbria. (confidence 0.90)",
     "submittedAt": "2026-10-15T17:02:02+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-spello-f79f9d-tag-texture",
     "kind": "tag",
-    "value": "texture"
+    "value": "texture",
+    "reviewedAt": "2026-10-16T06:53:31.057Z"
   },
   {
     "recordId": "spello-f79f9d",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The image shows a wall constructed from irregularly shaped stones laid without regular horizontal courses, consistent with uncoursed rubble masonry typical of tuff in Umbria. (confidence 0.90)",
     "submittedAt": "2026-10-15T17:02:02+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-spello-f79f9d-tag-wall",
     "kind": "tag",
-    "value": "wall"
+    "value": "wall",
+    "reviewedAt": "2026-10-16T06:53:31.057Z"
   },
   {
     "recordId": "spello-f79f9d",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The image shows a wall constructed from irregularly shaped stones laid without regular horizontal courses, consistent with uncoursed rubble masonry typical of tuff in Umbria. (confidence 0.90)",
     "submittedAt": "2026-10-15T17:02:02+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-spello-f79f9d-tag-weathering",
     "kind": "tag",
-    "value": "weathering"
+    "value": "weathering",
+    "reviewedAt": "2026-10-16T06:53:31.057Z"
   },
   {
     "recordId": "spello-f79f9d",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The image shows a wall constructed from irregularly shaped stones laid without regular horizontal courses, consistent with uncoursed rubble masonry typical of tuff in Umbria. (confidence 0.90)",
     "submittedAt": "2026-10-15T17:02:02+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-spello-f79f9d-tag-irregular-masonry",
     "kind": "tag",
-    "value": "irregular masonry"
+    "value": "irregular masonry",
+    "reviewedAt": "2026-10-16T06:53:31.057Z"
   },
   {
     "recordId": "spello-8afb10",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The image shows a wall constructed from irregularly shaped stones of varying sizes laid in random patterns without consistent horizontal courses, characteristic of uncoursed rubble masonry, with visible lime mortar joints and some small brick fragments embedded within the structure. (confidence 0.85)",
     "submittedAt": "2026-10-15T17:02:11+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-spello-8afb10-title",
     "kind": "text",
     "field": "title",
-    "value": "Rubble stone wall with lime mortar and vegetation"
+    "value": "Rubble stone wall with lime mortar and vegetation",
+    "reviewedAt": "2026-10-16T06:53:25.546Z"
   },
   {
     "recordId": "spello-8afb10",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The image shows a wall constructed from irregularly shaped stones of varying sizes laid in random patterns without consistent horizontal courses, characteristic of uncoursed rubble masonry, with visible lime mortar joints and some small brick fragments embedded within the structure. (confidence 0.85)",
     "submittedAt": "2026-10-15T17:02:11+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-spello-8afb10-element",
     "kind": "text",
     "field": "element",
-    "value": "Wall"
+    "value": "Wall",
+    "reviewedAt": "2026-10-16T06:53:25.546Z"
   },
   {
     "recordId": "spello-8afb10",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The image shows a wall constructed from irregularly shaped stones of varying sizes laid in random patterns without consistent horizontal courses, characteristic of uncoursed rubble masonry, with visible lime mortar joints and some small brick fragments embedded within the structure. (confidence 0.85)",
     "submittedAt": "2026-10-15T17:02:11+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-spello-8afb10-technique",
     "kind": "text",
     "field": "technique",
-    "value": "Uncoursed rubble masonry"
+    "value": "Uncoursed rubble masonry",
+    "reviewedAt": "2026-10-16T06:53:25.546Z"
   },
   {
     "recordId": "spello-8afb10",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The image shows a wall constructed from irregularly shaped stones of varying sizes laid in random patterns without consistent horizontal courses, characteristic of uncoursed rubble masonry, with visible lime mortar joints and some small brick fragments embedded within the structure. (confidence 0.85)",
     "submittedAt": "2026-10-15T17:02:11+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-spello-8afb10-material",
     "kind": "text",
     "field": "material",
-    "value": "Mixed stone and brick with lime mortar"
+    "value": "Mixed stone and brick with lime mortar",
+    "reviewedAt": "2026-10-16T06:53:25.546Z"
   },
   {
     "recordId": "spello-8afb10",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The image shows a wall constructed from irregularly shaped stones of varying sizes laid in random patterns without consistent horizontal courses, characteristic of uncoursed rubble masonry, with visible lime mortar joints and some small brick fragments embedded within the structure. (confidence 0.85)",
     "submittedAt": "2026-10-15T17:02:11+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-spello-8afb10-tag-irregular-masonry",
     "kind": "tag",
-    "value": "irregular masonry"
+    "value": "irregular masonry",
+    "reviewedAt": "2026-10-16T06:53:25.546Z"
   },
   {
     "recordId": "spello-8afb10",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The image shows a wall constructed from irregularly shaped stones of varying sizes laid in random patterns without consistent horizontal courses, characteristic of uncoursed rubble masonry, with visible lime mortar joints and some small brick fragments embedded within the structure. (confidence 0.85)",
     "submittedAt": "2026-10-15T17:02:11+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-spello-8afb10-tag-lime-mortar",
     "kind": "tag",
-    "value": "lime mortar"
+    "value": "lime mortar",
+    "reviewedAt": "2026-10-16T06:53:25.546Z"
   },
   {
     "recordId": "spello-8afb10",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The image shows a wall constructed from irregularly shaped stones of varying sizes laid in random patterns without consistent horizontal courses, characteristic of uncoursed rubble masonry, with visible lime mortar joints and some small brick fragments embedded within the structure. (confidence 0.85)",
     "submittedAt": "2026-10-15T17:02:11+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-spello-8afb10-tag-stonework",
     "kind": "tag",
-    "value": "stonework"
+    "value": "stonework",
+    "reviewedAt": "2026-10-16T06:53:25.546Z"
   },
   {
     "recordId": "spello-8afb10",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The image shows a wall constructed from irregularly shaped stones of varying sizes laid in random patterns without consistent horizontal courses, characteristic of uncoursed rubble masonry, with visible lime mortar joints and some small brick fragments embedded within the structure. (confidence 0.85)",
     "submittedAt": "2026-10-15T17:02:11+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-spello-8afb10-tag-texture",
     "kind": "tag",
-    "value": "texture"
+    "value": "texture",
+    "reviewedAt": "2026-10-16T06:53:25.546Z"
   },
   {
     "recordId": "spello-8afb10",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The image shows a wall constructed from irregularly shaped stones of varying sizes laid in random patterns without consistent horizontal courses, characteristic of uncoursed rubble masonry, with visible lime mortar joints and some small brick fragments embedded within the structure. (confidence 0.85)",
     "submittedAt": "2026-10-15T17:02:11+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-spello-8afb10-tag-weathering",
     "kind": "tag",
-    "value": "weathering"
+    "value": "weathering",
+    "reviewedAt": "2026-10-16T06:53:25.546Z"
   },
   {
     "recordId": "spello-0b643f",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The image shows a wall constructed with irregularly sized stones and bricks laid in horizontal courses, bound by light-colored lime mortar, consistent with the Roman technique of opus mixtum. (confidence 0.85)",
     "submittedAt": "2026-10-15T17:02:18+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-spello-0b643f-title",
     "kind": "text",
     "field": "title",
-    "value": "Mixed rubble and brick masonry wall"
+    "value": "Mixed rubble and brick masonry wall",
+    "reviewedAt": "2026-10-16T06:53:21.046Z"
   },
   {
     "recordId": "spello-0b643f",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The image shows a wall constructed with irregularly sized stones and bricks laid in horizontal courses, bound by light-colored lime mortar, consistent with the Roman technique of opus mixtum. (confidence 0.85)",
     "submittedAt": "2026-10-15T17:02:18+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-spello-0b643f-element",
     "kind": "text",
     "field": "element",
-    "value": "Wall"
+    "value": "Wall",
+    "reviewedAt": "2026-10-16T06:53:21.046Z"
   },
   {
     "recordId": "spello-0b643f",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The image shows a wall constructed with irregularly sized stones and bricks laid in horizontal courses, bound by light-colored lime mortar, consistent with the Roman technique of opus mixtum. (confidence 0.85)",
     "submittedAt": "2026-10-15T17:02:18+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-spello-0b643f-technique",
     "kind": "text",
     "field": "technique",
-    "value": "Opus mixtum"
+    "value": "Opus mixtum",
+    "reviewedAt": "2026-10-16T06:53:21.046Z"
   },
   {
     "recordId": "spello-0b643f",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The image shows a wall constructed with irregularly sized stones and bricks laid in horizontal courses, bound by light-colored lime mortar, consistent with the Roman technique of opus mixtum. (confidence 0.85)",
     "submittedAt": "2026-10-15T17:02:18+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-spello-0b643f-material",
     "kind": "text",
     "field": "material",
-    "value": "Mixed stone and brick with lime mortar"
+    "value": "Mixed stone and brick with lime mortar",
+    "reviewedAt": "2026-10-16T06:53:21.046Z"
   },
   {
     "recordId": "spello-0b643f",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The image shows a wall constructed with irregularly sized stones and bricks laid in horizontal courses, bound by light-colored lime mortar, consistent with the Roman technique of opus mixtum. (confidence 0.85)",
     "submittedAt": "2026-10-15T17:02:18+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-spello-0b643f-tag-irregular-masonry",
     "kind": "tag",
-    "value": "irregular masonry"
+    "value": "irregular masonry",
+    "reviewedAt": "2026-10-16T06:53:21.046Z"
   },
   {
     "recordId": "spello-0b643f",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The image shows a wall constructed with irregularly sized stones and bricks laid in horizontal courses, bound by light-colored lime mortar, consistent with the Roman technique of opus mixtum. (confidence 0.85)",
     "submittedAt": "2026-10-15T17:02:18+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-spello-0b643f-tag-lime-mortar",
     "kind": "tag",
-    "value": "lime mortar"
+    "value": "lime mortar",
+    "reviewedAt": "2026-10-16T06:53:21.046Z"
   },
   {
     "recordId": "spello-0b643f",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The image shows a wall constructed with irregularly sized stones and bricks laid in horizontal courses, bound by light-colored lime mortar, consistent with the Roman technique of opus mixtum. (confidence 0.85)",
     "submittedAt": "2026-10-15T17:02:18+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-spello-0b643f-tag-weathering",
     "kind": "tag",
-    "value": "weathering"
+    "value": "weathering",
+    "reviewedAt": "2026-10-16T06:53:21.046Z"
   },
   {
     "recordId": "spello-0b643f",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The image shows a wall constructed with irregularly sized stones and bricks laid in horizontal courses, bound by light-colored lime mortar, consistent with the Roman technique of opus mixtum. (confidence 0.85)",
     "submittedAt": "2026-10-15T17:02:18+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-spello-0b643f-tag-texture",
     "kind": "tag",
-    "value": "texture"
+    "value": "texture",
+    "reviewedAt": "2026-10-16T06:53:21.046Z"
   },
   {
     "recordId": "spello-0b643f",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The image shows a wall constructed with irregularly sized stones and bricks laid in horizontal courses, bound by light-colored lime mortar, consistent with the Roman technique of opus mixtum. (confidence 0.85)",
     "submittedAt": "2026-10-15T17:02:18+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-spello-0b643f-tag-erosion",
     "kind": "tag",
-    "value": "erosion"
+    "value": "erosion",
+    "reviewedAt": "2026-10-16T06:53:21.046Z"
   },
   {
     "recordId": "spello-b7b76c",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The image shows two cylindrical towers with ashlar stone masonry and a central gatehouse featuring both ashlar and roughly coursed rubble stonework, consistent with medieval Umbrian fortifications. (confidence 0.85)",
     "submittedAt": "2026-10-15T17:02:26+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-spello-b7b76c-title",
     "kind": "text",
     "field": "title",
-    "value": "Twin-towered gatehouse with ashlar and rubble masonry"
+    "value": "Twin-towered gatehouse with ashlar and rubble masonry",
+    "reviewedAt": "2026-10-16T06:53:14.314Z"
   },
   {
     "recordId": "spello-b7b76c",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The image shows two cylindrical towers with ashlar stone masonry and a central gatehouse featuring both ashlar and roughly coursed rubble stonework, consistent with medieval Umbrian fortifications. (confidence 0.85)",
     "submittedAt": "2026-10-15T17:02:26+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-spello-b7b76c-element",
     "kind": "text",
     "field": "element",
-    "value": "Tower"
+    "value": "Tower",
+    "reviewedAt": "2026-10-16T06:53:14.314Z"
   },
   {
     "recordId": "spello-b7b76c",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The image shows two cylindrical towers with ashlar stone masonry and a central gatehouse featuring both ashlar and roughly coursed rubble stonework, consistent with medieval Umbrian fortifications. (confidence 0.85)",
     "submittedAt": "2026-10-15T17:02:26+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-spello-b7b76c-technique",
     "kind": "text",
     "field": "technique",
-    "value": "Ashlar stone masonry"
+    "value": "Ashlar stone masonry",
+    "reviewedAt": "2026-10-16T06:53:14.314Z"
   },
   {
     "recordId": "spello-b7b76c",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The image shows two cylindrical towers with ashlar stone masonry and a central gatehouse featuring both ashlar and roughly coursed rubble stonework, consistent with medieval Umbrian fortifications. (confidence 0.85)",
     "submittedAt": "2026-10-15T17:02:26+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-spello-b7b76c-material",
     "kind": "text",
     "field": "material",
-    "value": "Limestone and lime mortar"
+    "value": "Limestone and lime mortar",
+    "reviewedAt": "2026-10-16T06:53:14.314Z"
   },
   {
     "recordId": "spello-b7b76c",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The image shows two cylindrical towers with ashlar stone masonry and a central gatehouse featuring both ashlar and roughly coursed rubble stonework, consistent with medieval Umbrian fortifications. (confidence 0.85)",
     "submittedAt": "2026-10-15T17:02:26+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-spello-b7b76c-period",
     "kind": "text",
     "field": "period",
-    "value": "12th century"
+    "value": "12th century",
+    "reviewedAt": "2026-10-16T06:53:14.314Z"
   },
   {
     "recordId": "spello-b7b76c",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The image shows two cylindrical towers with ashlar stone masonry and a central gatehouse featuring both ashlar and roughly coursed rubble stonework, consistent with medieval Umbrian fortifications. (confidence 0.85)",
     "submittedAt": "2026-10-15T17:02:26+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-spello-b7b76c-tag-arch",
     "kind": "tag",
-    "value": "arch"
+    "value": "arch",
+    "reviewedAt": "2026-10-16T06:53:14.314Z"
   },
   {
     "recordId": "spello-b7b76c",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The image shows two cylindrical towers with ashlar stone masonry and a central gatehouse featuring both ashlar and roughly coursed rubble stonework, consistent with medieval Umbrian fortifications. (confidence 0.85)",
     "submittedAt": "2026-10-15T17:02:26+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-spello-b7b76c-tag-ashlar",
     "kind": "tag",
-    "value": "ashlar"
+    "value": "ashlar",
+    "reviewedAt": "2026-10-16T06:53:14.314Z"
   },
   {
     "recordId": "spello-b7b76c",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The image shows two cylindrical towers with ashlar stone masonry and a central gatehouse featuring both ashlar and roughly coursed rubble stonework, consistent with medieval Umbrian fortifications. (confidence 0.85)",
     "submittedAt": "2026-10-15T17:02:26+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-spello-b7b76c-tag-erosion",
     "kind": "tag",
-    "value": "erosion"
+    "value": "erosion",
+    "reviewedAt": "2026-10-16T06:53:14.314Z"
   },
   {
     "recordId": "spello-b7b76c",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The image shows two cylindrical towers with ashlar stone masonry and a central gatehouse featuring both ashlar and roughly coursed rubble stonework, consistent with medieval Umbrian fortifications. (confidence 0.85)",
     "submittedAt": "2026-10-15T17:02:26+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-spello-b7b76c-tag-repair",
     "kind": "tag",
-    "value": "repair"
+    "value": "repair",
+    "reviewedAt": "2026-10-16T06:53:14.314Z"
   },
   {
     "recordId": "spello-b7b76c",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The image shows two cylindrical towers with ashlar stone masonry and a central gatehouse featuring both ashlar and roughly coursed rubble stonework, consistent with medieval Umbrian fortifications. (confidence 0.85)",
     "submittedAt": "2026-10-15T17:02:26+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-spello-b7b76c-tag-stonework",
     "kind": "tag",
-    "value": "stonework"
+    "value": "stonework",
+    "reviewedAt": "2026-10-16T06:53:14.314Z"
   },
   {
     "recordId": "spello-443082",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The image shows a Gothic-style church interior with ribbed vaults and piers constructed from finely cut ashlar stone blocks (likely local tuff), arranged in horizontal courses with visible lime mortar joints. (confidence 0.85)",
     "submittedAt": "2026-10-15T17:02:34+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-spello-443082-title",
     "kind": "text",
     "field": "title",
-    "value": "Star-patterned vault with striped ashlar piers"
+    "value": "Star-patterned vault with striped ashlar piers",
+    "reviewedAt": "2026-10-16T06:53:07.851Z"
   },
   {
     "recordId": "spello-443082",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The image shows a Gothic-style church interior with ribbed vaults and piers constructed from finely cut ashlar stone blocks (likely local tuff), arranged in horizontal courses with visible lime mortar joints. (confidence 0.85)",
     "submittedAt": "2026-10-15T17:02:34+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-spello-443082-element",
     "kind": "text",
     "field": "element",
-    "value": "Vault"
+    "value": "Vault",
+    "reviewedAt": "2026-10-16T06:53:07.851Z"
   },
   {
     "recordId": "spello-443082",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The image shows a Gothic-style church interior with ribbed vaults and piers constructed from finely cut ashlar stone blocks (likely local tuff), arranged in horizontal courses with visible lime mortar joints. (confidence 0.85)",
     "submittedAt": "2026-10-15T17:02:34+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-spello-443082-technique",
     "kind": "text",
     "field": "technique",
-    "value": "Ashlar stone masonry"
+    "value": "Ashlar stone masonry",
+    "reviewedAt": "2026-10-16T06:53:07.851Z"
   },
   {
     "recordId": "spello-443082",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The image shows a Gothic-style church interior with ribbed vaults and piers constructed from finely cut ashlar stone blocks (likely local tuff), arranged in horizontal courses with visible lime mortar joints. (confidence 0.85)",
     "submittedAt": "2026-10-15T17:02:34+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-spello-443082-material",
     "kind": "text",
     "field": "material",
-    "value": "Tuff and pozzolanic mortar"
+    "value": "Tuff and pozzolanic mortar",
+    "reviewedAt": "2026-10-16T06:53:07.851Z"
   },
   {
     "recordId": "spello-443082",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The image shows a Gothic-style church interior with ribbed vaults and piers constructed from finely cut ashlar stone blocks (likely local tuff), arranged in horizontal courses with visible lime mortar joints. (confidence 0.85)",
     "submittedAt": "2026-10-15T17:02:34+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-spello-443082-period",
     "kind": "text",
     "field": "period",
-    "value": "14th century"
+    "value": "14th century",
+    "reviewedAt": "2026-10-16T06:53:07.851Z"
   },
   {
     "recordId": "spello-443082",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The image shows a Gothic-style church interior with ribbed vaults and piers constructed from finely cut ashlar stone blocks (likely local tuff), arranged in horizontal courses with visible lime mortar joints. (confidence 0.85)",
     "submittedAt": "2026-10-15T17:02:34+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-spello-443082-tag-church",
     "kind": "tag",
-    "value": "church"
+    "value": "church",
+    "reviewedAt": "2026-10-16T06:53:07.851Z"
   },
   {
     "recordId": "spello-443082",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The image shows a Gothic-style church interior with ribbed vaults and piers constructed from finely cut ashlar stone blocks (likely local tuff), arranged in horizontal courses with visible lime mortar joints. (confidence 0.85)",
     "submittedAt": "2026-10-15T17:02:34+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-spello-443082-tag-vault",
     "kind": "tag",
-    "value": "vault"
+    "value": "vault",
+    "reviewedAt": "2026-10-16T06:53:07.851Z"
   },
   {
     "recordId": "spello-443082",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The image shows a Gothic-style church interior with ribbed vaults and piers constructed from finely cut ashlar stone blocks (likely local tuff), arranged in horizontal courses with visible lime mortar joints. (confidence 0.85)",
     "submittedAt": "2026-10-15T17:02:34+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-spello-443082-tag-ashlar",
     "kind": "tag",
-    "value": "ashlar"
+    "value": "ashlar",
+    "reviewedAt": "2026-10-16T06:53:07.851Z"
   },
   {
     "recordId": "spello-443082",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The image shows a Gothic-style church interior with ribbed vaults and piers constructed from finely cut ashlar stone blocks (likely local tuff), arranged in horizontal courses with visible lime mortar joints. (confidence 0.85)",
     "submittedAt": "2026-10-15T17:02:34+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-spello-443082-tag-gothic",
     "kind": "tag",
-    "value": "gothic"
+    "value": "gothic",
+    "reviewedAt": "2026-10-16T06:53:07.851Z"
   },
   {
     "recordId": "spello-443082",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The image shows a Gothic-style church interior with ribbed vaults and piers constructed from finely cut ashlar stone blocks (likely local tuff), arranged in horizontal courses with visible lime mortar joints. (confidence 0.85)",
     "submittedAt": "2026-10-15T17:02:34+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-spello-443082-tag-lime-mortar",
     "kind": "tag",
-    "value": "lime mortar"
+    "value": "lime mortar",
+    "reviewedAt": "2026-10-16T06:53:07.851Z"
   },
   {
     "recordId": "spello-113052",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The image shows a ribbed vault with painted stars on the ceiling and visible stone blocks (likely tuff) in the arches and walls, consistent with Umbrian ecclesiastical architecture from the late medieval period. (confidence 0.80)",
     "submittedAt": "2026-10-15T17:02:42+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-spello-113052-title",
     "kind": "text",
     "field": "title",
-    "value": "Star-patterned vault with painted decoration"
+    "value": "Star-patterned vault with painted decoration",
+    "reviewedAt": "2026-10-16T06:53:06.763Z"
   },
   {
     "recordId": "spello-113052",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The image shows a ribbed vault with painted stars on the ceiling and visible stone blocks (likely tuff) in the arches and walls, consistent with Umbrian ecclesiastical architecture from the late medieval period. (confidence 0.80)",
     "submittedAt": "2026-10-15T17:02:42+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-spello-113052-element",
     "kind": "text",
     "field": "element",
-    "value": "Vault"
+    "value": "Vault",
+    "reviewedAt": "2026-10-16T06:53:06.763Z"
   },
   {
     "recordId": "spello-113052",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The image shows a ribbed vault with painted stars on the ceiling and visible stone blocks (likely tuff) in the arches and walls, consistent with Umbrian ecclesiastical architecture from the late medieval period. (confidence 0.80)",
     "submittedAt": "2026-10-15T17:02:42+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-spello-113052-technique",
     "kind": "text",
     "field": "technique",
-    "value": "Ashlar stone masonry"
+    "value": "Ashlar stone masonry",
+    "reviewedAt": "2026-10-16T06:53:06.763Z"
   },
   {
     "recordId": "spello-113052",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The image shows a ribbed vault with painted stars on the ceiling and visible stone blocks (likely tuff) in the arches and walls, consistent with Umbrian ecclesiastical architecture from the late medieval period. (confidence 0.80)",
     "submittedAt": "2026-10-15T17:02:42+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-spello-113052-material",
     "kind": "text",
     "field": "material",
-    "value": "Tuff and pozzolanic mortar"
+    "value": "Tuff and pozzolanic mortar",
+    "reviewedAt": "2026-10-16T06:53:06.763Z"
   },
   {
     "recordId": "spello-113052",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The image shows a ribbed vault with painted stars on the ceiling and visible stone blocks (likely tuff) in the arches and walls, consistent with Umbrian ecclesiastical architecture from the late medieval period. (confidence 0.80)",
     "submittedAt": "2026-10-15T17:02:42+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-spello-113052-period",
     "kind": "text",
     "field": "period",
-    "value": "15th century"
+    "value": "15th century",
+    "reviewedAt": "2026-10-16T06:53:06.763Z"
   },
   {
     "recordId": "spello-113052",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The image shows a ribbed vault with painted stars on the ceiling and visible stone blocks (likely tuff) in the arches and walls, consistent with Umbrian ecclesiastical architecture from the late medieval period. (confidence 0.80)",
     "submittedAt": "2026-10-15T17:02:42+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-spello-113052-tag-church",
     "kind": "tag",
-    "value": "church"
+    "value": "church",
+    "reviewedAt": "2026-10-16T06:53:06.763Z"
   },
   {
     "recordId": "spello-113052",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The image shows a ribbed vault with painted stars on the ceiling and visible stone blocks (likely tuff) in the arches and walls, consistent with Umbrian ecclesiastical architecture from the late medieval period. (confidence 0.80)",
     "submittedAt": "2026-10-15T17:02:42+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-spello-113052-tag-vault",
     "kind": "tag",
-    "value": "vault"
+    "value": "vault",
+    "reviewedAt": "2026-10-16T06:53:06.763Z"
   },
   {
     "recordId": "spello-113052",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The image shows a ribbed vault with painted stars on the ceiling and visible stone blocks (likely tuff) in the arches and walls, consistent with Umbrian ecclesiastical architecture from the late medieval period. (confidence 0.80)",
     "submittedAt": "2026-10-15T17:02:42+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-spello-113052-tag-lime-mortar",
     "kind": "tag",
-    "value": "lime mortar"
+    "value": "lime mortar",
+    "reviewedAt": "2026-10-16T06:53:06.763Z"
   },
   {
     "recordId": "spello-113052",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The image shows a ribbed vault with painted stars on the ceiling and visible stone blocks (likely tuff) in the arches and walls, consistent with Umbrian ecclesiastical architecture from the late medieval period. (confidence 0.80)",
     "submittedAt": "2026-10-15T17:02:42+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-spello-113052-tag-texture",
     "kind": "tag",
-    "value": "texture"
+    "value": "texture",
+    "reviewedAt": "2026-10-16T06:53:06.763Z"
   },
   {
     "recordId": "spello-113052",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The image shows a ribbed vault with painted stars on the ceiling and visible stone blocks (likely tuff) in the arches and walls, consistent with Umbrian ecclesiastical architecture from the late medieval period. (confidence 0.80)",
     "submittedAt": "2026-10-15T17:02:42+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-spello-113052-tag-painting",
     "kind": "tag",
-    "value": "painting"
+    "value": "painting",
+    "reviewedAt": "2026-10-16T06:53:06.763Z"
   },
   {
     "recordId": "spello-528a4f",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The image shows a ribbed vault with painted stars and decorative bands; the visible masonry beneath is finely dressed stone consistent with tuff ashlar common in Umbrian churches of the late medieval period. (confidence 0.80)",
     "submittedAt": "2026-10-15T17:02:50+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-spello-528a4f-title",
     "kind": "text",
     "field": "title",
-    "value": "Star-patterned ribbed vault with painted decoration"
+    "value": "Star-patterned ribbed vault with painted decoration",
+    "reviewedAt": "2026-10-16T06:53:05.576Z"
   },
   {
     "recordId": "spello-528a4f",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The image shows a ribbed vault with painted stars and decorative bands; the visible masonry beneath is finely dressed stone consistent with tuff ashlar common in Umbrian churches of the late medieval period. (confidence 0.80)",
     "submittedAt": "2026-10-15T17:02:50+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-spello-528a4f-element",
     "kind": "text",
     "field": "element",
-    "value": "Vault"
+    "value": "Vault",
+    "reviewedAt": "2026-10-16T06:53:05.576Z"
   },
   {
     "recordId": "spello-528a4f",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The image shows a ribbed vault with painted stars and decorative bands; the visible masonry beneath is finely dressed stone consistent with tuff ashlar common in Umbrian churches of the late medieval period. (confidence 0.80)",
     "submittedAt": "2026-10-15T17:02:50+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-spello-528a4f-technique",
     "kind": "text",
     "field": "technique",
-    "value": "Ashlar stone masonry"
+    "value": "Ashlar stone masonry",
+    "reviewedAt": "2026-10-16T06:53:05.576Z"
   },
   {
     "recordId": "spello-528a4f",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The image shows a ribbed vault with painted stars and decorative bands; the visible masonry beneath is finely dressed stone consistent with tuff ashlar common in Umbrian churches of the late medieval period. (confidence 0.80)",
     "submittedAt": "2026-10-15T17:02:50+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-spello-528a4f-material",
     "kind": "text",
     "field": "material",
-    "value": "Tuff and pozzolanic mortar"
+    "value": "Tuff and pozzolanic mortar",
+    "reviewedAt": "2026-10-16T06:53:05.576Z"
   },
   {
     "recordId": "spello-528a4f",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The image shows a ribbed vault with painted stars and decorative bands; the visible masonry beneath is finely dressed stone consistent with tuff ashlar common in Umbrian churches of the late medieval period. (confidence 0.80)",
     "submittedAt": "2026-10-15T17:02:50+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-spello-528a4f-period",
     "kind": "text",
     "field": "period",
-    "value": "15th century"
+    "value": "15th century",
+    "reviewedAt": "2026-10-16T06:53:05.576Z"
   },
   {
     "recordId": "spello-528a4f",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The image shows a ribbed vault with painted stars and decorative bands; the visible masonry beneath is finely dressed stone consistent with tuff ashlar common in Umbrian churches of the late medieval period. (confidence 0.80)",
     "submittedAt": "2026-10-15T17:02:50+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-spello-528a4f-tag-church",
     "kind": "tag",
-    "value": "church"
+    "value": "church",
+    "reviewedAt": "2026-10-16T06:53:05.576Z"
   },
   {
     "recordId": "spello-528a4f",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The image shows a ribbed vault with painted stars and decorative bands; the visible masonry beneath is finely dressed stone consistent with tuff ashlar common in Umbrian churches of the late medieval period. (confidence 0.80)",
     "submittedAt": "2026-10-15T17:02:50+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-spello-528a4f-tag-vault",
     "kind": "tag",
-    "value": "vault"
+    "value": "vault",
+    "reviewedAt": "2026-10-16T06:53:05.576Z"
   },
   {
     "recordId": "spello-528a4f",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The image shows a ribbed vault with painted stars and decorative bands; the visible masonry beneath is finely dressed stone consistent with tuff ashlar common in Umbrian churches of the late medieval period. (confidence 0.80)",
     "submittedAt": "2026-10-15T17:02:50+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-spello-528a4f-tag-lime-mortar",
     "kind": "tag",
-    "value": "lime mortar"
+    "value": "lime mortar",
+    "reviewedAt": "2026-10-16T06:53:05.576Z"
   },
   {
     "recordId": "spello-528a4f",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The image shows a ribbed vault with painted stars and decorative bands; the visible masonry beneath is finely dressed stone consistent with tuff ashlar common in Umbrian churches of the late medieval period. (confidence 0.80)",
     "submittedAt": "2026-10-15T17:02:50+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-spello-528a4f-tag-texture",
     "kind": "tag",
-    "value": "texture"
+    "value": "texture",
+    "reviewedAt": "2026-10-16T06:53:05.576Z"
   },
   {
     "recordId": "spello-528a4f",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The image shows a ribbed vault with painted stars and decorative bands; the visible masonry beneath is finely dressed stone consistent with tuff ashlar common in Umbrian churches of the late medieval period. (confidence 0.80)",
     "submittedAt": "2026-10-15T17:02:50+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-spello-528a4f-tag-building",
     "kind": "tag",
-    "value": "building"
+    "value": "building",
+    "reviewedAt": "2026-10-16T06:53:05.576Z"
   },
   {
     "recordId": "spello-f9c6d6",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The image shows a barrel vault with visible painted frescoes and plastered surfaces, typical of medieval Umbrian churches built from local tuff stone. (confidence 0.85)",
     "submittedAt": "2026-10-15T17:02:58+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-spello-f9c6d6-title",
     "kind": "text",
     "field": "title",
-    "value": "Painted barrel vault with plastered masonry"
+    "value": "Painted barrel vault with plastered masonry",
+    "reviewedAt": "2026-10-16T06:53:04.281Z"
   },
   {
     "recordId": "spello-f9c6d6",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The image shows a barrel vault with visible painted frescoes and plastered surfaces, typical of medieval Umbrian churches built from local tuff stone. (confidence 0.85)",
     "submittedAt": "2026-10-15T17:02:58+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-spello-f9c6d6-element",
     "kind": "text",
     "field": "element",
-    "value": "Vault"
+    "value": "Vault",
+    "reviewedAt": "2026-10-16T06:53:04.281Z"
   },
   {
     "recordId": "spello-f9c6d6",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The image shows a barrel vault with visible painted frescoes and plastered surfaces, typical of medieval Umbrian churches built from local tuff stone. (confidence 0.85)",
     "submittedAt": "2026-10-15T17:02:58+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-spello-f9c6d6-technique",
     "kind": "text",
     "field": "technique",
-    "value": "Ashlar stone masonry"
+    "value": "Ashlar stone masonry",
+    "reviewedAt": "2026-10-16T06:53:04.281Z"
   },
   {
     "recordId": "spello-f9c6d6",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The image shows a barrel vault with visible painted frescoes and plastered surfaces, typical of medieval Umbrian churches built from local tuff stone. (confidence 0.85)",
     "submittedAt": "2026-10-15T17:02:58+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-spello-f9c6d6-material",
     "kind": "text",
     "field": "material",
-    "value": "Tuff and pozzolanic mortar"
+    "value": "Tuff and pozzolanic mortar",
+    "reviewedAt": "2026-10-16T06:53:04.281Z"
   },
   {
     "recordId": "spello-f9c6d6",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The image shows a barrel vault with visible painted frescoes and plastered surfaces, typical of medieval Umbrian churches built from local tuff stone. (confidence 0.85)",
     "submittedAt": "2026-10-15T17:02:58+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-spello-f9c6d6-period",
     "kind": "text",
     "field": "period",
-    "value": "13th century"
+    "value": "13th century",
+    "reviewedAt": "2026-10-16T06:53:04.281Z"
   },
   {
     "recordId": "spello-f9c6d6",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The image shows a barrel vault with visible painted frescoes and plastered surfaces, typical of medieval Umbrian churches built from local tuff stone. (confidence 0.85)",
     "submittedAt": "2026-10-15T17:02:58+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-spello-f9c6d6-tag-church",
     "kind": "tag",
-    "value": "church"
+    "value": "church",
+    "reviewedAt": "2026-10-16T06:53:04.281Z"
   },
   {
     "recordId": "spello-f9c6d6",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The image shows a barrel vault with visible painted frescoes and plastered surfaces, typical of medieval Umbrian churches built from local tuff stone. (confidence 0.85)",
     "submittedAt": "2026-10-15T17:02:58+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-spello-f9c6d6-tag-vault",
     "kind": "tag",
-    "value": "vault"
+    "value": "vault",
+    "reviewedAt": "2026-10-16T06:53:04.281Z"
   },
   {
     "recordId": "spello-f9c6d6",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The image shows a barrel vault with visible painted frescoes and plastered surfaces, typical of medieval Umbrian churches built from local tuff stone. (confidence 0.85)",
     "submittedAt": "2026-10-15T17:02:58+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-spello-f9c6d6-tag-plaster",
     "kind": "tag",
-    "value": "plaster"
+    "value": "plaster",
+    "reviewedAt": "2026-10-16T06:53:04.281Z"
   },
   {
     "recordId": "spello-f9c6d6",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The image shows a barrel vault with visible painted frescoes and plastered surfaces, typical of medieval Umbrian churches built from local tuff stone. (confidence 0.85)",
     "submittedAt": "2026-10-15T17:02:58+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-spello-f9c6d6-tag-painting",
     "kind": "tag",
-    "value": "painting"
+    "value": "painting",
+    "reviewedAt": "2026-10-16T06:53:04.281Z"
   },
   {
     "recordId": "spello-f9c6d6",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The image shows a barrel vault with visible painted frescoes and plastered surfaces, typical of medieval Umbrian churches built from local tuff stone. (confidence 0.85)",
     "submittedAt": "2026-10-15T17:02:58+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-spello-f9c6d6-tag-degradation",
     "kind": "tag",
-    "value": "degradation"
+    "value": "degradation",
+    "reviewedAt": "2026-10-16T06:53:04.281Z"
   },
   {
     "recordId": "spello-a4c800",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The image shows a painted groin vault with visible frescoes and significant plaster loss, but the underlying masonry structure is obscured by paint and damage. (confidence 0.60)",
     "submittedAt": "2026-10-15T17:03:05+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-spello-a4c800-title",
     "kind": "text",
     "field": "title",
-    "value": "Painted groin vault with degraded frescoes"
+    "value": "Painted groin vault with degraded frescoes",
+    "reviewedAt": "2026-10-16T06:53:01.180Z"
   },
   {
     "recordId": "spello-a4c800",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The image shows a painted groin vault with visible frescoes and significant plaster loss, but the underlying masonry structure is obscured by paint and damage. (confidence 0.60)",
     "submittedAt": "2026-10-15T17:03:05+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-spello-a4c800-element",
     "kind": "text",
     "field": "element",
-    "value": "Vault"
+    "value": "Vault",
+    "reviewedAt": "2026-10-16T06:53:01.180Z"
   },
   {
     "recordId": "spello-a4c800",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The image shows a painted groin vault with visible frescoes and significant plaster loss, but the underlying masonry structure is obscured by paint and damage. (confidence 0.60)",
     "submittedAt": "2026-10-15T17:03:05+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-spello-a4c800-technique",
     "kind": "text",
     "field": "technique",
-    "value": "Undetermined"
+    "value": "Undetermined",
+    "reviewedAt": "2026-10-16T06:53:01.180Z"
   },
   {
     "recordId": "spello-a4c800",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The image shows a painted groin vault with visible frescoes and significant plaster loss, but the underlying masonry structure is obscured by paint and damage. (confidence 0.60)",
     "submittedAt": "2026-10-15T17:03:05+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-spello-a4c800-material",
     "kind": "text",
     "field": "material",
-    "value": "Undetermined"
+    "value": "Undetermined",
+    "reviewedAt": "2026-10-16T06:53:01.180Z"
   },
   {
     "recordId": "spello-a4c800",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The image shows a painted groin vault with visible frescoes and significant plaster loss, but the underlying masonry structure is obscured by paint and damage. (confidence 0.60)",
     "submittedAt": "2026-10-15T17:03:05+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-spello-a4c800-tag-vault",
     "kind": "tag",
-    "value": "vault"
+    "value": "vault",
+    "reviewedAt": "2026-10-16T06:53:01.180Z"
   },
   {
     "recordId": "spello-a4c800",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The image shows a painted groin vault with visible frescoes and significant plaster loss, but the underlying masonry structure is obscured by paint and damage. (confidence 0.60)",
     "submittedAt": "2026-10-15T17:03:05+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-spello-a4c800-tag-fresco",
     "kind": "tag",
-    "value": "fresco"
+    "value": "fresco",
+    "reviewedAt": "2026-10-16T06:53:01.180Z"
   },
   {
     "recordId": "spello-a4c800",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The image shows a painted groin vault with visible frescoes and significant plaster loss, but the underlying masonry structure is obscured by paint and damage. (confidence 0.60)",
     "submittedAt": "2026-10-15T17:03:05+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-spello-a4c800-tag-degradation",
     "kind": "tag",
-    "value": "degradation"
+    "value": "degradation",
+    "reviewedAt": "2026-10-16T06:53:01.180Z"
   },
   {
     "recordId": "spello-a4c800",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The image shows a painted groin vault with visible frescoes and significant plaster loss, but the underlying masonry structure is obscured by paint and damage. (confidence 0.60)",
     "submittedAt": "2026-10-15T17:03:05+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-spello-a4c800-tag-arch",
     "kind": "tag",
-    "value": "arch"
+    "value": "arch",
+    "reviewedAt": "2026-10-16T06:53:01.180Z"
   },
   {
     "recordId": "spello-a4c800",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The image shows a painted groin vault with visible frescoes and significant plaster loss, but the underlying masonry structure is obscured by paint and damage. (confidence 0.60)",
     "submittedAt": "2026-10-15T17:03:05+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-spello-a4c800-tag-church",
     "kind": "tag",
-    "value": "church"
+    "value": "church",
+    "reviewedAt": "2026-10-16T06:53:01.180Z"
   },
   {
     "recordId": "spello-ceae27",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The image clearly shows large piers constructed from precisely cut rectangular stone blocks (ashlar) arranged in horizontal bands of alternating colors, supporting a complex ribbed vault typical of Gothic architecture. (confidence 0.85)",
     "submittedAt": "2026-10-15T17:03:13+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-spello-ceae27-technique",
     "kind": "text",
     "field": "technique",
-    "value": "Ashlar stone masonry"
+    "value": "Ashlar stone masonry",
+    "reviewedAt": "2026-10-16T06:52:57.845Z"
   },
   {
     "recordId": "spello-ceae27",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The image clearly shows large piers constructed from precisely cut rectangular stone blocks (ashlar) arranged in horizontal bands of alternating colors, supporting a complex ribbed vault typical of Gothic architecture. (confidence 0.85)",
     "submittedAt": "2026-10-15T17:03:13+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-spello-ceae27-material",
     "kind": "text",
     "field": "material",
-    "value": "Limestone and lime mortar"
+    "value": "Limestone and lime mortar",
+    "reviewedAt": "2026-10-16T06:52:57.845Z"
   },
   {
     "recordId": "spello-ceae27",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The image clearly shows large piers constructed from precisely cut rectangular stone blocks (ashlar) arranged in horizontal bands of alternating colors, supporting a complex ribbed vault typical of Gothic architecture. (confidence 0.85)",
     "submittedAt": "2026-10-15T17:03:13+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-spello-ceae27-period",
     "kind": "text",
     "field": "period",
-    "value": "19th century"
+    "value": "19th century",
+    "reviewedAt": "2026-10-16T06:52:57.845Z"
   },
   {
     "recordId": "spello-ceae27",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The image clearly shows large piers constructed from precisely cut rectangular stone blocks (ashlar) arranged in horizontal bands of alternating colors, supporting a complex ribbed vault typical of Gothic architecture. (confidence 0.85)",
     "submittedAt": "2026-10-15T17:03:13+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-spello-ceae27-tag-church",
     "kind": "tag",
-    "value": "church"
+    "value": "church",
+    "reviewedAt": "2026-10-16T06:52:57.845Z"
   },
   {
     "recordId": "spello-ceae27",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The image clearly shows large piers constructed from precisely cut rectangular stone blocks (ashlar) arranged in horizontal bands of alternating colors, supporting a complex ribbed vault typical of Gothic architecture. (confidence 0.85)",
     "submittedAt": "2026-10-15T17:03:13+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-spello-ceae27-tag-gothic",
     "kind": "tag",
-    "value": "gothic"
+    "value": "gothic",
+    "reviewedAt": "2026-10-16T06:52:57.845Z"
   },
   {
     "recordId": "spello-ceae27",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The image clearly shows large piers constructed from precisely cut rectangular stone blocks (ashlar) arranged in horizontal bands of alternating colors, supporting a complex ribbed vault typical of Gothic architecture. (confidence 0.85)",
     "submittedAt": "2026-10-15T17:03:13+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-spello-ceae27-tag-vault",
     "kind": "tag",
-    "value": "vault"
+    "value": "vault",
+    "reviewedAt": "2026-10-16T06:52:57.845Z"
   },
   {
     "recordId": "spello-ceae27",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The image clearly shows large piers constructed from precisely cut rectangular stone blocks (ashlar) arranged in horizontal bands of alternating colors, supporting a complex ribbed vault typical of Gothic architecture. (confidence 0.85)",
     "submittedAt": "2026-10-15T17:03:13+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-spello-ceae27-tag-pillar",
     "kind": "tag",
-    "value": "pillar"
+    "value": "pillar",
+    "reviewedAt": "2026-10-16T06:52:57.845Z"
   },
   {
     "recordId": "spello-ceae27",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The image clearly shows large piers constructed from precisely cut rectangular stone blocks (ashlar) arranged in horizontal bands of alternating colors, supporting a complex ribbed vault typical of Gothic architecture. (confidence 0.85)",
     "submittedAt": "2026-10-15T17:03:13+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-spello-ceae27-tag-ashlar",
     "kind": "tag",
-    "value": "ashlar"
+    "value": "ashlar",
+    "reviewedAt": "2026-10-16T06:52:57.845Z"
   },
   {
     "recordId": "spello-04d06b",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The image shows a large pier constructed from precisely cut rectangular blocks (ashlar) arranged in alternating horizontal bands of light and dark stone, typical of medieval Italian church architecture using local tuff. (confidence 0.90)",
     "submittedAt": "2026-10-15T17:03:21+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-spello-04d06b-title",
     "kind": "text",
     "field": "title",
-    "value": "Striped ashlar pier with vaulted ceiling"
+    "value": "Striped ashlar pier with vaulted ceiling",
+    "reviewedAt": "2026-10-16T06:52:56.688Z"
   },
   {
     "recordId": "spello-04d06b",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The image shows a large pier constructed from precisely cut rectangular blocks (ashlar) arranged in alternating horizontal bands of light and dark stone, typical of medieval Italian church architecture using local tuff. (confidence 0.90)",
     "submittedAt": "2026-10-15T17:03:21+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-spello-04d06b-element",
     "kind": "text",
     "field": "element",
-    "value": "Pier"
+    "value": "Pier",
+    "reviewedAt": "2026-10-16T06:52:56.688Z"
   },
   {
     "recordId": "spello-04d06b",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The image shows a large pier constructed from precisely cut rectangular blocks (ashlar) arranged in alternating horizontal bands of light and dark stone, typical of medieval Italian church architecture using local tuff. (confidence 0.90)",
     "submittedAt": "2026-10-15T17:03:21+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-spello-04d06b-technique",
     "kind": "text",
     "field": "technique",
-    "value": "Ashlar stone masonry"
+    "value": "Ashlar stone masonry",
+    "reviewedAt": "2026-10-16T06:52:56.688Z"
   },
   {
     "recordId": "spello-04d06b",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The image shows a large pier constructed from precisely cut rectangular blocks (ashlar) arranged in alternating horizontal bands of light and dark stone, typical of medieval Italian church architecture using local tuff. (confidence 0.90)",
     "submittedAt": "2026-10-15T17:03:21+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-spello-04d06b-material",
     "kind": "text",
     "field": "material",
-    "value": "Tuff and pozzolanic mortar"
+    "value": "Tuff and pozzolanic mortar",
+    "reviewedAt": "2026-10-16T06:52:56.688Z"
   },
   {
     "recordId": "spello-04d06b",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The image shows a large pier constructed from precisely cut rectangular blocks (ashlar) arranged in alternating horizontal bands of light and dark stone, typical of medieval Italian church architecture using local tuff. (confidence 0.90)",
     "submittedAt": "2026-10-15T17:03:21+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-spello-04d06b-period",
     "kind": "text",
     "field": "period",
-    "value": "13th century"
+    "value": "13th century",
+    "reviewedAt": "2026-10-16T06:52:56.688Z"
   },
   {
     "recordId": "spello-04d06b",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The image shows a large pier constructed from precisely cut rectangular blocks (ashlar) arranged in alternating horizontal bands of light and dark stone, typical of medieval Italian church architecture using local tuff. (confidence 0.90)",
     "submittedAt": "2026-10-15T17:03:21+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-spello-04d06b-tag-church",
     "kind": "tag",
-    "value": "church"
+    "value": "church",
+    "reviewedAt": "2026-10-16T06:52:56.688Z"
   },
   {
     "recordId": "spello-04d06b",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The image shows a large pier constructed from precisely cut rectangular blocks (ashlar) arranged in alternating horizontal bands of light and dark stone, typical of medieval Italian church architecture using local tuff. (confidence 0.90)",
     "submittedAt": "2026-10-15T17:03:21+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-spello-04d06b-tag-vault",
     "kind": "tag",
-    "value": "vault"
+    "value": "vault",
+    "reviewedAt": "2026-10-16T06:52:56.688Z"
   },
   {
     "recordId": "spello-04d06b",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The image shows a large pier constructed from precisely cut rectangular blocks (ashlar) arranged in alternating horizontal bands of light and dark stone, typical of medieval Italian church architecture using local tuff. (confidence 0.90)",
     "submittedAt": "2026-10-15T17:03:21+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-spello-04d06b-tag-ashlar",
     "kind": "tag",
-    "value": "ashlar"
+    "value": "ashlar",
+    "reviewedAt": "2026-10-16T06:52:56.688Z"
   },
   {
     "recordId": "spello-04d06b",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The image shows a large pier constructed from precisely cut rectangular blocks (ashlar) arranged in alternating horizontal bands of light and dark stone, typical of medieval Italian church architecture using local tuff. (confidence 0.90)",
     "submittedAt": "2026-10-15T17:03:21+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-spello-04d06b-tag-banded-masonry",
     "kind": "tag",
-    "value": "banded masonry"
+    "value": "banded masonry",
+    "reviewedAt": "2026-10-16T06:52:56.688Z"
   },
   {
     "recordId": "spello-04d06b",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The image shows a large pier constructed from precisely cut rectangular blocks (ashlar) arranged in alternating horizontal bands of light and dark stone, typical of medieval Italian church architecture using local tuff. (confidence 0.90)",
     "submittedAt": "2026-10-15T17:03:21+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-spello-04d06b-tag-lime-mortar",
     "kind": "tag",
-    "value": "lime mortar"
+    "value": "lime mortar",
+    "reviewedAt": "2026-10-16T06:52:56.688Z"
   },
   {
     "recordId": "spello-768e51",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The image shows a large pier with alternating light and dark horizontal bands of ashlar stone (likely tuff), supporting a ribbed vaulted ceiling; the style is consistent with late medieval Italian ecclesiastical architecture. (confidence 0.85)",
     "submittedAt": "2026-10-15T17:03:29+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-spello-768e51-title",
     "kind": "text",
     "field": "title",
-    "value": "Striped pier and vaulted ceiling in historic church interior"
+    "value": "Striped pier and vaulted ceiling in historic church interior",
+    "reviewedAt": "2026-10-16T06:52:53.950Z"
   },
   {
     "recordId": "spello-768e51",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The image shows a large pier with alternating light and dark horizontal bands of ashlar stone (likely tuff), supporting a ribbed vaulted ceiling; the style is consistent with late medieval Italian ecclesiastical architecture. (confidence 0.85)",
     "submittedAt": "2026-10-15T17:03:29+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-spello-768e51-element",
     "kind": "text",
     "field": "element",
-    "value": "Pier"
+    "value": "Pier",
+    "reviewedAt": "2026-10-16T06:52:53.950Z"
   },
   {
     "recordId": "spello-768e51",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The image shows a large pier with alternating light and dark horizontal bands of ashlar stone (likely tuff), supporting a ribbed vaulted ceiling; the style is consistent with late medieval Italian ecclesiastical architecture. (confidence 0.85)",
     "submittedAt": "2026-10-15T17:03:29+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-spello-768e51-technique",
     "kind": "text",
     "field": "technique",
-    "value": "Ashlar stone masonry"
+    "value": "Ashlar stone masonry",
+    "reviewedAt": "2026-10-16T06:52:53.950Z"
   },
   {
     "recordId": "spello-768e51",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The image shows a large pier with alternating light and dark horizontal bands of ashlar stone (likely tuff), supporting a ribbed vaulted ceiling; the style is consistent with late medieval Italian ecclesiastical architecture. (confidence 0.85)",
     "submittedAt": "2026-10-15T17:03:29+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-spello-768e51-material",
     "kind": "text",
     "field": "material",
-    "value": "Tuff and pozzolanic mortar"
+    "value": "Tuff and pozzolanic mortar",
+    "reviewedAt": "2026-10-16T06:52:53.950Z"
   },
   {
     "recordId": "spello-768e51",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The image shows a large pier with alternating light and dark horizontal bands of ashlar stone (likely tuff), supporting a ribbed vaulted ceiling; the style is consistent with late medieval Italian ecclesiastical architecture. (confidence 0.85)",
     "submittedAt": "2026-10-15T17:03:29+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-spello-768e51-period",
     "kind": "text",
     "field": "period",
-    "value": "15th century"
+    "value": "15th century",
+    "reviewedAt": "2026-10-16T06:52:53.950Z"
   },
   {
     "recordId": "spello-768e51",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The image shows a large pier with alternating light and dark horizontal bands of ashlar stone (likely tuff), supporting a ribbed vaulted ceiling; the style is consistent with late medieval Italian ecclesiastical architecture. (confidence 0.85)",
     "submittedAt": "2026-10-15T17:03:29+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-spello-768e51-tag-church",
     "kind": "tag",
-    "value": "church"
+    "value": "church",
+    "reviewedAt": "2026-10-16T06:52:53.950Z"
   },
   {
     "recordId": "spello-768e51",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The image shows a large pier with alternating light and dark horizontal bands of ashlar stone (likely tuff), supporting a ribbed vaulted ceiling; the style is consistent with late medieval Italian ecclesiastical architecture. (confidence 0.85)",
     "submittedAt": "2026-10-15T17:03:29+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-spello-768e51-tag-vault",
     "kind": "tag",
-    "value": "vault"
+    "value": "vault",
+    "reviewedAt": "2026-10-16T06:52:53.950Z"
   },
   {
     "recordId": "spello-768e51",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The image shows a large pier with alternating light and dark horizontal bands of ashlar stone (likely tuff), supporting a ribbed vaulted ceiling; the style is consistent with late medieval Italian ecclesiastical architecture. (confidence 0.85)",
     "submittedAt": "2026-10-15T17:03:29+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-spello-768e51-tag-arch",
     "kind": "tag",
-    "value": "arch"
+    "value": "arch",
+    "reviewedAt": "2026-10-16T06:52:53.950Z"
   },
   {
     "recordId": "spello-768e51",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The image shows a large pier with alternating light and dark horizontal bands of ashlar stone (likely tuff), supporting a ribbed vaulted ceiling; the style is consistent with late medieval Italian ecclesiastical architecture. (confidence 0.85)",
     "submittedAt": "2026-10-15T17:03:29+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-spello-768e51-tag-banded-masonry",
     "kind": "tag",
-    "value": "banded masonry"
+    "value": "banded masonry",
+    "reviewedAt": "2026-10-16T06:52:53.950Z"
   },
   {
     "recordId": "spello-768e51",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The image shows a large pier with alternating light and dark horizontal bands of ashlar stone (likely tuff), supporting a ribbed vaulted ceiling; the style is consistent with late medieval Italian ecclesiastical architecture. (confidence 0.85)",
     "submittedAt": "2026-10-15T17:03:29+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-spello-768e51-tag-stonework",
     "kind": "tag",
-    "value": "stonework"
+    "value": "stonework",
+    "reviewedAt": "2026-10-16T06:52:53.950Z"
   },
   {
     "recordId": "spello-97b08c",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The image shows a church interior with piers constructed from precisely cut stone blocks arranged in alternating horizontal bands of light and dark stone, characteristic of ashlar masonry. (confidence 0.90)",
     "submittedAt": "2026-10-15T17:03:36+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-spello-97b08c-title",
     "kind": "text",
     "field": "title",
-    "value": "Striped ashlar pier with vaulted ceiling"
+    "value": "Striped ashlar pier with vaulted ceiling",
+    "reviewedAt": "2026-10-16T06:52:51.305Z"
   },
   {
     "recordId": "spello-97b08c",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The image shows a church interior with piers constructed from precisely cut stone blocks arranged in alternating horizontal bands of light and dark stone, characteristic of ashlar masonry. (confidence 0.90)",
     "submittedAt": "2026-10-15T17:03:36+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-spello-97b08c-element",
     "kind": "text",
     "field": "element",
-    "value": "Pier"
+    "value": "Pier",
+    "reviewedAt": "2026-10-16T06:52:51.305Z"
   },
   {
     "recordId": "spello-97b08c",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The image shows a church interior with piers constructed from precisely cut stone blocks arranged in alternating horizontal bands of light and dark stone, characteristic of ashlar masonry. (confidence 0.90)",
     "submittedAt": "2026-10-15T17:03:36+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-spello-97b08c-technique",
     "kind": "text",
     "field": "technique",
-    "value": "Ashlar stone masonry"
+    "value": "Ashlar stone masonry",
+    "reviewedAt": "2026-10-16T06:52:51.305Z"
   },
   {
     "recordId": "spello-97b08c",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The image shows a church interior with piers constructed from precisely cut stone blocks arranged in alternating horizontal bands of light and dark stone, characteristic of ashlar masonry. (confidence 0.90)",
     "submittedAt": "2026-10-15T17:03:36+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-spello-97b08c-material",
     "kind": "text",
     "field": "material",
-    "value": "Limestone and lime mortar"
+    "value": "Limestone and lime mortar",
+    "reviewedAt": "2026-10-16T06:52:51.305Z"
   },
   {
     "recordId": "spello-97b08c",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The image shows a church interior with piers constructed from precisely cut stone blocks arranged in alternating horizontal bands of light and dark stone, characteristic of ashlar masonry. (confidence 0.90)",
     "submittedAt": "2026-10-15T17:03:36+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-spello-97b08c-period",
     "kind": "text",
     "field": "period",
-    "value": "13th century"
+    "value": "13th century",
+    "reviewedAt": "2026-10-16T06:52:51.305Z"
   },
   {
     "recordId": "spello-97b08c",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The image shows a church interior with piers constructed from precisely cut stone blocks arranged in alternating horizontal bands of light and dark stone, characteristic of ashlar masonry. (confidence 0.90)",
     "submittedAt": "2026-10-15T17:03:36+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-spello-97b08c-tag-church",
     "kind": "tag",
-    "value": "church"
+    "value": "church",
+    "reviewedAt": "2026-10-16T06:52:51.305Z"
   },
   {
     "recordId": "spello-97b08c",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The image shows a church interior with piers constructed from precisely cut stone blocks arranged in alternating horizontal bands of light and dark stone, characteristic of ashlar masonry. (confidence 0.90)",
     "submittedAt": "2026-10-15T17:03:36+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-spello-97b08c-tag-vault",
     "kind": "tag",
-    "value": "vault"
+    "value": "vault",
+    "reviewedAt": "2026-10-16T06:52:51.305Z"
   },
   {
     "recordId": "spello-97b08c",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The image shows a church interior with piers constructed from precisely cut stone blocks arranged in alternating horizontal bands of light and dark stone, characteristic of ashlar masonry. (confidence 0.90)",
     "submittedAt": "2026-10-15T17:03:36+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-spello-97b08c-tag-ashlar",
     "kind": "tag",
-    "value": "ashlar"
+    "value": "ashlar",
+    "reviewedAt": "2026-10-16T06:52:51.305Z"
   },
   {
     "recordId": "spello-97b08c",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The image shows a church interior with piers constructed from precisely cut stone blocks arranged in alternating horizontal bands of light and dark stone, characteristic of ashlar masonry. (confidence 0.90)",
     "submittedAt": "2026-10-15T17:03:36+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-spello-97b08c-tag-banded-masonry",
     "kind": "tag",
-    "value": "banded masonry"
+    "value": "banded masonry",
+    "reviewedAt": "2026-10-16T06:52:51.305Z"
   },
   {
     "recordId": "spello-97b08c",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The image shows a church interior with piers constructed from precisely cut stone blocks arranged in alternating horizontal bands of light and dark stone, characteristic of ashlar masonry. (confidence 0.90)",
     "submittedAt": "2026-10-15T17:03:36+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-spello-97b08c-tag-lime-mortar",
     "kind": "tag",
-    "value": "lime mortar"
+    "value": "lime mortar",
+    "reviewedAt": "2026-10-16T06:52:51.305Z"
   },
   {
     "recordId": "vejle-9e771c",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The image shows a pointed arch constructed from red clay bricks laid in Flemish bond with visible lime mortar joints, characteristic of 19th-century Gothic Revival architecture in Denmark. (confidence 0.95)",
     "submittedAt": "2026-10-15T17:03:44+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-vejle-9e771c-title",
     "kind": "text",
     "field": "title",
-    "value": "Gothic brick archway with Flemish bond"
+    "value": "Gothic brick archway with Flemish bond",
+    "reviewedAt": "2026-10-16T06:52:44.281Z"
   },
   {
     "recordId": "vejle-9e771c",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The image shows a pointed arch constructed from red clay bricks laid in Flemish bond with visible lime mortar joints, characteristic of 19th-century Gothic Revival architecture in Denmark. (confidence 0.95)",
     "submittedAt": "2026-10-15T17:03:44+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-vejle-9e771c-element",
     "kind": "text",
     "field": "element",
-    "value": "Arch"
+    "value": "Arch",
+    "reviewedAt": "2026-10-16T06:52:44.281Z"
   },
   {
     "recordId": "vejle-9e771c",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The image shows a pointed arch constructed from red clay bricks laid in Flemish bond with visible lime mortar joints, characteristic of 19th-century Gothic Revival architecture in Denmark. (confidence 0.95)",
     "submittedAt": "2026-10-15T17:03:44+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-vejle-9e771c-technique",
     "kind": "text",
     "field": "technique",
-    "value": "Brick masonry"
+    "value": "Brick masonry",
+    "reviewedAt": "2026-10-16T06:52:44.281Z"
   },
   {
     "recordId": "vejle-9e771c",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The image shows a pointed arch constructed from red clay bricks laid in Flemish bond with visible lime mortar joints, characteristic of 19th-century Gothic Revival architecture in Denmark. (confidence 0.95)",
     "submittedAt": "2026-10-15T17:03:44+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-vejle-9e771c-material",
     "kind": "text",
     "field": "material",
-    "value": "Clay brick and lime mortar"
+    "value": "Clay brick and lime mortar",
+    "reviewedAt": "2026-10-16T06:52:44.281Z"
   },
   {
     "recordId": "vejle-9e771c",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The image shows a pointed arch constructed from red clay bricks laid in Flemish bond with visible lime mortar joints, characteristic of 19th-century Gothic Revival architecture in Denmark. (confidence 0.95)",
     "submittedAt": "2026-10-15T17:03:44+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-vejle-9e771c-period",
     "kind": "text",
     "field": "period",
-    "value": "19th century"
+    "value": "19th century",
+    "reviewedAt": "2026-10-16T06:52:44.281Z"
   },
   {
     "recordId": "vejle-9e771c",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The image shows a pointed arch constructed from red clay bricks laid in Flemish bond with visible lime mortar joints, characteristic of 19th-century Gothic Revival architecture in Denmark. (confidence 0.95)",
     "submittedAt": "2026-10-15T17:03:44+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-vejle-9e771c-tag-gothic",
     "kind": "tag",
-    "value": "gothic"
+    "value": "gothic",
+    "reviewedAt": "2026-10-16T06:52:44.281Z"
   },
   {
     "recordId": "vejle-9e771c",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The image shows a pointed arch constructed from red clay bricks laid in Flemish bond with visible lime mortar joints, characteristic of 19th-century Gothic Revival architecture in Denmark. (confidence 0.95)",
     "submittedAt": "2026-10-15T17:03:44+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-vejle-9e771c-tag-brickwork",
     "kind": "tag",
-    "value": "brickwork"
+    "value": "brickwork",
+    "reviewedAt": "2026-10-16T06:52:44.281Z"
   },
   {
     "recordId": "vejle-9e771c",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The image shows a pointed arch constructed from red clay bricks laid in Flemish bond with visible lime mortar joints, characteristic of 19th-century Gothic Revival architecture in Denmark. (confidence 0.95)",
     "submittedAt": "2026-10-15T17:03:44+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-vejle-9e771c-tag-arch",
     "kind": "tag",
-    "value": "arch"
+    "value": "arch",
+    "reviewedAt": "2026-10-16T06:52:44.281Z"
   },
   {
     "recordId": "vejle-9e771c",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The image shows a pointed arch constructed from red clay bricks laid in Flemish bond with visible lime mortar joints, characteristic of 19th-century Gothic Revival architecture in Denmark. (confidence 0.95)",
     "submittedAt": "2026-10-15T17:03:44+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-vejle-9e771c-tag-church",
     "kind": "tag",
-    "value": "church"
+    "value": "church",
+    "reviewedAt": "2026-10-16T06:52:44.281Z"
   },
   {
     "recordId": "vejle-9e771c",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The image shows a pointed arch constructed from red clay bricks laid in Flemish bond with visible lime mortar joints, characteristic of 19th-century Gothic Revival architecture in Denmark. (confidence 0.95)",
     "submittedAt": "2026-10-15T17:03:44+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-vejle-9e771c-tag-flemish-bond",
     "kind": "tag",
-    "value": "flemish bond"
+    "value": "flemish bond",
+    "reviewedAt": "2026-10-16T06:52:44.281Z"
   },
   {
     "recordId": "vejle-4dffc5",
@@ -66493,282 +66645,206 @@
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The image shows a wall constructed from irregularly shaped and sized stones laid in roughly horizontal courses with visible lime mortar joints, featuring a small arched opening at the top. (confidence 0.85)",
     "submittedAt": "2026-10-15T17:22:44+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-unlocated-88a22a-title",
     "kind": "text",
     "field": "title",
-    "value": "Arched opening in rough stone masonry wall"
+    "value": "Arched opening in rough stone masonry wall",
+    "reviewedAt": "2026-10-16T07:01:53.777Z"
   },
   {
     "recordId": "unlocated-88a22a",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The image shows a wall constructed from irregularly shaped and sized stones laid in roughly horizontal courses with visible lime mortar joints, featuring a small arched opening at the top. (confidence 0.85)",
     "submittedAt": "2026-10-15T17:22:44+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-unlocated-88a22a-element",
     "kind": "text",
     "field": "element",
-    "value": "Wall"
+    "value": "Wall",
+    "reviewedAt": "2026-10-16T07:01:53.777Z"
   },
   {
     "recordId": "unlocated-88a22a",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The image shows a wall constructed from irregularly shaped and sized stones laid in roughly horizontal courses with visible lime mortar joints, featuring a small arched opening at the top. (confidence 0.85)",
     "submittedAt": "2026-10-15T17:22:44+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-unlocated-88a22a-technique",
     "kind": "text",
     "field": "technique",
-    "value": "Roughly coursed rubble stone masonry"
+    "value": "Roughly coursed rubble stone masonry",
+    "reviewedAt": "2026-10-16T07:01:53.777Z"
   },
   {
     "recordId": "unlocated-88a22a",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The image shows a wall constructed from irregularly shaped and sized stones laid in roughly horizontal courses with visible lime mortar joints, featuring a small arched opening at the top. (confidence 0.85)",
     "submittedAt": "2026-10-15T17:22:44+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-unlocated-88a22a-material",
     "kind": "text",
     "field": "material",
-    "value": "Sandstone and lime mortar"
+    "value": "Sandstone and lime mortar",
+    "reviewedAt": "2026-10-16T07:01:53.777Z"
   },
   {
     "recordId": "unlocated-88a22a",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The image shows a wall constructed from irregularly shaped and sized stones laid in roughly horizontal courses with visible lime mortar joints, featuring a small arched opening at the top. (confidence 0.85)",
     "submittedAt": "2026-10-15T17:22:44+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-unlocated-88a22a-tag-arch",
     "kind": "tag",
-    "value": "arch"
+    "value": "arch",
+    "reviewedAt": "2026-10-16T07:01:53.777Z"
   },
   {
     "recordId": "unlocated-88a22a",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The image shows a wall constructed from irregularly shaped and sized stones laid in roughly horizontal courses with visible lime mortar joints, featuring a small arched opening at the top. (confidence 0.85)",
     "submittedAt": "2026-10-15T17:22:44+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-unlocated-88a22a-tag-irregular-masonry",
     "kind": "tag",
-    "value": "irregular masonry"
+    "value": "irregular masonry",
+    "reviewedAt": "2026-10-16T07:01:53.777Z"
   },
   {
     "recordId": "unlocated-88a22a",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The image shows a wall constructed from irregularly shaped and sized stones laid in roughly horizontal courses with visible lime mortar joints, featuring a small arched opening at the top. (confidence 0.85)",
     "submittedAt": "2026-10-15T17:22:44+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-unlocated-88a22a-tag-lime-mortar",
     "kind": "tag",
-    "value": "lime mortar"
+    "value": "lime mortar",
+    "reviewedAt": "2026-10-16T07:01:53.777Z"
   },
   {
     "recordId": "unlocated-88a22a",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The image shows a wall constructed from irregularly shaped and sized stones laid in roughly horizontal courses with visible lime mortar joints, featuring a small arched opening at the top. (confidence 0.85)",
     "submittedAt": "2026-10-15T17:22:44+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-unlocated-88a22a-tag-stonework",
     "kind": "tag",
-    "value": "stonework"
+    "value": "stonework",
+    "reviewedAt": "2026-10-16T07:01:53.777Z"
   },
   {
     "recordId": "unlocated-88a22a",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The image shows a wall constructed from irregularly shaped and sized stones laid in roughly horizontal courses with visible lime mortar joints, featuring a small arched opening at the top. (confidence 0.85)",
     "submittedAt": "2026-10-15T17:22:44+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-unlocated-88a22a-tag-weathering",
     "kind": "tag",
-    "value": "weathering"
-  },
-  {
-    "recordId": "unlocated-3b3f26",
-    "author": "Hermes · qwen3.5:9b",
-    "rationale": "The image clearly shows a wall constructed from rectangular clay bricks laid in horizontal courses with visible lime mortar joints, featuring an arched opening at the bottom and a partially intact upper section. (confidence 0.90)",
-    "submittedAt": "2026-10-15T17:22:51+00:00",
-    "status": "pending",
-    "id": "ai-unlocated-3b3f26-title",
-    "kind": "text",
-    "field": "title",
-    "value": "Weathered brick wall with arched opening"
-  },
-  {
-    "recordId": "unlocated-3b3f26",
-    "author": "Hermes · qwen3.5:9b",
-    "rationale": "The image clearly shows a wall constructed from rectangular clay bricks laid in horizontal courses with visible lime mortar joints, featuring an arched opening at the bottom and a partially intact upper section. (confidence 0.90)",
-    "submittedAt": "2026-10-15T17:22:51+00:00",
-    "status": "pending",
-    "id": "ai-unlocated-3b3f26-element",
-    "kind": "text",
-    "field": "element",
-    "value": "Wall"
-  },
-  {
-    "recordId": "unlocated-3b3f26",
-    "author": "Hermes · qwen3.5:9b",
-    "rationale": "The image clearly shows a wall constructed from rectangular clay bricks laid in horizontal courses with visible lime mortar joints, featuring an arched opening at the bottom and a partially intact upper section. (confidence 0.90)",
-    "submittedAt": "2026-10-15T17:22:51+00:00",
-    "status": "pending",
-    "id": "ai-unlocated-3b3f26-technique",
-    "kind": "text",
-    "field": "technique",
-    "value": "Brick masonry"
-  },
-  {
-    "recordId": "unlocated-3b3f26",
-    "author": "Hermes · qwen3.5:9b",
-    "rationale": "The image clearly shows a wall constructed from rectangular clay bricks laid in horizontal courses with visible lime mortar joints, featuring an arched opening at the bottom and a partially intact upper section. (confidence 0.90)",
-    "submittedAt": "2026-10-15T17:22:51+00:00",
-    "status": "pending",
-    "id": "ai-unlocated-3b3f26-material",
-    "kind": "text",
-    "field": "material",
-    "value": "Clay brick and lime mortar"
-  },
-  {
-    "recordId": "unlocated-3b3f26",
-    "author": "Hermes · qwen3.5:9b",
-    "rationale": "The image clearly shows a wall constructed from rectangular clay bricks laid in horizontal courses with visible lime mortar joints, featuring an arched opening at the bottom and a partially intact upper section. (confidence 0.90)",
-    "submittedAt": "2026-10-15T17:22:51+00:00",
-    "status": "pending",
-    "id": "ai-unlocated-3b3f26-tag-brickwork",
-    "kind": "tag",
-    "value": "brickwork"
-  },
-  {
-    "recordId": "unlocated-3b3f26",
-    "author": "Hermes · qwen3.5:9b",
-    "rationale": "The image clearly shows a wall constructed from rectangular clay bricks laid in horizontal courses with visible lime mortar joints, featuring an arched opening at the bottom and a partially intact upper section. (confidence 0.90)",
-    "submittedAt": "2026-10-15T17:22:51+00:00",
-    "status": "pending",
-    "id": "ai-unlocated-3b3f26-tag-arch",
-    "kind": "tag",
-    "value": "arch"
-  },
-  {
-    "recordId": "unlocated-3b3f26",
-    "author": "Hermes · qwen3.5:9b",
-    "rationale": "The image clearly shows a wall constructed from rectangular clay bricks laid in horizontal courses with visible lime mortar joints, featuring an arched opening at the bottom and a partially intact upper section. (confidence 0.90)",
-    "submittedAt": "2026-10-15T17:22:51+00:00",
-    "status": "pending",
-    "id": "ai-unlocated-3b3f26-tag-weathering",
-    "kind": "tag",
-    "value": "weathering"
-  },
-  {
-    "recordId": "unlocated-3b3f26",
-    "author": "Hermes · qwen3.5:9b",
-    "rationale": "The image clearly shows a wall constructed from rectangular clay bricks laid in horizontal courses with visible lime mortar joints, featuring an arched opening at the bottom and a partially intact upper section. (confidence 0.90)",
-    "submittedAt": "2026-10-15T17:22:51+00:00",
-    "status": "pending",
-    "id": "ai-unlocated-3b3f26-tag-degradation",
-    "kind": "tag",
-    "value": "degradation"
-  },
-  {
-    "recordId": "unlocated-3b3f26",
-    "author": "Hermes · qwen3.5:9b",
-    "rationale": "The image clearly shows a wall constructed from rectangular clay bricks laid in horizontal courses with visible lime mortar joints, featuring an arched opening at the bottom and a partially intact upper section. (confidence 0.90)",
-    "submittedAt": "2026-10-15T17:22:51+00:00",
-    "status": "pending",
-    "id": "ai-unlocated-3b3f26-tag-lime-mortar",
-    "kind": "tag",
-    "value": "lime mortar"
+    "value": "weathering",
+    "reviewedAt": "2026-10-16T07:01:53.777Z"
   },
   {
     "recordId": "unlocated-54a3b6",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The image shows a vertical wall constructed with bricks of varying sizes and colors laid in an irregular pattern with thick, uneven mortar joints that show signs of significant weathering and cracking. (confidence 0.85)",
     "submittedAt": "2026-10-15T17:22:59+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-unlocated-54a3b6-title",
     "kind": "text",
     "field": "title",
-    "value": "Weathered brick wall with irregular mortar joints"
+    "value": "Weathered brick wall with irregular mortar joints",
+    "reviewedAt": "2026-10-16T07:01:06.110Z"
   },
   {
     "recordId": "unlocated-54a3b6",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The image shows a vertical wall constructed with bricks of varying sizes and colors laid in an irregular pattern with thick, uneven mortar joints that show signs of significant weathering and cracking. (confidence 0.85)",
     "submittedAt": "2026-10-15T17:22:59+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-unlocated-54a3b6-element",
     "kind": "text",
     "field": "element",
-    "value": "Wall"
+    "value": "Wall",
+    "reviewedAt": "2026-10-16T07:01:06.110Z"
   },
   {
     "recordId": "unlocated-54a3b6",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The image shows a vertical wall constructed with bricks of varying sizes and colors laid in an irregular pattern with thick, uneven mortar joints that show signs of significant weathering and cracking. (confidence 0.85)",
     "submittedAt": "2026-10-15T17:22:59+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-unlocated-54a3b6-technique",
     "kind": "text",
     "field": "technique",
-    "value": "Brick masonry"
+    "value": "Brick masonry",
+    "reviewedAt": "2026-10-16T07:01:06.110Z"
   },
   {
     "recordId": "unlocated-54a3b6",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The image shows a vertical wall constructed with bricks of varying sizes and colors laid in an irregular pattern with thick, uneven mortar joints that show signs of significant weathering and cracking. (confidence 0.85)",
     "submittedAt": "2026-10-15T17:22:59+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-unlocated-54a3b6-material",
     "kind": "text",
     "field": "material",
-    "value": "Clay brick and lime mortar"
+    "value": "Clay brick and lime mortar",
+    "reviewedAt": "2026-10-16T07:01:06.110Z"
   },
   {
     "recordId": "unlocated-54a3b6",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The image shows a vertical wall constructed with bricks of varying sizes and colors laid in an irregular pattern with thick, uneven mortar joints that show signs of significant weathering and cracking. (confidence 0.85)",
     "submittedAt": "2026-10-15T17:22:59+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-unlocated-54a3b6-tag-brickwork",
     "kind": "tag",
-    "value": "brickwork"
+    "value": "brickwork",
+    "reviewedAt": "2026-10-16T07:01:06.110Z"
   },
   {
     "recordId": "unlocated-54a3b6",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The image shows a vertical wall constructed with bricks of varying sizes and colors laid in an irregular pattern with thick, uneven mortar joints that show signs of significant weathering and cracking. (confidence 0.85)",
     "submittedAt": "2026-10-15T17:22:59+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-unlocated-54a3b6-tag-irregular-masonry",
     "kind": "tag",
-    "value": "irregular masonry"
+    "value": "irregular masonry",
+    "reviewedAt": "2026-10-16T07:01:06.110Z"
   },
   {
     "recordId": "unlocated-54a3b6",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The image shows a vertical wall constructed with bricks of varying sizes and colors laid in an irregular pattern with thick, uneven mortar joints that show signs of significant weathering and cracking. (confidence 0.85)",
     "submittedAt": "2026-10-15T17:22:59+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-unlocated-54a3b6-tag-weathering",
     "kind": "tag",
-    "value": "weathering"
+    "value": "weathering",
+    "reviewedAt": "2026-10-16T07:01:06.110Z"
   },
   {
     "recordId": "unlocated-54a3b6",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The image shows a vertical wall constructed with bricks of varying sizes and colors laid in an irregular pattern with thick, uneven mortar joints that show signs of significant weathering and cracking. (confidence 0.85)",
     "submittedAt": "2026-10-15T17:22:59+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-unlocated-54a3b6-tag-crack-pattern",
     "kind": "tag",
-    "value": "crack pattern"
+    "value": "crack pattern",
+    "reviewedAt": "2026-10-16T07:01:06.110Z"
   },
   {
     "recordId": "unlocated-54a3b6",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The image shows a vertical wall constructed with bricks of varying sizes and colors laid in an irregular pattern with thick, uneven mortar joints that show signs of significant weathering and cracking. (confidence 0.85)",
     "submittedAt": "2026-10-15T17:22:59+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-unlocated-54a3b6-tag-degradation",
     "kind": "tag",
-    "value": "degradation"
+    "value": "degradation",
+    "reviewedAt": "2026-10-16T07:01:06.110Z"
   },
   {
     "recordId": "unlocated-46a78d",
