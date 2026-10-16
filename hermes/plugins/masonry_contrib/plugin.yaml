@@ -12,3 +12,5 @@ provides_tools:
   - masonry_delete_my_data
 provides_hooks:
   - post_gateway_admission
+  - pre_llm_call
+  - transform_llm_output

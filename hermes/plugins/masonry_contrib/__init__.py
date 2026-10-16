@@ -21,6 +21,7 @@ from __future__ import annotations
 
 import json
 import os
+import re
 import subprocess
 import sys
 from pathlib import Path
@@ -432,6 +433,170 @@ def _registration_step(user_id: str, username: str, language: str, text: str):
     return {"action": "handled", "reply": _question(language, step + 1)}
 
 
+# --------------------------------------------------------------------------
+# Invio delle foto
+#
+# Il modello piccolo, senza ragionamento, tende a descrivere la foto invece di
+# inviarla. Quindi la decisione non e' sua: `pre_llm_call` riceve il messaggio con
+# il percorso dell'allegato ("[Image attached at: …]"), mette la foto in coda e
+# prepara la risposta, che `transform_llm_output` sostituisce a quella del modello.
+# Le domande successive (provenienza se manca il GPS, motivo dell'invio se manca
+# la didascalia) le raccoglie il portiere, perche' le risposte sono solo testo.
+
+PHOTO = {
+    "it": {
+        "received": "📥 Foto ricevuta, grazie!",
+        "receivedMany": "📥 {n} foto ricevute, grazie!",
+        "askPosition": (
+            "La foto non contiene la posizione GPS: da dove viene? Scrivi il luogo "
+            "(es. «Spello, Porta Venere») o le coordinate (es. 44.4938, 11.3426)."
+        ),
+        "askNote": (
+            "Perche' l'hai scattata? Scrivi una breve nota, ad esempio «evidente stato di degrado» "
+            "o «fessura sopra l'arco». (Se non vuoi aggiungerla, scrivi salta.)"
+        ),
+        "done": "✅ Grazie! La foto e' in moderazione: riceverai qui un messaggio con l'esito.",
+        "tip": "\n\n📎 La prossima volta inviala come FILE (graffetta → File): cosi' il GPS resta nella foto.",
+        "errors": {
+            "duplicate": "Questa foto e' gia' stata inviata o e' gia' nell'archivio.",
+            "not_an_image": "Questo file non e' una foto (JPEG, HEIC, PNG, WebP o TIFF).",
+            "too_large": "Il file e' troppo grande (massimo 25 MB).",
+            "daily_limit": "Hai raggiunto il limite di foto per oggi: riprova domani.",
+            "no_attachment": "Non riesco a leggere la foto: prova a inviarla di nuovo, come file.",
+        },
+    },
+    "en": {
+        "received": "📥 Photo received, thank you!",
+        "receivedMany": "📥 {n} photos received, thank you!",
+        "askPosition": (
+            "The photo has no GPS position: where was it taken? Type the place "
+            "(e.g. \"Spello, Porta Venere\") or the coordinates (e.g. 44.4938, 11.3426)."
+        ),
+        "askNote": (
+            "Why did you take it? Write a short note, for example \"evident decay\" or "
+            "\"crack above the arch\". (Type skip if you'd rather not.)"
+        ),
+        "done": "✅ Thank you! The photo is under review: you'll get a message here with the outcome.",
+        "tip": "\n\n📎 Next time send it as a FILE (paperclip → File), so the GPS stays in the photo.",
+        "errors": {
+            "duplicate": "This photo has already been sent or is already in the archive.",
+            "not_an_image": "This file is not a photo (JPEG, HEIC, PNG, WebP or TIFF).",
+            "too_large": "The file is too large (25 MB at most).",
+            "daily_limit": "You've reached today's photo limit: please try again tomorrow.",
+            "no_attachment": "I can't read the photo: please send it again, as a file.",
+        },
+    },
+}
+SKIP = {"salta", "skip", "no", "-", "niente", "nessuna", "none"}
+# Testo che Hermes mette al posto della didascalia quando una foto arriva senza.
+_DEFAULT_CAPTION = "What do you see in this image?"
+_ATTACHMENT_RE = re.compile(r"\[Image attached at: ([^\]]+)\]|saved at: ([^\s\]]+?)[.\]]?(?:\s|$)")
+_COORDS_RE = re.compile(r"^\s*(-?\d{1,2}[.,]\d+)\s*[,; ]\s*(-?\d{1,3}[.,]\d+)\s*$")
+# Risposta pronta per il turno in corso, per sessione: la consegna transform_llm_output.
+_REPLIES: dict[str, str] = {}
+
+
+def _message_text(user_message) -> str:
+    if isinstance(user_message, list):
+        return "\n".join(str(p.get("text", "")) for p in user_message if isinstance(p, dict) and p.get("type") == "text")
+    return str(user_message or "")
+
+
+def _next_question(flow: dict, words: dict) -> str:
+    if flow.get("needPosition"):
+        return words["askPosition"]
+    if flow.get("needNote"):
+        return words["askNote"]
+    return ""
+
+
+def intake_photos(session_id="", user_message=None, sender_id="", platform="", **kwargs):
+    del kwargs
+    user_id = str(sender_id or "")
+    if not user_id:
+        from gateway.session_context import get_session_env
+
+        user_id = get_session_env("HERMES_SESSION_USER_ID")
+    if platform != "telegram" or not user_id or not queue.get_contributor(user_id):
+        return None
+    text = _message_text(user_message)
+    paths = [a or b for a, b in _ATTACHMENT_RE.findall(text)]
+    if not paths:
+        return None
+    # Didascalia = il testo dell'utente, senza le note che Hermes aggiunge sugli allegati.
+    caption = re.sub(r"\[(?:The user sent|Image attached)[^\]]*\]", "", text).replace(_DEFAULT_CAPTION, "")
+    caption = " ".join(caption.split())
+
+    words = PHOTO[queue.get_language(user_id) or "it"]
+    accepted, errors, no_gps = [], [], []
+    for raw in paths:
+        source = _attachment(raw)
+        if source is None:
+            errors.append(words["errors"]["no_attachment"])
+            continue
+        try:
+            entry = queue.submit(user_id, source, original_name=source.name.split("_", 2)[-1],
+                                 notes=caption, require_position=False)
+        except queue.IntakeError as error:
+            errors.append(words["errors"].get(error.code, error.message))
+            continue
+        accepted.append(entry["id"])
+        if entry["positionSource"] is None:
+            no_gps.append(entry["id"])
+
+    parts = []
+    if accepted:
+        flow = queue.get_photo_flow(user_id) or {"needPosition": [], "needNote": []}
+        flow["needPosition"] = sorted(set(flow.get("needPosition", [])) | set(no_gps))
+        if not caption:
+            flow["needNote"] = sorted(set(flow.get("needNote", [])) | set(accepted))
+        queue.set_photo_flow(user_id, flow if (flow["needPosition"] or flow["needNote"]) else None)
+        parts.append(words["received"] if len(accepted) == 1 else words["receivedMany"].format(n=len(accepted)))
+        question = _next_question(flow, words)
+        parts.append(question or words["done"])
+        if no_gps:
+            parts[-1] += words["tip"]
+    parts += sorted(set(errors))
+    _REPLIES[str(session_id)] = "\n\n".join(parts)
+    # Il modello gira comunque: gli si chiede una risposta minima, che verra' sostituita.
+    return {"context": "The attached photo has already been handled by the system. Reply with just: OK"}
+
+
+def replace_reply(response_text="", session_id="", **kwargs):
+    del response_text, kwargs
+    return _REPLIES.pop(str(session_id), None)
+
+
+def _photo_flow_step(user_id: str, text: str):
+    flow = queue.get_photo_flow(user_id)
+    answer = " ".join((text or "").split())
+    if not flow or not answer:
+        return None  # nessuna domanda in sospeso, o un'altra foto: al modello
+    words = PHOTO[queue.get_language(user_id) or "it"]
+    if flow.get("needPosition"):
+        match = _COORDS_RE.match(answer)
+        if match:
+            lat, lng = (float(v.replace(",", ".")) for v in match.groups())
+            try:
+                queue.set_position(user_id, flow["needPosition"], lat=lat, lng=lng)
+            except queue.IntakeError:
+                return {"action": "handled", "reply": words["askPosition"]}
+        else:
+            queue.set_position(user_id, flow["needPosition"], hint=answer)
+        flow["needPosition"] = []
+    elif flow.get("needNote"):
+        if answer.lower().strip(".!") not in SKIP:
+            for submission_id in flow["needNote"]:
+                try:
+                    queue.add_comment(user_id, submission_id, answer)
+                except queue.IntakeError:
+                    pass  # foto gia' esaminata nel frattempo: la nota non serve piu'
+        flow["needNote"] = []
+    question = _next_question(flow, words)
+    queue.set_photo_flow(user_id, flow if question else None)
+    return {"action": "handled", "reply": question or words["done"]}
+
+
 def _notify_admin(entry) -> None:
     """Avvisa l'amministratore dal suo bot, senza aspettare: l'hook deve restare rapido."""
     # Posizione nella lista di /richieste: /ammettiN e' cliccabile, "/ammetti <id>" no.
@@ -454,7 +619,9 @@ def gate(platform, source, text, **kwargs):
 
     if queue.is_admitted(user_id):
         if queue.get_contributor(user_id):
-            return None  # registrato: foto e domande vanno al modello
+            # Registrato: se dopo un invio ci sono domande in sospeso (provenienza,
+            # motivo) la risposta la raccoglie il portiere; il resto va al modello.
+            return _photo_flow_step(user_id, text)
         language = queue.get_language(user_id)
         if not language:
             choice = queue.language_choice(text)
@@ -483,6 +650,8 @@ def gate(platform, source, text, **kwargs):
 
 def register(ctx) -> None:
     ctx.register_hook("post_gateway_admission", gate)
+    ctx.register_hook("pre_llm_call", intake_photos)
+    ctx.register_hook("transform_llm_output", replace_reply)
     for name, handler, description, properties, required in TOOLS:
         ctx.register_tool(
             name=name,

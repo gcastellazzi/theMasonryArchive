@@ -512,8 +512,13 @@ def submit(
     lat: float | None = None,
     lng: float | None = None,
     location_hint: str = "",
+    require_position: bool = True,
 ) -> dict[str, Any]:
-    """Mette in quarantena una foto. Solleva `IntakeError` se non e' accettabile."""
+    """Mette in quarantena una foto. Solleva `IntakeError` se non e' accettabile.
+
+    Con `require_position=False` una foto senza GPS entra lo stesso, e la
+    provenienza si chiede subito dopo con `set_position` (flusso guidato del bot).
+    """
     contributor = get_contributor(user_id)
     if not contributor:
         raise IntakeError("not_registered", "Prima di caricare serve la registrazione.")
@@ -537,7 +542,7 @@ def submit(
     exif = read_exif(source, ext)
     # La posizione serve: senza, la foto non puo' essere pubblicata sulla mappa.
     # Meglio chiederla subito che scoprirlo in moderazione.
-    if "lat" not in exif and lat is None and not location_hint.strip():
+    if require_position and "lat" not in exif and lat is None and not location_hint.strip():
         raise IntakeError(
             "missing_position",
             "La foto non contiene coordinate GPS. Invia la foto come FILE (non come foto), "
@@ -592,6 +597,34 @@ def submit(
         submissions.append(entry)
         _save(INCOMING / "submissions.json", submissions)
         return entry
+
+
+def set_position(user_id: str, submission_ids: list[str], *, lat: float | None = None,
+                 lng: float | None = None, hint: str = "") -> int:
+    """Provenienza indicata dal contributore per foto sue arrivate senza GPS."""
+    if lat is not None and not (-90 <= lat <= 90 and -180 <= (lng or 0) <= 180):
+        raise IntakeError("bad_position", "Coordinate fuori dai limiti geografici.")
+    key = contributor_key(user_id)
+    with locked():
+        submissions = load_submissions()
+        changed = 0
+        for entry in submissions:
+            if entry["id"] in submission_ids and entry["contributorId"] == key and entry["positionSource"] != "exif":
+                if lat is not None:
+                    entry.update({"lat": lat, "lng": lng, "positionSource": "contributor"})
+                entry["locationHint"] = hint.strip()[:200] or entry.get("locationHint", "")
+                changed += 1
+        _save(INCOMING / "submissions.json", submissions)
+        return changed
+
+
+def get_photo_flow(user_id: str) -> dict[str, Any] | None:
+    """Domande in sospeso dopo un invio: provenienza e/o motivo, per quali foto."""
+    return _preferences().get(contributor_key(user_id), {}).get("photoFlow")
+
+
+def set_photo_flow(user_id: str, state: dict[str, Any] | None) -> None:
+    _set_preference(user_id, photoFlow=state)
 
 
 def add_comment(user_id: str, submission_id: str, comment: str) -> dict[str, Any]:
@@ -683,6 +716,26 @@ def review(submission_id: str, decision: str, note: str = "") -> dict[str, Any]:
         return entry
 
 
+def geocode_place(place: str) -> tuple[float, float] | None:
+    """Coordinate di un luogo scritto a parole (Nominatim, un risultato)."""
+    import urllib.parse
+    import urllib.request
+
+    query = urllib.parse.urlencode({"q": place, "format": "json", "limit": 1})
+    request = urllib.request.Request(
+        f"https://nominatim.openstreetmap.org/search?{query}",
+        headers={"User-Agent": "theMasonryArchive/0.1 (https://github.com/gcastellazzi/theMasonryArchive)"},
+    )
+    try:
+        with urllib.request.urlopen(request, timeout=20) as response:
+            results = json.loads(response.read())
+    except (OSError, ValueError):
+        return None
+    if not results:
+        return None
+    return round(float(results[0]["lat"]), 6), round(float(results[0]["lon"]), 6)
+
+
 def apply(dry_run: bool = False) -> list[dict[str, Any]]:
     """Fa entrare gli accettati nell'archivio con la pipeline di ingest esistente."""
     if not shutil.which("magick"):
@@ -697,6 +750,15 @@ def apply(dry_run: bool = False) -> list[dict[str, Any]]:
             # autore e affiliazione a tutto cio' che trova dentro.
             photo = Path(staging) / Path(entry["file"]).name
             shutil.copyfile(INCOMING / entry["file"], photo)
+            if entry.get("lat") is None and entry.get("locationHint"):
+                # Solo il nome del luogo: lo si cerca su OpenStreetMap, lo stesso servizio
+                # che l'ingest usa per il percorso inverso.
+                found = geocode_place(entry["locationHint"])
+                if found:
+                    entry = {**entry, "lat": found[0], "lng": found[1], "positionSource": "contributor"}
+                    print(f"  luogo «{entry['locationHint']}» → {found[0]:.5f}, {found[1]:.5f}")
+                else:
+                    print(f"  luogo «{entry['locationHint']}» non trovato: posizione da inserire nel pannello")
             if entry.get("positionSource") == "contributor" and entry.get("lat") is not None:
                 # La posizione data in chat entra come sidecar XMP, che photo_meta legge
                 # prima dell'EXIF: cosi' l'ingest geocodifica il luogo e sceglie l'id come

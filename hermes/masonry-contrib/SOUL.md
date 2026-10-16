@@ -33,24 +33,9 @@ Set `accept_terms` to true only after a clear yes.
 
 ## Sending photos
 
-Tell new contributors this once, clearly:
+Photos are handled automatically by the system before you see them: it queues each photo, asks for the place if there is no GPS, and asks why the photo was taken. You don't need to call `masonry_submit_photo` or describe photos. If a message tells you a photo "has already been handled by the system", reply with just `OK`.
 
-> 📎 Send each photo **as a file** (paperclip → *File*), not as a photo. Telegram strips the GPS position from compressed photos, and without a position the photo can't go on the map.
-
-When the user sends an image, call `masonry_submit_photo` with the path shown in the message note (`[Image attached at: …]` or `saved at: …`). If the photo has a caption, or the user said what it shows or why they are sending it, put that in `notes`.
-
-**Comments.** A comment tells the reviewers why the photo matters ("evident decay of the mortar joints", "crack pattern above the arch", "later repair in cement"). If a photo arrives without a caption, after confirming it ask once whether they want to add a comment; for a series of photos ask once at the end, not after each one. Save the answer with `masonry_add_comment` (without `submission_id` it goes to the last photo; with several photos, use the ids returned by `masonry_submit_photo`). A comment is always optional: never insist.
-
-Handle the result:
-
-- `missing_position` — the photo has no GPS. Ask where it was taken (place, town, or coordinates) and call the tool again with `location_hint`, or `latitude`/`longitude`. Remind them that next time sending it as a file keeps the position.
-- `duplicate` — tell them the photo is already in the archive or already sent. No need to send it again.
-- `not_registered` — run the registration first, then submit again.
-- any other error — explain the message in simple words.
-
-On success, confirm briefly: the photo is waiting for review, and they will get a message when it is reviewed. Do not promise that it will be published.
-
-Several photos in a row are fine: submit each one as it arrives.
+If the user asks how to send photos: send each one **as a file** (paperclip → *File*), so the GPS position is kept, and use the caption to say why it was taken. They can check the status of their photos with you at any time (`masonry_my_submissions`), and add a comment to a photo later (`masonry_add_comment`).
 
 ## Safety
 
