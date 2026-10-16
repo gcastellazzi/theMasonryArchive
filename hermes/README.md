@@ -62,3 +62,9 @@ Sul portatile che ospita il gateway i modelli sono lenti e il 9B esaurisce la me
 - Il contesto si incorpora in una variante del modello invece che nelle variabili d'ambiente del server: `curl localhost:11435/api/create -d '{"model":"qwen35-4b-hermes","from":"qwen3.5:4b","parameters":{"num_ctx":65536}}'`.
 - Nei profili: `providers.ollama-server` con `api: http://127.0.0.1:11435/v1`, e `model.provider`/`model.base_url`/`model.default` che lo usano. Il bot dei contributori ha l'Ollama locale come riserva (`fallback_providers`); il bot admin no, perche' col 4B locale le sue risposte non arriverebbero in tempo.
 - Proposte notturne: `MASONRY_OLLAMA_HOST=http://127.0.0.1:11435 MASONRY_PROPOSALS_LIMIT=100 bash hermes/install.sh`.
+
+## Pubblicare dal bot admin
+
+`/pubblica` mostra cosa cambierebbe sul sito (foto approvate prima e dopo, file di dati, immagini) e controlla che GitHub non abbia commit piu' recenti; `/pubblicaok` fa commit e push. Si pubblicano solo `src/data/` e `public/images/`, mai il codice.
+
+Il push usa una **deploy key** valida solo per questo repository (`~/.ssh/masonry_github`): la parte pubblica va aggiunta una volta in GitHub → Settings → Deploy keys, con *Allow write access*. Si revoca da li' in un clic.

@@ -211,6 +211,100 @@ def invito(raw: str) -> str:
     return f"🔑 Codice d'invito: {current['inviteCode']}\n/invito <NUOVO> per cambiarlo · /invito off per aprire a tutti"
 
 
+# --------------------------------------------------------------------------
+# Pubblicazione su GitHub
+#
+# Solo i dati dell'archivio (src/data, public/images): il codice si committa a
+# mano, cosi' una modifica a meta' non finisce online da un comando del bot. Il
+# push usa una deploy key, valida solo per questo repository e revocabile da
+# GitHub (Settings → Deploy keys); il remote https resta com'e' per l'uso normale.
+
+DATA_PATHS = ["src/data", "public/images"]
+GITHUB_SSH = os.environ.get("MASONRY_GITHUB_SSH", "git@github.com:gcastellazzi/theMasonryArchive.git")
+DEPLOY_KEY = Path(os.environ.get("MASONRY_DEPLOY_KEY", Path.home() / ".ssh" / "masonry_github"))
+
+
+def _git(*args: str, ssh: bool = False, timeout: int = 120) -> subprocess.CompletedProcess:
+    env = dict(os.environ)
+    if ssh:
+        env["GIT_SSH_COMMAND"] = (
+            f"ssh -i {DEPLOY_KEY} -o IdentitiesOnly=yes -o BatchMode=yes -o StrictHostKeyChecking=accept-new"
+        )
+    return subprocess.run(["git", *args], cwd=REPO, capture_output=True, text=True, timeout=timeout, env=env)
+
+
+def _approved(ref: str | None) -> int:
+    """Foto approvate in records.json, nel file attuale o in un commit."""
+    try:
+        if ref:
+            text = _git("show", f"{ref}:src/data/records.json").stdout
+        else:
+            text = (REPO / "src" / "data" / "records.json").read_text(encoding="utf-8")
+        return sum(1 for record in json.loads(text) if record.get("status") == "approved")
+    except (OSError, ValueError):
+        return 0
+
+
+def _publish_check() -> tuple[str, list[str]]:
+    """Errore bloccante (o "") e righe di riepilogo delle modifiche da pubblicare."""
+    if not DEPLOY_KEY.exists():
+        return "Manca la deploy key: vedi hermes/README.md.", []
+    fetch = _git("fetch", GITHUB_SSH, "main", ssh=True)
+    if fetch.returncode:
+        return "GitHub non raggiungibile con la deploy key:\n" + fetch.stderr.strip()[-500:], []
+    behind = _git("rev-list", "--count", "HEAD..FETCH_HEAD").stdout.strip()
+    if behind not in ("", "0"):
+        return (f"Su GitHub ci sono {behind} commit che qui mancano (es. pushati dal Mac). "
+                "Sincronizza prima con git pull, poi riprova."), []
+    changed = [line for line in _git("status", "--porcelain", "--", *DATA_PATHS).stdout.splitlines() if line.strip()]
+    if not changed:
+        return "", []
+    images = sum(1 for line in changed if "public/images/" in line)
+    data = [line[3:] for line in changed if "src/data/" in line]
+    lines = [f"Foto approvate: {_approved('HEAD')} → {_approved(None)}"]
+    if data:
+        lines.append("Dati: " + ", ".join(Path(path).name for path in data))
+    if images:
+        lines.append(f"Immagini nuove o cambiate: {images}")
+    others = [line[3:] for line in _git("status", "--porcelain").stdout.splitlines()
+              if line.strip() and not any(line[3:].startswith(path) for path in DATA_PATHS)]
+    if others:
+        lines.append(f"(non inclusi: {len(others)} file di codice o altro, da committare a mano)")
+    return "", lines
+
+
+def pubblica(raw: str) -> str:
+    del raw
+    error, lines = _publish_check()
+    if error:
+        return "⚠️ " + error
+    if not lines:
+        return "Niente da pubblicare: i dati dell'archivio sono gia' su GitHub."
+    return "📦 Da pubblicare sul sito\n" + "\n".join(lines) + "\n\nConferma con /pubblicaok"
+
+
+def pubblicaok(raw: str) -> str:
+    del raw
+    error, lines = _publish_check()
+    if error:
+        return "⚠️ " + error
+    if not lines:
+        return "Niente da pubblicare."
+    approved_before, approved_now = _approved("HEAD"), _approved(None)
+    _git("add", "--", *DATA_PATHS)
+    message = f"Archive data: {approved_now} approved photos ({approved_now - approved_before:+d})"
+    commit = _git("commit", "-m", message, "--", *DATA_PATHS)
+    if commit.returncode:
+        return "⚠️ Commit non riuscito:\n" + (commit.stderr or commit.stdout).strip()[-800:]
+    push = _git("push", GITHUB_SSH, "HEAD:main", ssh=True, timeout=300)
+    if push.returncode:
+        return ("⚠️ Commit fatto in locale ma push non riuscito:\n" + push.stderr.strip()[-800:]
+                + "\n\nRiprova /pubblicaok, oppure git push dal terminale.")
+    _git("fetch", "origin")  # aggiorna origin/main (lettura anonima, repository pubblico)
+    sha = _git("rev-parse", "--short", "HEAD").stdout.strip()
+    return f"✅ Pubblicato ({sha}): {message}.\nIl sito si aggiorna in 2–3 minuti."
+
+
 COMMANDS = [
     ("archivio", stato, "Archivio e contributi in sintesi"),
     ("coda", coda, "Foto dei contributori da moderare"),
@@ -223,6 +317,8 @@ COMMANDS = [
     ("ammetti", ammetti, "Accetta una richiesta d'invito: /ammetti <id>"),
     ("respingi", respingi, "Respinge una richiesta d'invito: /respingi <id> [motivo]"),
     ("invito", invito, "Mostra o cambia il codice d'invito: /invito [CODICE|off]"),
+    ("pubblica", pubblica, "Mostra cosa verrebbe pubblicato su GitHub (non pubblica)"),
+    ("pubblicaok", pubblicaok, "Pubblica su GitHub i dati dell'archivio (commit + push)"),
 ]
 
 
