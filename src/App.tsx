@@ -26,6 +26,7 @@ import {
 import { Button } from '@/components/ui/button';
 import { AdminPanel } from './AdminPanel';
 import { SuggestForm } from './SuggestForm';
+import { ImageDownload } from './ImageDownload';
 import { CitationPanel } from './CitationPanel';
 import rawRecords from './data/records.json';
 import rawSuggestions from './data/suggestions.json';
@@ -502,7 +503,9 @@ function App() {
 
           {activeView === 'Upload' && (
             <section className="rounded-md border bg-card p-4">
-              <h2 className="mb-1 font-semibold">Contribute through Telegram</h2>
+              <h2 className="mb-1 font-semibold">
+                Contribute through Telegram
+              </h2>
               <p className="mb-4 text-sm text-muted-foreground">
                 The quickest way to send photos is our Telegram bot. Every photo
                 is reviewed by hand before it becomes public.
@@ -537,20 +540,23 @@ function App() {
                   </p>
                   <ol className="list-decimal space-y-1 pl-5 text-muted-foreground">
                     <li>
-                      <span className="text-foreground">Have an invitation code?</span>{' '}
+                      <span className="text-foreground">
+                        Have an invitation code?
+                      </span>{' '}
                       Type it in the chat.
                     </li>
                     <li>
-                      <span className="text-foreground">No code?</span> Write in one
-                      message who you are (name, institution, role) and why you
-                      would like to contribute. The administrator will reply in the
-                      chat.
+                      <span className="text-foreground">No code?</span> Write in
+                      one message who you are (name, institution, role) and why
+                      you would like to contribute. The administrator will reply
+                      in the chat.
                     </li>
                     <li>
                       Choose Italian or English, register, and send your photos{' '}
-                      <span className="text-foreground">as files</span>, so they keep
-                      their GPS position. Add a comment saying why each photo
-                      matters, for example “evident decay of the mortar joints”.
+                      <span className="text-foreground">as files</span>, so they
+                      keep their GPS position. Add a comment saying why each
+                      photo matters, for example “evident decay of the mortar
+                      joints”.
                     </li>
                   </ol>
                 </div>
@@ -743,6 +749,7 @@ function RecordDetail({
               <ExternalLink className="size-3.5" />
             </a>
           </figcaption>
+          <ImageDownload record={record} />
         </figure>
 
         <div className="min-w-0">
