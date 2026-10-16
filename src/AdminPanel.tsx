@@ -1,14 +1,20 @@
 import {
-  AlertCircle, Camera, Check, Compass, Download, MapPin, Plus, Save, Trash2, Undo2, X,
+  AlertCircle,
+  Camera,
+  Check,
+  Compass,
+  Download,
+  MapPin,
+  Plus,
+  Save,
+  Trash2,
+  Undo2,
+  X,
 } from 'lucide-react';
 import { useEffect, useMemo, useRef, useState } from 'react';
 
 import { Button } from '@/components/ui/button';
-import {
-  missingFields,
-  type MasonryRecord,
-  type Suggestion,
-} from './types';
+import { missingFields, type MasonryRecord, type Suggestion } from './types';
 import { knownTags, suggestionsFor } from './vocabulary';
 
 const BASE = import.meta.env.BASE_URL;
@@ -68,14 +74,18 @@ export function AdminPanel({
       : initialRecords;
   });
   const [suggestions, setSuggestions] = useState(initialSuggestions);
-  const [filter, setFilter] = useState<Filter>(initialSelectedId ? 'all' : 'todo');
+  const [filter, setFilter] = useState<Filter>(
+    initialSelectedId ? 'all' : 'todo',
+  );
   const [selectedId, setSelectedId] = useState(
     initialSelectedId ?? initialRecords[0]?.id ?? '',
   );
   const [dirty, setDirty] = useState(() => Object.keys(loadDraft()).length > 0);
   const [tagDraft, setTagDraft] = useState('');
   const [excluded, setExcluded] = useState<string[]>(initialExcluded);
-  const [saving, setSaving] = useState<'idle' | 'busy' | 'done' | 'error'>('idle');
+  const [saving, setSaving] = useState<'idle' | 'busy' | 'done' | 'error'>(
+    'idle',
+  );
   const stripRef = useRef<HTMLFieldSetElement>(null);
 
   // Dopo un'approvazione la selezione salta alla foto seguente: il rullino la
@@ -83,7 +93,11 @@ export function AdminPanel({
   useEffect(() => {
     const strip = stripRef.current;
     const active = strip?.querySelector('[data-selected]');
-    active?.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+    active?.scrollIntoView({
+      behavior: 'smooth',
+      block: 'nearest',
+      inline: 'center',
+    });
   }, [selectedId]);
 
   const vocabularies = useMemo(
@@ -99,7 +113,12 @@ export function AdminPanel({
 
   // Foto con proposte ancora da esaminare (utenti o modello notturno).
   const suggestedIds = useMemo(
-    () => new Set(suggestions.filter((s) => s.status === 'pending').map((s) => s.recordId)),
+    () =>
+      new Set(
+        suggestions
+          .filter((s) => s.status === 'pending')
+          .map((s) => s.recordId),
+      ),
     [suggestions],
   );
 
@@ -118,12 +137,15 @@ export function AdminPanel({
     }
   }, [records, filter, suggestedIds]);
 
-  const selected = records.find((record) => record.id === selectedId) ?? visible[0];
+  const selected =
+    records.find((record) => record.id === selectedId) ?? visible[0];
 
   const openSuggestions = suggestions.filter(
     (item) => item.recordId === selected?.id && item.status === 'pending',
   );
-  const pendingSuggestionCount = suggestions.filter((s) => s.status === 'pending').length;
+  const pendingSuggestionCount = suggestions.filter(
+    (s) => s.status === 'pending',
+  ).length;
 
   // Cambiando filtro si apre la prima foto dell'elenco: altrimenti resterebbe
   // selezionata una foto che il nuovo filtro non mostra.
@@ -141,7 +163,9 @@ export function AdminPanel({
 
   function update(id: string, patch: Partial<MasonryRecord>) {
     setRecords((current) =>
-      current.map((record) => (record.id === id ? { ...record, ...patch } : record)),
+      current.map((record) =>
+        record.id === id ? { ...record, ...patch } : record,
+      ),
     );
     setDirty(true);
     try {
@@ -169,18 +193,63 @@ export function AdminPanel({
             update(record.id, { tags: [...record.tags, suggestion.value] });
           }
         } else if (suggestion.field) {
-          update(record.id, { [suggestion.field]: suggestion.value } as Partial<MasonryRecord>);
+          update(record.id, {
+            [suggestion.field]: suggestion.value,
+          } as Partial<MasonryRecord>);
         }
       }
     }
     setSuggestions((current) =>
       current.map((item) =>
         item.id === suggestion.id
-          ? { ...item, status: accept ? 'approved' : 'rejected', reviewedAt: new Date().toISOString() }
+          ? {
+              ...item,
+              status: accept ? 'approved' : 'rejected',
+              reviewedAt: new Date().toISOString(),
+            }
           : item,
       ),
     );
     setDirty(true);
+  }
+
+  /**
+   * Le proposte aperte di una foto applicate al record, in un'unica modifica:
+   * applicarle una alla volta farebbe partire ogni tag dalla stessa lista di
+   * partenza, e resterebbe solo l'ultimo.
+   */
+  function mergeSuggestions(record: MasonryRecord) {
+    const open = suggestions.filter(
+      (item) => item.recordId === record.id && item.status === 'pending',
+    );
+    const patch: Partial<MasonryRecord> = {};
+    const tags = [...record.tags];
+    for (const suggestion of open) {
+      if (suggestion.kind === 'tag') {
+        if (!tags.includes(suggestion.value)) tags.push(suggestion.value);
+      } else if (suggestion.field) {
+        Object.assign(patch, { [suggestion.field]: suggestion.value });
+      }
+    }
+    if (tags.length !== record.tags.length) patch.tags = tags;
+    return { open, patch, merged: { ...record, ...patch } };
+  }
+
+  function acceptAllSuggestions(record: MasonryRecord, alsoApprove = false) {
+    const { open, patch, merged } = mergeSuggestions(record);
+    if (!open.length) return;
+    // Stessa regola del pulsante Approve: si approva solo una scheda completa.
+    const approve = alsoApprove && missingFields(merged).length === 0;
+    update(record.id, approve ? { ...patch, status: 'approved' } : patch);
+    const ids = new Set(open.map((item) => item.id));
+    const reviewedAt = new Date().toISOString();
+    setSuggestions((current) =>
+      current.map((item) =>
+        ids.has(item.id) ? { ...item, status: 'approved', reviewedAt } : item,
+      ),
+    );
+    setDirty(true);
+    if (approve) advance();
   }
 
   async function saveToDisk() {
@@ -223,10 +292,14 @@ export function AdminPanel({
     setRecords((current) => current.filter((item) => item.id !== record.id));
     if (record.sourceHash) {
       setExcluded((current) =>
-        current.includes(record.sourceHash!) ? current : [...current, record.sourceHash!],
+        current.includes(record.sourceHash!)
+          ? current
+          : [...current, record.sourceHash!],
       );
     }
-    setSuggestions((current) => current.filter((item) => item.recordId !== record.id));
+    setSuggestions((current) =>
+      current.filter((item) => item.recordId !== record.id),
+    );
     setDirty(true);
     try {
       const draft = loadDraft();
@@ -252,13 +325,17 @@ export function AdminPanel({
     return (
       <section className="rounded-md border bg-card p-6 text-sm text-muted-foreground">
         No photos in this filter. Run{' '}
-        <code>python3 tools/ingest_photos.py --source &lt;folder&gt;</code> to import
-        a Photos export.
+        <code>python3 tools/ingest_photos.py --source &lt;folder&gt;</code> to
+        import a Photos export.
       </section>
     );
   }
 
   const missing = missingFields(selected);
+  // Cosa mancherebbe ancora dopo aver accettato tutte le proposte aperte.
+  const missingAfterSuggestions = missingFields(
+    mergeSuggestions(selected).merged,
+  );
 
   return (
     <section className="space-y-4">
@@ -354,7 +431,9 @@ export function AdminPanel({
               onClick={() => setSelectedId(record.id)}
               title={`${record.sourceFile ?? record.id} · ${record.location || 'no location'}`}
               className={`relative overflow-hidden rounded-md border-2 transition ${
-                isSelected ? 'border-primary' : 'border-transparent hover:border-muted-foreground/40'
+                isSelected
+                  ? 'border-primary'
+                  : 'border-transparent hover:border-muted-foreground/40'
               }`}
             >
               {/* eslint-disable-next-line next/no-img-element */}
@@ -411,7 +490,9 @@ export function AdminPanel({
                   {selected.bearing.toFixed(0)}°
                 </span>
               )}
-              {selected.capturedAt && <span>{selected.capturedAt.slice(0, 10)}</span>}
+              {selected.capturedAt && (
+                <span>{selected.capturedAt.slice(0, 10)}</span>
+              )}
               {selected.camera && (
                 <span className="inline-flex items-center gap-1">
                   <Camera className="size-3" />
@@ -425,39 +506,77 @@ export function AdminPanel({
           {openSuggestions.length > 0 && (
             <div className="rounded-md border bg-card p-3">
               <div className="mb-2 flex flex-wrap items-center justify-between gap-2">
-                <h3 className="text-sm font-semibold">Suggestions for this photo</h3>
-                {/* Durante la revisione: una foto non idonea si elimina senza scendere
+                <h3 className="text-sm font-semibold">
+                  Suggestions for this photo
+                </h3>
+                <div className="flex flex-wrap gap-2">
+                  <Button
+                    size="sm"
+                    onClick={() => selected && acceptAllSuggestions(selected)}
+                  >
+                    <Check />
+                    Accept all ({openSuggestions.length})
+                  </Button>
+                  <Button
+                    size="sm"
+                    disabled={missingAfterSuggestions.length > 0}
+                    title={
+                      missingAfterSuggestions.length
+                        ? `Still missing: ${missingAfterSuggestions.join(', ')}`
+                        : 'Accept every suggestion, approve the photo and open the next one'
+                    }
+                    onClick={() =>
+                      selected && acceptAllSuggestions(selected, true)
+                    }
+                  >
+                    <Check />
+                    Accept all and approve
+                  </Button>
+                  {/* Durante la revisione: una foto non idonea si elimina senza scendere
                     fino al pulsante Delete in fondo alla scheda. Stessa funzione:
                     conferma, impronta in excluded.json, proposte scartate. */}
-                <Button
-                  size="sm"
-                  variant="outline"
-                  className="text-destructive"
-                  onClick={() => selected && remove(selected)}
-                >
-                  <Trash2 />
-                  Not suitable — delete photo
-                </Button>
+                  <Button
+                    size="sm"
+                    variant="outline"
+                    className="text-destructive"
+                    onClick={() => selected && remove(selected)}
+                  >
+                    <Trash2 />
+                    Not suitable — delete photo
+                  </Button>
+                </div>
               </div>
               <ul className="space-y-2">
                 {openSuggestions.map((suggestion) => (
-                  <li key={suggestion.id} className="rounded-md border bg-background p-2 text-sm">
+                  <li
+                    key={suggestion.id}
+                    className="rounded-md border bg-background p-2 text-sm"
+                  >
                     <div className="flex flex-wrap items-baseline gap-2">
                       <span className="tag">
                         {suggestion.kind === 'tag' ? 'tag' : suggestion.field}
                       </span>
-                      <strong className="font-medium">{suggestion.value}</strong>
+                      <strong className="font-medium">
+                        {suggestion.value}
+                      </strong>
                       <span className="text-xs text-muted-foreground">
                         {suggestion.author}
-                        {suggestion.affiliation ? ` · ${suggestion.affiliation}` : ''}
+                        {suggestion.affiliation
+                          ? ` · ${suggestion.affiliation}`
+                          : ''}
                         {suggestion.role ? ` · ${suggestion.role}` : ''}
                       </span>
                     </div>
                     {suggestion.rationale && (
-                      <p className="mt-1 text-xs text-muted-foreground">{suggestion.rationale}</p>
+                      <p className="mt-1 text-xs text-muted-foreground">
+                        {suggestion.rationale}
+                      </p>
                     )}
                     <div className="mt-2 flex gap-2">
-                      <Button size="sm" onClick={() => reviewSuggestion(suggestion, true)}>
+                      <Button
+                        size="sm"
+                        onClick={() => reviewSuggestion(suggestion, true)}
+                      >
                         <Check />
                         Accept
                       </Button>
@@ -489,29 +608,35 @@ export function AdminPanel({
             <span>Title</span>
             <input
               value={selected.title}
-              onChange={(event) => update(selected.id, { title: event.target.value })}
+              onChange={(event) =>
+                update(selected.id, { title: event.target.value })
+              }
               placeholder="e.g. Roughly coursed rubble wall with brick levelling"
             />
           </label>
 
-          {(['element', 'technique', 'material', 'period'] as const).map((field) => (
-            <label className="field" key={field}>
-              <span className="capitalize">{field}</span>
-              {/* Testo libero con suggerimenti: il browser completa mentre
+          {(['element', 'technique', 'material', 'period'] as const).map(
+            (field) => (
+              <label className="field" key={field}>
+                <span className="capitalize">{field}</span>
+                {/* Testo libero con suggerimenti: il browser completa mentre
                   scrivi, ma nulla vieta di inserire un valore nuovo. */}
-              <input
-                list={`vocab-${field}`}
-                value={selected[field]}
-                onChange={(event) => update(selected.id, { [field]: event.target.value })}
-                placeholder={vocabularies[field][0]}
-              />
-              <datalist id={`vocab-${field}`}>
-                {vocabularies[field].map((option) => (
-                  <option key={option} value={option} aria-label={option} />
-                ))}
-              </datalist>
-            </label>
-          ))}
+                <input
+                  list={`vocab-${field}`}
+                  value={selected[field]}
+                  onChange={(event) =>
+                    update(selected.id, { [field]: event.target.value })
+                  }
+                  placeholder={vocabularies[field][0]}
+                />
+                <datalist id={`vocab-${field}`}>
+                  {vocabularies[field].map((option) => (
+                    <option key={option} value={option} aria-label={option} />
+                  ))}
+                </datalist>
+              </label>
+            ),
+          )}
 
           <fieldset
             className={`rounded-md border p-3 ${
@@ -598,7 +723,12 @@ export function AdminPanel({
                 placeholder="Add a tag and press Enter"
                 className="h-9 min-w-0 flex-1 rounded-md border bg-background px-3 text-sm"
               />
-              <Button size="sm" variant="outline" onClick={addTag} disabled={!tagDraft.trim()}>
+              <Button
+                size="sm"
+                variant="outline"
+                onClick={addTag}
+                disabled={!tagDraft.trim()}
+              >
                 <Plus />
               </Button>
               <datalist id="vocab-tags">
@@ -633,12 +763,18 @@ export function AdminPanel({
             <textarea
               rows={4}
               value={selected.notes}
-              onChange={(event) => update(selected.id, { notes: event.target.value })}
+              onChange={(event) =>
+                update(selected.id, { notes: event.target.value })
+              }
             />
           </label>
 
           <div className="flex flex-wrap gap-2 border-t pt-3">
-            <Button size="sm" onClick={() => approve(selected)} disabled={missing.length > 0}>
+            <Button
+              size="sm"
+              onClick={() => approve(selected)}
+              disabled={missing.length > 0}
+            >
               <Check />
               Approve
             </Button>

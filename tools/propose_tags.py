@@ -193,6 +193,11 @@ def main() -> int:
         current.extend(s for s in made if s["id"] not in ids)
         SUGGESTIONS.write_text(json.dumps(current, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
 
+    if not made and not failures:
+        # Solo foto in cui il modello non vede muratura (lascia tutto vuoto, come
+        # gli e' chiesto): niente da riferire, e il cron notturno resta muto.
+        return 0
+
     minutes = (time.monotonic() - started) / 60
     print(f"\n{len(made)} proposte su {min(len(queue), args.limit)} foto in {minutes:.0f} min "
           f"({len(queue) - args.limit if len(queue) > args.limit else 0} foto ancora in coda)."
