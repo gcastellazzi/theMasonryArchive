@@ -154,6 +154,9 @@ export function AdminPanel({
   // Cambia quando le coordinate vengono scritte dal pulsante: i campi sono non
   // controllati, e senza una chiave nuova continuerebbero a mostrare il vuoto.
   const [positionVersion, setPositionVersion] = useState(0);
+  // Selezione multipla nel rullino, per eliminare piu' foto in un colpo.
+  const [marked, setMarked] = useState<Set<string>>(() => new Set());
+  const lastMarked = useRef<string | null>(null);
   const [dirty, setDirty] = useState(() => Object.keys(loadDraft()).length > 0);
   const [tagDraft, setTagDraft] = useState('');
   const [excluded, setExcluded] = useState<string[]>(initialExcluded);
@@ -405,6 +408,60 @@ export function AdminPanel({
     }
   }
 
+  function toggleMark(id: string, range: boolean) {
+    setMarked((current) => {
+      const next = new Set(current);
+      const anchor = lastMarked.current;
+      if (range && anchor) {
+        const ids = visible.map((record) => record.id);
+        const [from, to] = [ids.indexOf(anchor), ids.indexOf(id)].sort(
+          (a, b) => a - b,
+        );
+        if (from >= 0)
+          ids.slice(from, to + 1).forEach((item) => next.add(item));
+      } else if (next.has(id)) {
+        next.delete(id);
+      } else {
+        next.add(id);
+      }
+      return next;
+    });
+    lastMarked.current = id;
+  }
+
+  /** Come remove(), per tutte le foto selezionate: una sola conferma. */
+  function removeMarked() {
+    const doomed = records.filter((record) => marked.has(record.id));
+    if (!doomed.length) return;
+    if (!window.confirm(`Remove ${doomed.length} photos from the archive?`))
+      return;
+    const ids = new Set(doomed.map((record) => record.id));
+    if (selected && ids.has(selected.id)) {
+      const next = visible.find((record) => !ids.has(record.id));
+      if (next) setSelectedId(next.id);
+    }
+    setRecords((current) => current.filter((item) => !ids.has(item.id)));
+    const hashes = doomed
+      .map((record) => record.sourceHash)
+      .filter(Boolean) as string[];
+    setExcluded((current) => [
+      ...current,
+      ...hashes.filter((hash) => !current.includes(hash)),
+    ]);
+    setSuggestions((current) =>
+      current.filter((item) => !ids.has(item.recordId)),
+    );
+    setMarked(new Set());
+    setDirty(true);
+    try {
+      const draft = loadDraft();
+      ids.forEach((id) => delete draft[id]);
+      localStorage.setItem(DRAFT_KEY, JSON.stringify(draft));
+    } catch {
+      // Storage non disponibile: la sessione corrente resta comunque coerente.
+    }
+  }
+
   /** Passa alla foto successiva ancora da catalogare. */
   function advance() {
     const queue = visible.filter((record) => record.id !== selected?.id);
@@ -416,12 +473,91 @@ export function AdminPanel({
     advance();
   }
 
+  const header = (
+    <header className="flex flex-wrap items-center justify-between gap-3 rounded-md border bg-card p-3">
+      <div className="flex flex-wrap gap-1">
+        {FILTERS.map((item) => (
+          <button
+            key={item.id}
+            type="button"
+            onClick={() => chooseFilter(item.id)}
+            className={`rounded-md px-3 py-1.5 text-sm ${
+              filter === item.id
+                ? 'bg-primary text-primary-foreground'
+                : 'border bg-background hover:bg-muted'
+            }`}
+          >
+            {item.label}
+            <span className="ml-1.5 opacity-70">
+              {item.id === 'todo'
+                ? records.filter((r) => missingFields(r).length).length
+                : item.id === 'suggested'
+                  ? records.filter((r) => suggestedIds.has(r.id)).length
+                  : item.id === 'all'
+                    ? records.length
+                    : records.filter((r) => r.status === item.id).length}
+            </span>
+          </button>
+        ))}
+      </div>
+      <div className="flex items-center gap-2">
+        {pendingSuggestionCount > 0 && (
+          <button
+            type="button"
+            onClick={() => chooseFilter('suggested')}
+            className="rounded-md bg-accent px-2 py-1 text-xs text-accent-foreground hover:underline"
+          >
+            {pendingSuggestionCount} suggestions to review
+          </button>
+        )}
+        <Button
+          size="sm"
+          variant={dirty ? 'default' : 'outline'}
+          onClick={saveToDisk}
+          disabled={saving === 'busy'}
+        >
+          {saving === 'done' ? <Check /> : <Save />}
+          {saving === 'busy'
+            ? 'Saving…'
+            : saving === 'done'
+              ? 'Saved to src/data'
+              : dirty
+                ? 'Save changes'
+                : 'Save'}
+        </Button>
+        <Button
+          size="sm"
+          variant="ghost"
+          title="Download the three JSON files to move them manually"
+          onClick={() => {
+            download('records.json', records);
+            download('suggestions.json', suggestions);
+            download('excluded.json', excluded);
+          }}
+        >
+          <Download />
+        </Button>
+      </div>
+      {saving === 'error' && (
+        <p className="w-full text-xs text-destructive">
+          Save failed. Is the development server running? Alternatively,
+          download the JSON files using the adjacent button and copy them to
+          <code className="mx-1">src/data/</code>.
+        </p>
+      )}
+    </header>
+  );
+
+  // Filtro vuoto (es. dopo aver approvato o eliminato l'ultima foto): la barra con
+  // filtri e Save resta visibile, altrimenti le modifiche non si potrebbero salvare.
   if (!selected) {
     return (
-      <section className="rounded-md border bg-card p-6 text-sm text-muted-foreground">
-        No photos in this filter. Run{' '}
-        <code>python3 tools/ingest_photos.py --source &lt;folder&gt;</code> to
-        import a Photos export.
+      <section className="space-y-4">
+        {header}
+        <div className="rounded-md border bg-card p-6 text-sm text-muted-foreground">
+          No photos left in this filter. Save your changes, or choose another
+          filter above.
+        </div>
       </section>
     );
   }
@@ -434,78 +570,39 @@ export function AdminPanel({
 
   return (
     <section className="space-y-4">
-      <header className="flex flex-wrap items-center justify-between gap-3 rounded-md border bg-card p-3">
-        <div className="flex flex-wrap gap-1">
-          {FILTERS.map((item) => (
-            <button
-              key={item.id}
-              type="button"
-              onClick={() => chooseFilter(item.id)}
-              className={`rounded-md px-3 py-1.5 text-sm ${
-                filter === item.id
-                  ? 'bg-primary text-primary-foreground'
-                  : 'border bg-background hover:bg-muted'
-              }`}
-            >
-              {item.label}
-              <span className="ml-1.5 opacity-70">
-                {item.id === 'todo'
-                  ? records.filter((r) => missingFields(r).length).length
-                  : item.id === 'suggested'
-                    ? records.filter((r) => suggestedIds.has(r.id)).length
-                    : item.id === 'all'
-                      ? records.length
-                      : records.filter((r) => r.status === item.id).length}
-              </span>
-            </button>
-          ))}
-        </div>
-        <div className="flex items-center gap-2">
-          {pendingSuggestionCount > 0 && (
-            <button
-              type="button"
-              onClick={() => chooseFilter('suggested')}
-              className="rounded-md bg-accent px-2 py-1 text-xs text-accent-foreground hover:underline"
-            >
-              {pendingSuggestionCount} suggestions to review
-            </button>
-          )}
+      {header}
+
+      {marked.size > 0 && (
+        <div className="flex flex-wrap items-center gap-2 rounded-md border border-destructive/40 bg-destructive/5 p-2 text-sm">
+          <strong className="font-medium">{marked.size} selected</strong>
           <Button
             size="sm"
-            variant={dirty ? 'default' : 'outline'}
-            onClick={saveToDisk}
-            disabled={saving === 'busy'}
+            variant="outline"
+            onClick={() =>
+              setMarked(new Set(visible.map((record) => record.id)))
+            }
           >
-            {saving === 'done' ? <Check /> : <Save />}
-            {saving === 'busy'
-              ? 'Saving…'
-              : saving === 'done'
-                ? 'Saved to src/data'
-                : dirty
-                  ? 'Save changes'
-                  : 'Save'}
+            Select all in filter ({visible.length})
           </Button>
           <Button
             size="sm"
-            variant="ghost"
-            title="Download the three JSON files to move them manually"
-            onClick={() => {
-              download('records.json', records);
-              download('suggestions.json', suggestions);
-              download('excluded.json', excluded);
-            }}
+            variant="outline"
+            onClick={() => setMarked(new Set())}
           >
-            <Download />
+            <X />
+            Clear
+          </Button>
+          <Button
+            size="sm"
+            variant="outline"
+            className="text-destructive"
+            onClick={removeMarked}
+          >
+            <Trash2 />
+            Delete selected
           </Button>
         </div>
-        {saving === 'error' && (
-          <p className="w-full text-xs text-destructive">
-            Save failed. Is the development server running? Alternatively,
-            download the JSON files using the adjacent button and copy them to
-            <code className="mx-1">src/data/</code>.
-          </p>
-        )}
-      </header>
+      )}
 
       {/* Rullino: miniature da 160 px, caricate pigramente. Va a capo e
           scorre in verticale: in fila unica 750 foto rendevano la pagina
@@ -517,41 +614,64 @@ export function AdminPanel({
         <legend className="sr-only">Photo strip</legend>
         {visible.map((record) => {
           const isSelected = record.id === selected.id;
+          const isMarked = marked.has(record.id);
           return (
-            <button
-              key={record.id}
-              type="button"
-              aria-pressed={isSelected}
-              data-selected={isSelected || undefined}
-              onClick={() => setSelectedId(record.id)}
-              title={`${record.sourceFile ?? record.id} · ${record.location || 'no location'}`}
-              className={`relative overflow-hidden rounded-md border-2 transition ${
-                isSelected
-                  ? 'border-primary'
-                  : 'border-transparent hover:border-muted-foreground/40'
-              }`}
-            >
-              {/* eslint-disable-next-line next/no-img-element */}
-              <img
-                src={`${BASE}${record.strip}`}
-                alt=""
-                loading="lazy"
-                decoding="async"
-                width={104}
-                height={78}
-                className="h-[78px] w-full bg-muted object-cover"
-              />
-              <span
-                className={`status-dot absolute right-1 top-1 ${
-                  record.status === 'approved' ? '' : 'pending'
+            <div key={record.id} className="relative">
+              <button
+                type="button"
+                aria-pressed={isSelected}
+                data-selected={isSelected || undefined}
+                onClick={(event) => {
+                  // Ctrl/⌘ aggiunge o toglie dalla selezione, Maiusc seleziona un intervallo.
+                  if (event.metaKey || event.ctrlKey || event.shiftKey) {
+                    toggleMark(record.id, event.shiftKey);
+                  } else {
+                    setSelectedId(record.id);
+                  }
+                }}
+                title={`${record.sourceFile ?? record.id} · ${record.location || 'no location'}`}
+                className={`relative block w-full overflow-hidden rounded-md border-2 transition ${
+                  isMarked
+                    ? 'border-destructive'
+                    : isSelected
+                      ? 'border-primary'
+                      : 'border-transparent hover:border-muted-foreground/40'
                 }`}
+              >
+                {/* eslint-disable-next-line next/no-img-element */}
+                <img
+                  src={`${BASE}${record.strip}`}
+                  alt=""
+                  loading="lazy"
+                  decoding="async"
+                  width={104}
+                  height={78}
+                  className="h-[78px] w-full bg-muted object-cover"
+                />
+                <span
+                  className={`status-dot absolute right-1 top-1 ${
+                    record.status === 'approved' ? '' : 'pending'
+                  }`}
+                />
+                {missingFields(record).length > 0 && (
+                  <span className="absolute bottom-0 left-0 right-0 bg-background/85 py-0.5 text-[10px] font-medium">
+                    {missingFields(record).length} fields
+                  </span>
+                )}
+              </button>
+              <input
+                type="checkbox"
+                aria-label={`Select ${record.sourceFile ?? record.id}`}
+                checked={isMarked}
+                onChange={(event) =>
+                  toggleMark(
+                    record.id,
+                    (event.nativeEvent as MouseEvent).shiftKey,
+                  )
+                }
+                className="absolute left-1 top-1 size-4 cursor-pointer accent-[var(--destructive)]"
               />
-              {missingFields(record).length > 0 && (
-                <span className="absolute bottom-0 left-0 right-0 bg-background/85 py-0.5 text-[10px] font-medium">
-                  {missingFields(record).length} fields
-                </span>
-              )}
-            </button>
+            </div>
           );
         })}
       </fieldset>
