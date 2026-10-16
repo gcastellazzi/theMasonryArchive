@@ -14,7 +14,12 @@ import {
 import { useEffect, useMemo, useRef, useState } from 'react';
 
 import { Button } from '@/components/ui/button';
-import { missingFields, type MasonryRecord, type Suggestion } from './types';
+import {
+  hasValidPosition,
+  missingFields,
+  type MasonryRecord,
+  type Suggestion,
+} from './types';
 import { knownTags, suggestionsFor } from './vocabulary';
 
 const BASE = import.meta.env.BASE_URL;
@@ -31,6 +36,65 @@ const FILTERS: { id: Filter; label: string }[] = [
   { id: 'approved', label: 'Approved' },
   { id: 'all', label: 'All' },
 ];
+
+/** Dove si era arrivati: filtro, foto corrente e le successive, per riprendere da li'. */
+const RESUME_KEY = 'masonry-archive:admin-resume';
+/** Ultime coordinate inserite a mano, per le serie di scatti senza GPS. */
+const LAST_POSITION_KEY = 'masonry-archive:admin-last-position';
+
+type Resume = { filter: Filter; ids: string[] };
+type LastPosition = { lat: number; lng: number; recordId: string };
+
+function readJson<T>(key: string): T | null {
+  try {
+    return JSON.parse(localStorage.getItem(key) ?? 'null') as T | null;
+  } catch {
+    return null;
+  }
+}
+
+function writeJson(key: string, value: unknown) {
+  try {
+    localStorage.setItem(key, JSON.stringify(value));
+  } catch {
+    // Storage non disponibile: si perde solo la comodita'.
+  }
+}
+
+function matchesFilter(
+  record: MasonryRecord,
+  filter: Filter,
+  suggestedIds: Set<string>,
+) {
+  switch (filter) {
+    case 'todo':
+      return missingFields(record).length > 0;
+    case 'suggested':
+      return suggestedIds.has(record.id);
+    case 'all':
+      return true;
+    default:
+      return record.status === filter;
+  }
+}
+
+/**
+ * Punto di ripresa: la foto su cui ci si era fermati o, se nel frattempo e'
+ * uscita dal filtro (approvata, eliminata), la prima delle successive ancora dentro.
+ */
+function resumePoint(records: MasonryRecord[], suggestions: Suggestion[]) {
+  const saved = readJson<Resume>(RESUME_KEY);
+  if (!saved?.ids?.length) return null;
+  const suggestedIds = new Set(
+    suggestions.filter((s) => s.status === 'pending').map((s) => s.recordId),
+  );
+  const byId = new Map(records.map((record) => [record.id, record]));
+  const id = saved.ids.find((candidate) => {
+    const record = byId.get(candidate);
+    return record && matchesFilter(record, saved.filter, suggestedIds);
+  });
+  return id ? { filter: saved.filter, id } : null;
+}
 
 function loadDraft(): Record<string, Partial<MasonryRecord>> {
   try {
@@ -74,12 +138,22 @@ export function AdminPanel({
       : initialRecords;
   });
   const [suggestions, setSuggestions] = useState(initialSuggestions);
+  // Un link a una foto precisa vince; altrimenti si riprende da dove si era rimasti.
+  const [resume] = useState(() =>
+    initialSelectedId ? null : resumePoint(initialRecords, initialSuggestions),
+  );
   const [filter, setFilter] = useState<Filter>(
-    initialSelectedId ? 'all' : 'todo',
+    initialSelectedId ? 'all' : (resume?.filter ?? 'todo'),
   );
   const [selectedId, setSelectedId] = useState(
-    initialSelectedId ?? initialRecords[0]?.id ?? '',
+    initialSelectedId ?? resume?.id ?? initialRecords[0]?.id ?? '',
   );
+  const [lastPosition, setLastPosition] = useState(() =>
+    readJson<LastPosition>(LAST_POSITION_KEY),
+  );
+  // Cambia quando le coordinate vengono scritte dal pulsante: i campi sono non
+  // controllati, e senza una chiave nuova continuerebbero a mostrare il vuoto.
+  const [positionVersion, setPositionVersion] = useState(0);
   const [dirty, setDirty] = useState(() => Object.keys(loadDraft()).length > 0);
   const [tagDraft, setTagDraft] = useState('');
   const [excluded, setExcluded] = useState<string[]>(initialExcluded);
@@ -140,6 +214,18 @@ export function AdminPanel({
   const selected =
     records.find((record) => record.id === selectedId) ?? visible[0];
 
+  // Si salva la foto corrente e le successive dell'elenco: alla riapertura si
+  // riparte dalla prima che sia ancora nel filtro.
+  useEffect(() => {
+    if (!selected) return;
+    const at = visible.findIndex((record) => record.id === selected.id);
+    const ids = [
+      selected.id,
+      ...visible.slice(at + 1, at + 30).map((record) => record.id),
+    ];
+    writeJson(RESUME_KEY, { filter, ids } satisfies Resume);
+  }, [selected, visible, filter]);
+
   const openSuggestions = suggestions.filter(
     (item) => item.recordId === selected?.id && item.status === 'pending',
   );
@@ -162,6 +248,15 @@ export function AdminPanel({
   }
 
   function update(id: string, patch: Partial<MasonryRecord>) {
+    if ('lat' in patch || 'lng' in patch) {
+      const current = records.find((record) => record.id === id);
+      const merged = current ? { ...current, ...patch } : null;
+      if (merged && hasValidPosition(merged)) {
+        const position = { lat: merged.lat!, lng: merged.lng!, recordId: id };
+        setLastPosition(position);
+        writeJson(LAST_POSITION_KEY, position);
+      }
+    }
     setRecords((current) =>
       current.map((record) =>
         record.id === id ? { ...record, ...patch } : record,
@@ -651,11 +746,31 @@ export function AdminPanel({
                 ? 'Enter both coordinates to locate and approve the photo.'
                 : 'The coordinates can be corrected manually if necessary.'}
             </p>
+            {missing.includes('position') &&
+              lastPosition &&
+              lastPosition.recordId !== selected.id && (
+                <Button
+                  size="sm"
+                  variant="outline"
+                  className="mb-3"
+                  onClick={() => {
+                    update(selected.id, {
+                      lat: lastPosition.lat,
+                      lng: lastPosition.lng,
+                    });
+                    setPositionVersion((n) => n + 1);
+                  }}
+                >
+                  <MapPin />
+                  Use last position ({lastPosition.lat.toFixed(5)},{' '}
+                  {lastPosition.lng.toFixed(5)})
+                </Button>
+              )}
             <div className="grid grid-cols-2 gap-2">
               <label className="field">
                 <span>Latitude</span>
                 <input
-                  key={`${selected.id}-latitude`}
+                  key={`${selected.id}-latitude-${positionVersion}`}
                   type="number"
                   inputMode="decimal"
                   min="-90"
@@ -681,7 +796,7 @@ export function AdminPanel({
               <label className="field">
                 <span>Longitude</span>
                 <input
-                  key={`${selected.id}-longitude`}
+                  key={`${selected.id}-longitude-${positionVersion}`}
                   type="number"
                   inputMode="decimal"
                   min="-180"

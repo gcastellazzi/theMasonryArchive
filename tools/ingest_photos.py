@@ -321,6 +321,11 @@ def ingest(args: argparse.Namespace) -> int:
             refreshed.update(curated)
             refreshed["author"] = record.get("author", "")
             refreshed["affiliation"] = record.get("affiliation", "")
+            # Foto senza GPS posizionata a mano nel pannello: la posizione del record
+            # vale piu' del vuoto dei metadati, e rielaborare la foto non deve perderla.
+            if not meta.has_position and record.get("lat") is not None and record.get("lng") is not None:
+                for key in ("lat", "lng", "location", "county", "state", "country", "countryCode"):
+                    refreshed[key] = record.get(key, refreshed.get(key))
             result[result.index(record)] = refreshed
             record = refreshed
             updated += 1
