@@ -39,6 +39,15 @@ def _queue(*args: str, timeout: int = 120) -> str:
     return _run("tools/intake_queue.py", *args, timeout=timeout)
 
 
+def _queue_json(*args: str):
+    """Dati dalla coda, interi: il taglio per Telegram di _run renderebbe il JSON illeggibile."""
+    result = subprocess.run(
+        ["python3", "tools/intake_queue.py", "--json", *args],
+        cwd=REPO, capture_output=True, text=True, timeout=120,
+    )
+    return json.loads(result.stdout)
+
+
 def _split(raw: str) -> list[str]:
     try:
         return shlex.split(raw or "")
@@ -60,7 +69,7 @@ def stato(raw: str) -> str:
     del raw
     archive = _run("tools/archive_stats.py", "--next", "5")
     try:
-        q = json.loads(_queue("stats"))
+        q = _queue_json("stats")
     except json.JSONDecodeError:
         return archive
     queue = (
@@ -81,7 +90,7 @@ SLOTS = 10
 
 def _pending() -> list[dict]:
     try:
-        rows = json.loads(_queue("--json", "list", "--status", "pending"))
+        rows = _queue_json("list", "--status", "pending")
     except json.JSONDecodeError:
         return []
     return sorted(rows, key=lambda r: r["createdAt"])
@@ -105,7 +114,7 @@ def foto(raw: str) -> str:
     if not submission_id:
         return "Uso: /foto <id>, oppure tocca /f1, /f2… nell'elenco di /coda"
     try:
-        entry = json.loads(_queue("show", submission_id))
+        entry = _queue_json("show", submission_id)
     except json.JSONDecodeError:
         return _queue("show", submission_id)
     person = entry.get("contributor") or {}
@@ -164,7 +173,7 @@ def avvisa(raw: str) -> str:
 
 def _requests() -> list[dict]:
     try:
-        rows = json.loads(_queue("--json", "requests"))
+        rows = _queue_json("requests")
     except json.JSONDecodeError:
         return []
     return sorted(rows, key=lambda r: r["createdAt"])
@@ -203,7 +212,7 @@ def respingi(raw: str) -> str:
 def invito(raw: str) -> str:
     args = _split(raw)[:1]
     try:
-        current = json.loads(_queue("invite", *args))
+        current = _queue_json("invite", *args)
     except json.JSONDecodeError:
         return _queue("invite", *args)
     if current["open"]:
@@ -305,6 +314,46 @@ def pubblicaok(raw: str) -> str:
     return f"✅ Pubblicato ({sha}): {message}.\nIl sito si aggiorna in 2–3 minuti."
 
 
+def contributori(raw: str) -> str:
+    """Chi ha contribuito dal bot (foto per stato) e gli autori presenti nell'archivio."""
+    del raw
+    try:
+        people = _queue_json("contributors")
+        sent = _queue_json("list")
+    except json.JSONDecodeError:
+        return "⚠️ Coda dei contributi non leggibile."
+    by_person: dict[str, dict[str, int]] = {}
+    for entry in sent:
+        counts = by_person.setdefault(entry["contributorId"], {})
+        counts[entry["status"]] = counts.get(entry["status"], 0) + 1
+    labels = (("pending", "da moderare"), ("accepted", "accettate"), ("ingested", "in archivio"), ("rejected", "rifiutate"))
+    rows = []
+    for person in people:
+        counts = by_person.get(person["id"], {})
+        detail = " · ".join(f"{counts[k]} {label}" for k, label in labels if counts.get(k))
+        rows.append((sum(counts.values()), f"{person.get('firstName', '')} {person.get('lastName', '')}".strip(),
+                     f"{person.get('role', '')}, {person.get('affiliation', '')}", detail))
+    rows.sort(key=lambda row: (-row[0], row[1].lower()))
+    lines = [f"👥 Contributori dal bot: {len(rows)}"]
+    lines += [f"• {name} ({who}) — {total} foto" + (f": {detail}" if detail else "") for total, name, who, detail in rows]
+    if not rows:
+        lines.append("nessuno per ora")
+
+    try:
+        records = json.loads((REPO / "src" / "data" / "records.json").read_text(encoding="utf-8"))
+    except (OSError, ValueError):
+        records = []
+    authors: dict[str, list[int]] = {}
+    for record in records:
+        tally = authors.setdefault(record.get("author") or "(senza autore)", [0, 0])
+        tally[0] += 1
+        tally[1] += record.get("status") == "approved"
+    lines += ["", f"🗂 Autori nell'archivio: {len(authors)}"]
+    lines += [f"• {name} — {total} foto, {approved} approvate"
+              for name, (total, approved) in sorted(authors.items(), key=lambda item: -item[1][0])]
+    return "\n".join(lines)
+
+
 COMMANDS = [
     ("archivio", stato, "Archivio e contributi in sintesi"),
     ("coda", coda, "Foto dei contributori da moderare"),
@@ -317,6 +366,7 @@ COMMANDS = [
     ("ammetti", ammetti, "Accetta una richiesta d'invito: /ammetti <id>"),
     ("respingi", respingi, "Respinge una richiesta d'invito: /respingi <id> [motivo]"),
     ("invito", invito, "Mostra o cambia il codice d'invito: /invito [CODICE|off]"),
+    ("contributori", contributori, "Chi ha contribuito e con quante foto"),
     ("pubblica", pubblica, "Mostra cosa verrebbe pubblicato su GitHub (non pubblica)"),
     ("pubblicaok", pubblicaok, "Pubblica su GitHub i dati dell'archivio (commit + push)"),
 ]

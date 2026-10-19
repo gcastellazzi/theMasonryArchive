@@ -1,4 +1,4 @@
 name: masonry_admin
 version: 0.1.0
-description: "The Masonry Archive — comandi diretti del bot admin (/aiutom, /archivio, /coda, /f1…/f10, /foto, /accetta, /rifiuta, /applica, /avvisa, /richieste, /ammetti, /respingi, /invito, /pubblica, /pubblicaok): eseguono gli script del repository senza passare dal modello."
+description: "The Masonry Archive — comandi diretti del bot admin (/aiutom, /archivio, /coda, /f1…/f10, /foto, /accetta, /rifiuta, /applica, /avvisa, /richieste, /ammetti, /respingi, /invito, /contributori, /pubblica, /pubblicaok): eseguono gli script del repository senza passare dal modello."
 author: The Masonry Archive

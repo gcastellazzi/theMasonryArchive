@@ -60714,5 +60714,287 @@
     "id": "ai-unlocated-46a78d-tag-model",
     "kind": "tag",
     "value": "model"
+  },
+  {
+    "recordId": "unlocated-9aeabd",
+    "author": "Hermes · qwen3.5:9b",
+    "rationale": "The image clearly shows a wall constructed with rectangular clay bricks laid in horizontal courses with visible mortar joints, exhibiting natural color variation and surface texture without clear signs of specific historical period or structural feature. (confidence 0.95)",
+    "submittedAt": "2026-10-17T00:01:11+00:00",
+    "status": "pending",
+    "id": "ai-unlocated-9aeabd-title",
+    "kind": "text",
+    "field": "title",
+    "value": "Textured brick wall with varied mortar joints"
+  },
+  {
+    "recordId": "unlocated-9aeabd",
+    "author": "Hermes · qwen3.5:9b",
+    "rationale": "The image clearly shows a wall constructed with rectangular clay bricks laid in horizontal courses with visible mortar joints, exhibiting natural color variation and surface texture without clear signs of specific historical period or structural feature. (confidence 0.95)",
+    "submittedAt": "2026-10-17T00:01:11+00:00",
+    "status": "pending",
+    "id": "ai-unlocated-9aeabd-element",
+    "kind": "text",
+    "field": "element",
+    "value": "Wall"
+  },
+  {
+    "recordId": "unlocated-9aeabd",
+    "author": "Hermes · qwen3.5:9b",
+    "rationale": "The image clearly shows a wall constructed with rectangular clay bricks laid in horizontal courses with visible mortar joints, exhibiting natural color variation and surface texture without clear signs of specific historical period or structural feature. (confidence 0.95)",
+    "submittedAt": "2026-10-17T00:01:11+00:00",
+    "status": "pending",
+    "id": "ai-unlocated-9aeabd-technique",
+    "kind": "text",
+    "field": "technique",
+    "value": "Brick masonry"
+  },
+  {
+    "recordId": "unlocated-9aeabd",
+    "author": "Hermes · qwen3.5:9b",
+    "rationale": "The image clearly shows a wall constructed with rectangular clay bricks laid in horizontal courses with visible mortar joints, exhibiting natural color variation and surface texture without clear signs of specific historical period or structural feature. (confidence 0.95)",
+    "submittedAt": "2026-10-17T00:01:11+00:00",
+    "status": "pending",
+    "id": "ai-unlocated-9aeabd-material",
+    "kind": "text",
+    "field": "material",
+    "value": "Clay brick and lime mortar"
+  },
+  {
+    "recordId": "unlocated-9aeabd",
+    "author": "Hermes · qwen3.5:9b",
+    "rationale": "The image clearly shows a wall constructed with rectangular clay bricks laid in horizontal courses with visible mortar joints, exhibiting natural color variation and surface texture without clear signs of specific historical period or structural feature. (confidence 0.95)",
+    "submittedAt": "2026-10-17T00:01:11+00:00",
+    "status": "pending",
+    "id": "ai-unlocated-9aeabd-tag-brickwork",
+    "kind": "tag",
+    "value": "brickwork"
+  },
+  {
+    "recordId": "unlocated-9aeabd",
+    "author": "Hermes · qwen3.5:9b",
+    "rationale": "The image clearly shows a wall constructed with rectangular clay bricks laid in horizontal courses with visible mortar joints, exhibiting natural color variation and surface texture without clear signs of specific historical period or structural feature. (confidence 0.95)",
+    "submittedAt": "2026-10-17T00:01:11+00:00",
+    "status": "pending",
+    "id": "ai-unlocated-9aeabd-tag-wall",
+    "kind": "tag",
+    "value": "wall"
+  },
+  {
+    "recordId": "unlocated-9aeabd",
+    "author": "Hermes · qwen3.5:9b",
+    "rationale": "The image clearly shows a wall constructed with rectangular clay bricks laid in horizontal courses with visible mortar joints, exhibiting natural color variation and surface texture without clear signs of specific historical period or structural feature. (confidence 0.95)",
+    "submittedAt": "2026-10-17T00:01:11+00:00",
+    "status": "pending",
+    "id": "ai-unlocated-9aeabd-tag-texture",
+    "kind": "tag",
+    "value": "texture"
+  },
+  {
+    "recordId": "unlocated-9aeabd",
+    "author": "Hermes · qwen3.5:9b",
+    "rationale": "The image clearly shows a wall constructed with rectangular clay bricks laid in horizontal courses with visible mortar joints, exhibiting natural color variation and surface texture without clear signs of specific historical period or structural feature. (confidence 0.95)",
+    "submittedAt": "2026-10-17T00:01:11+00:00",
+    "status": "pending",
+    "id": "ai-unlocated-9aeabd-tag-mortar",
+    "kind": "tag",
+    "value": "mortar"
+  },
+  {
+    "recordId": "unlocated-9aeabd",
+    "author": "Hermes · qwen3.5:9b",
+    "rationale": "The image clearly shows a wall constructed with rectangular clay bricks laid in horizontal courses with visible mortar joints, exhibiting natural color variation and surface texture without clear signs of specific historical period or structural feature. (confidence 0.95)",
+    "submittedAt": "2026-10-17T00:01:11+00:00",
+    "status": "pending",
+    "id": "ai-unlocated-9aeabd-tag-bond",
+    "kind": "tag",
+    "value": "bond"
+  },
+  {
+    "recordId": "unlocated-91a306",
+    "author": "Hermes · qwen3.5:9b",
+    "rationale": "The image shows a wall constructed from irregularly sized and shaped stones and bricks laid in an uncoursed manner with visible mortar joints. (confidence 0.85)",
+    "submittedAt": "2026-10-17T00:01:17+00:00",
+    "status": "pending",
+    "id": "ai-unlocated-91a306-title",
+    "kind": "text",
+    "field": "title",
+    "value": "Exposed historic brick wall with rough mortar"
+  },
+  {
+    "recordId": "unlocated-91a306",
+    "author": "Hermes · qwen3.5:9b",
+    "rationale": "The image shows a wall constructed from irregularly sized and shaped stones and bricks laid in an uncoursed manner with visible mortar joints. (confidence 0.85)",
+    "submittedAt": "2026-10-17T00:01:17+00:00",
+    "status": "pending",
+    "id": "ai-unlocated-91a306-element",
+    "kind": "text",
+    "field": "element",
+    "value": "Wall"
+  },
+  {
+    "recordId": "unlocated-91a306",
+    "author": "Hermes · qwen3.5:9b",
+    "rationale": "The image shows a wall constructed from irregularly sized and shaped stones and bricks laid in an uncoursed manner with visible mortar joints. (confidence 0.85)",
+    "submittedAt": "2026-10-17T00:01:17+00:00",
+    "status": "pending",
+    "id": "ai-unlocated-91a306-technique",
+    "kind": "text",
+    "field": "technique",
+    "value": "Uncoursed rubble masonry"
+  },
+  {
+    "recordId": "unlocated-91a306",
+    "author": "Hermes · qwen3.5:9b",
+    "rationale": "The image shows a wall constructed from irregularly sized and shaped stones and bricks laid in an uncoursed manner with visible mortar joints. (confidence 0.85)",
+    "submittedAt": "2026-10-17T00:01:17+00:00",
+    "status": "pending",
+    "id": "ai-unlocated-91a306-material",
+    "kind": "text",
+    "field": "material",
+    "value": "Mixed stone and brick with lime mortar"
+  },
+  {
+    "recordId": "unlocated-91a306",
+    "author": "Hermes · qwen3.5:9b",
+    "rationale": "The image shows a wall constructed from irregularly sized and shaped stones and bricks laid in an uncoursed manner with visible mortar joints. (confidence 0.85)",
+    "submittedAt": "2026-10-17T00:01:17+00:00",
+    "status": "pending",
+    "id": "ai-unlocated-91a306-tag-interior",
+    "kind": "tag",
+    "value": "interior"
+  },
+  {
+    "recordId": "unlocated-91a306",
+    "author": "Hermes · qwen3.5:9b",
+    "rationale": "The image shows a wall constructed from irregularly sized and shaped stones and bricks laid in an uncoursed manner with visible mortar joints. (confidence 0.85)",
+    "submittedAt": "2026-10-17T00:01:17+00:00",
+    "status": "pending",
+    "id": "ai-unlocated-91a306-tag-rubble",
+    "kind": "tag",
+    "value": "rubble"
+  },
+  {
+    "recordId": "unlocated-91a306",
+    "author": "Hermes · qwen3.5:9b",
+    "rationale": "The image shows a wall constructed from irregularly sized and shaped stones and bricks laid in an uncoursed manner with visible mortar joints. (confidence 0.85)",
+    "submittedAt": "2026-10-17T00:01:17+00:00",
+    "status": "pending",
+    "id": "ai-unlocated-91a306-tag-brickwork",
+    "kind": "tag",
+    "value": "brickwork"
+  },
+  {
+    "recordId": "unlocated-91a306",
+    "author": "Hermes · qwen3.5:9b",
+    "rationale": "The image shows a wall constructed from irregularly sized and shaped stones and bricks laid in an uncoursed manner with visible mortar joints. (confidence 0.85)",
+    "submittedAt": "2026-10-17T00:01:17+00:00",
+    "status": "pending",
+    "id": "ai-unlocated-91a306-tag-mortar",
+    "kind": "tag",
+    "value": "mortar"
+  },
+  {
+    "recordId": "unlocated-91a306",
+    "author": "Hermes · qwen3.5:9b",
+    "rationale": "The image shows a wall constructed from irregularly sized and shaped stones and bricks laid in an uncoursed manner with visible mortar joints. (confidence 0.85)",
+    "submittedAt": "2026-10-17T00:01:17+00:00",
+    "status": "pending",
+    "id": "ai-unlocated-91a306-tag-texture",
+    "kind": "tag",
+    "value": "texture"
+  },
+  {
+    "recordId": "unlocated-1e1545",
+    "author": "Hermes · qwen3.5:9b",
+    "rationale": "The image clearly shows a wall constructed of reddish-brown clay bricks laid in a running bond pattern with visible lime mortar joints and a decorative brick arch at the top. (confidence 0.95)",
+    "submittedAt": "2026-10-17T00:01:24+00:00",
+    "status": "pending",
+    "id": "ai-unlocated-1e1545-title",
+    "kind": "text",
+    "field": "title",
+    "value": "Weathered brick wall with decorative voussoir arch"
+  },
+  {
+    "recordId": "unlocated-1e1545",
+    "author": "Hermes · qwen3.5:9b",
+    "rationale": "The image clearly shows a wall constructed of reddish-brown clay bricks laid in a running bond pattern with visible lime mortar joints and a decorative brick arch at the top. (confidence 0.95)",
+    "submittedAt": "2026-10-17T00:01:24+00:00",
+    "status": "pending",
+    "id": "ai-unlocated-1e1545-element",
+    "kind": "text",
+    "field": "element",
+    "value": "Wall"
+  },
+  {
+    "recordId": "unlocated-1e1545",
+    "author": "Hermes · qwen3.5:9b",
+    "rationale": "The image clearly shows a wall constructed of reddish-brown clay bricks laid in a running bond pattern with visible lime mortar joints and a decorative brick arch at the top. (confidence 0.95)",
+    "submittedAt": "2026-10-17T00:01:24+00:00",
+    "status": "pending",
+    "id": "ai-unlocated-1e1545-technique",
+    "kind": "text",
+    "field": "technique",
+    "value": "Brick masonry"
+  },
+  {
+    "recordId": "unlocated-1e1545",
+    "author": "Hermes · qwen3.5:9b",
+    "rationale": "The image clearly shows a wall constructed of reddish-brown clay bricks laid in a running bond pattern with visible lime mortar joints and a decorative brick arch at the top. (confidence 0.95)",
+    "submittedAt": "2026-10-17T00:01:24+00:00",
+    "status": "pending",
+    "id": "ai-unlocated-1e1545-material",
+    "kind": "text",
+    "field": "material",
+    "value": "Clay brick and lime mortar"
+  },
+  {
+    "recordId": "unlocated-1e1545",
+    "author": "Hermes · qwen3.5:9b",
+    "rationale": "The image clearly shows a wall constructed of reddish-brown clay bricks laid in a running bond pattern with visible lime mortar joints and a decorative brick arch at the top. (confidence 0.95)",
+    "submittedAt": "2026-10-17T00:01:24+00:00",
+    "status": "pending",
+    "id": "ai-unlocated-1e1545-tag-brickwork",
+    "kind": "tag",
+    "value": "brickwork"
+  },
+  {
+    "recordId": "unlocated-1e1545",
+    "author": "Hermes · qwen3.5:9b",
+    "rationale": "The image clearly shows a wall constructed of reddish-brown clay bricks laid in a running bond pattern with visible lime mortar joints and a decorative brick arch at the top. (confidence 0.95)",
+    "submittedAt": "2026-10-17T00:01:24+00:00",
+    "status": "pending",
+    "id": "ai-unlocated-1e1545-tag-wall",
+    "kind": "tag",
+    "value": "wall"
+  },
+  {
+    "recordId": "unlocated-1e1545",
+    "author": "Hermes · qwen3.5:9b",
+    "rationale": "The image clearly shows a wall constructed of reddish-brown clay bricks laid in a running bond pattern with visible lime mortar joints and a decorative brick arch at the top. (confidence 0.95)",
+    "submittedAt": "2026-10-17T00:01:24+00:00",
+    "status": "pending",
+    "id": "ai-unlocated-1e1545-tag-weathering",
+    "kind": "tag",
+    "value": "weathering"
+  },
+  {
+    "recordId": "unlocated-1e1545",
+    "author": "Hermes · qwen3.5:9b",
+    "rationale": "The image clearly shows a wall constructed of reddish-brown clay bricks laid in a running bond pattern with visible lime mortar joints and a decorative brick arch at the top. (confidence 0.95)",
+    "submittedAt": "2026-10-17T00:01:24+00:00",
+    "status": "pending",
+    "id": "ai-unlocated-1e1545-tag-arch",
+    "kind": "tag",
+    "value": "arch"
+  },
+  {
+    "recordId": "unlocated-1e1545",
+    "author": "Hermes · qwen3.5:9b",
+    "rationale": "The image clearly shows a wall constructed of reddish-brown clay bricks laid in a running bond pattern with visible lime mortar joints and a decorative brick arch at the top. (confidence 0.95)",
+    "submittedAt": "2026-10-17T00:01:24+00:00",
+    "status": "pending",
+    "id": "ai-unlocated-1e1545-tag-texture",
+    "kind": "tag",
+    "value": "texture"
   }
 ]
