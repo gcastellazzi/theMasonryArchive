@@ -21,6 +21,7 @@ from __future__ import annotations
 
 import json
 import os
+from datetime import datetime, timezone
 import re
 import subprocess
 import sys
@@ -449,14 +450,16 @@ PHOTO = {
         "receivedMany": "📥 {n} foto ricevute, grazie!",
         "askPosition": (
             "La foto non contiene la posizione GPS: da dove viene? Scrivi il luogo "
-            "(es. «Spello, Porta Venere») o le coordinate (es. 44.4938, 11.3426)."
+            "(es. «Spello, Porta Venere»), le coordinate (es. 44.4938, 11.3426) "
+            "oppure manda la posizione con 📎 → Posizione."
         ),
         "askNote": (
             "Perche' l'hai scattata? Scrivi una breve nota, ad esempio «evidente stato di degrado» "
             "o «fessura sopra l'arco». (Se non vuoi aggiungerla, scrivi salta.)"
         ),
         "done": "✅ Grazie! La foto e' in moderazione: riceverai qui un messaggio con l'esito.",
-        "tip": "\n\n📎 La prossima volta inviala come FILE (graffetta → File): cosi' il GPS resta nella foto.",
+        "tip": ("\n\n📎 Telegram l'ha ricevuta come foto compressa (1280 px, senza GPS ne' data). "
+                "La prossima volta inviala come FILE: graffetta → File → scegli la foto."),
         "errors": {
             "duplicate": "Questa foto e' gia' stata inviata o e' gia' nell'archivio.",
             "not_an_image": "Questo file non e' una foto (JPEG, HEIC, PNG, WebP o TIFF).",
@@ -470,14 +473,16 @@ PHOTO = {
         "receivedMany": "📥 {n} photos received, thank you!",
         "askPosition": (
             "The photo has no GPS position: where was it taken? Type the place "
-            "(e.g. \"Spello, Porta Venere\") or the coordinates (e.g. 44.4938, 11.3426)."
+            "(e.g. \"Spello, Porta Venere\"), the coordinates (e.g. 44.4938, 11.3426) "
+            "or send the location with 📎 → Location."
         ),
         "askNote": (
             "Why did you take it? Write a short note, for example \"evident decay\" or "
             "\"crack above the arch\". (Type skip if you'd rather not.)"
         ),
         "done": "✅ Thank you! The photo is under review: you'll get a message here with the outcome.",
-        "tip": "\n\n📎 Next time send it as a FILE (paperclip → File), so the GPS stays in the photo.",
+        "tip": ("\n\n📎 Telegram received it as a compressed photo (1280 px, no GPS or date). "
+                "Next time send it as a FILE: paperclip → File → pick the photo."),
         "errors": {
             "duplicate": "This photo has already been sent or is already in the archive.",
             "not_an_image": "This file is not a photo (JPEG, HEIC, PNG, WebP or TIFF).",
@@ -488,10 +493,10 @@ PHOTO = {
     },
 }
 SKIP = {"salta", "skip", "no", "-", "niente", "nessuna", "none"}
+FLOW_TTL = 24 * 3600  # secondi: oltre, le domande in sospeso decadono
 # Testo che Hermes mette al posto della didascalia quando una foto arriva senza.
 _DEFAULT_CAPTION = "What do you see in this image?"
 _ATTACHMENT_RE = re.compile(r"\[Image attached at: ([^\]]+)\]|saved at: ([^\s\]]+?)[.\]]?(?:\s|$)")
-_COORDS_RE = re.compile(r"^\s*(-?\d{1,2}[.,]\d+)\s*[,; ]\s*(-?\d{1,3}[.,]\d+)\s*$")
 # Risposta pronta per il turno in corso, per sessione: la consegna transform_llm_output.
 _REPLIES: dict[str, str] = {}
 
@@ -550,6 +555,7 @@ def intake_photos(session_id="", user_message=None, sender_id="", platform="", *
         flow["needPosition"] = sorted(set(flow.get("needPosition", [])) | set(no_gps))
         if not caption:
             flow["needNote"] = sorted(set(flow.get("needNote", [])) | set(accepted))
+        flow["at"] = datetime.now(timezone.utc).isoformat()
         queue.set_photo_flow(user_id, flow if (flow["needPosition"] or flow["needNote"]) else None)
         parts.append(words["received"] if len(accepted) == 1 else words["receivedMany"].format(n=len(accepted)))
         question = _next_question(flow, words)
@@ -572,11 +578,18 @@ def _photo_flow_step(user_id: str, text: str):
     answer = " ".join((text or "").split())
     if not flow or not answer:
         return None  # nessuna domanda in sospeso, o un'altra foto: al modello
+    # Una domanda di giorni fa non aspetta piu' risposta: il messaggio di oggi e' un'altra cosa.
+    asked = flow.get("at")
+    if not asked or (datetime.now(timezone.utc) - datetime.fromisoformat(asked)).total_seconds() > FLOW_TTL:
+        queue.set_photo_flow(user_id, None)
+        return None
     words = PHOTO[queue.get_language(user_id) or "it"]
     if flow.get("needPosition"):
-        match = _COORDS_RE.match(answer)
-        if match:
-            lat, lng = (float(v.replace(",", ".")) for v in match.groups())
+        # La puntina di Telegram arriva come testo di Hermes: "[The user shared a location pin.]
+        # latitude: 44.50 longitude: 11.33 …"; altrimenti coordinate scritte o nome del luogo.
+        coords = queue.parse_coordinates(answer)
+        if coords:
+            lat, lng = coords
             try:
                 queue.set_position(user_id, flow["needPosition"], lat=lat, lng=lng)
             except queue.IntakeError:

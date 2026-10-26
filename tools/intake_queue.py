@@ -43,6 +43,7 @@ import contextlib
 import fcntl
 import hashlib
 import json
+import re
 import os
 import shutil
 import struct
@@ -599,6 +600,50 @@ def submit(
         return entry
 
 
+_COORD_PART = re.compile(
+    r"(-?\d+(?:\.\d+)?)\s*°?\s*(?:(\d+(?:\.\d+)?)\s*['′’]\s*)?(?:(\d+(?:\.\d+)?)\s*(?:\"|″|'')\s*)?([NSEWnsew])?"
+)
+
+
+def parse_coordinates(text: str) -> tuple[float, float] | None:
+    """Latitudine e longitudine da come le scrive una persona o le passa Telegram.
+
+    Capisce: la puntina di Telegram ("latitude: 44.50 longitude: 11.33"), i decimali
+    ("44.4938, 11.3426"), la virgola decimale e gli emisferi ("44,35958° N, 11,63010° E"),
+    gradi-primi-secondi ("44°21'34.5\"N 11°37'48\"E"). None se non sono coordinate.
+    """
+    text = (text or "").strip()
+    pin = re.search(r"latitude:\s*(-?\d+(?:\.\d+)?)\s+longitude:\s*(-?\d+(?:\.\d+)?)", text, re.I)
+    if pin:
+        lat, lng = float(pin[1]), float(pin[2])
+    else:
+        if "." not in text:
+            text = re.sub(r"(\d),(\d)", r"\1.\2", text)  # virgola decimale all'italiana
+        values = []
+        for m in _COORD_PART.finditer(text):
+            if not m.group(0).strip() or m[1] is None:
+                continue
+            # Due numeri qualsiasi ("1, 2") non sono una posizione: servono decimali,
+            # gradi/primi o l'emisfero.
+            if not ("." in m[1] or "°" in m.group(0) or m[2] or m[4]):
+                continue
+            value = float(m[1]) + float(m[2] or 0) / 60 + float(m[3] or 0) / 3600
+            hemisphere = (m[4] or "").upper()
+            if hemisphere in ("S", "W"):
+                value = -abs(value)
+            values.append((value, hemisphere))
+            if len(values) == 2:
+                break
+        if len(values) != 2:
+            return None
+        (lat, h1), (lng, h2) = values
+        if h1 in ("E", "W") or h2 in ("N", "S"):
+            lat, lng = lng, lat
+    if not (-90 <= lat <= 90 and -180 <= lng <= 180) or (lat, lng) == (0, 0):
+        return None
+    return round(lat, 7), round(lng, 7)
+
+
 def set_position(user_id: str, submission_ids: list[str], *, lat: float | None = None,
                  lng: float | None = None, hint: str = "") -> int:
     """Provenienza indicata dal contributore per foto sue arrivate senza GPS."""
@@ -750,6 +795,11 @@ def apply(dry_run: bool = False) -> list[dict[str, Any]]:
             # autore e affiliazione a tutto cio' che trova dentro.
             photo = Path(staging) / Path(entry["file"]).name
             shutil.copyfile(INCOMING / entry["file"], photo)
+            coords = parse_coordinates(entry.get("locationHint") or "") if entry.get("lat") is None else None
+            if coords:
+                # Coordinate scritte a mano o puntina di Telegram, salvate come testo.
+                entry = {**entry, "lat": coords[0], "lng": coords[1],
+                         "positionSource": "contributor", "locationHint": ""}
             if entry.get("lat") is None and entry.get("locationHint"):
                 # Solo il nome del luogo: lo si cerca su OpenStreetMap, lo stesso servizio
                 # che l'ingest usa per il percorso inverso.

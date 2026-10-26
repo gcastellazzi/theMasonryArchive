@@ -2609,5 +2609,26 @@
     "state": "Emilia-Romagna",
     "country": "Italy",
     "countryCode": "IT"
+  },
+  "44.3594,11.6289": {
+    "location": "Dozza",
+    "county": "Bologna",
+    "state": "Emilia-Romagna",
+    "country": "Italy",
+    "countryCode": "IT"
+  },
+  "44.5016,11.3356": {
+    "location": "Bologna",
+    "county": "Bologna",
+    "state": "Emilia-Romagna",
+    "country": "Italy",
+    "countryCode": "IT"
+  },
+  "44.4971,11.3281": {
+    "location": "Bologna",
+    "county": "Bologna",
+    "state": "Emilia-Romagna",
+    "country": "Italy",
+    "countryCode": "IT"
   }
 }

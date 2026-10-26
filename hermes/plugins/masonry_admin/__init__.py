@@ -354,6 +354,57 @@ def contributori(raw: str) -> str:
     return "\n".join(lines)
 
 
+# --------------------------------------------------------------------------
+# Proposte di catalogazione su richiesta
+#
+# Lo stesso lavoro del cron notturno (tools/propose_tags.py), lanciato subito.
+# Dura minuti, quindi parte staccato: il comando risponde, e il riepilogo arriva
+# dal bot admin quando ha finito.
+
+def _local_setting(key: str, default: str) -> str:
+    """Impostazioni di questa macchina in hermes/local.env (es. l'Ollama della workstation)."""
+    env = REPO / "hermes" / "local.env"
+    for line in env.read_text().splitlines() if env.exists() else []:
+        name, _, value = line.partition("=")
+        if name.strip() == key:
+            return value.strip()
+    return os.environ.get(key, default)
+
+
+def _awaiting_proposals() -> list[str]:
+    try:
+        records = json.loads((REPO / "src" / "data" / "records.json").read_text(encoding="utf-8"))
+        suggestions = json.loads((REPO / "src" / "data" / "suggestions.json").read_text(encoding="utf-8"))
+    except (OSError, ValueError):
+        return []
+    done = {s["recordId"] for s in suggestions if str(s.get("author", "")).startswith("Hermes")}
+    return [r["id"] for r in records
+            if r.get("status") == "pending" and r["id"] not in done
+            and (not r.get("title") or not r.get("tags"))
+            and (REPO / "public" / r.get("thumbnail", "")).is_file()]
+
+
+def proponi(raw: str) -> str:
+    if subprocess.run(["pgrep", "-f", "[p]ropose_tags.py"], capture_output=True).returncode == 0:
+        return "⏳ Le proposte stanno gia' girando: il riepilogo arriva qui quando finiscono."
+    waiting = _awaiting_proposals()
+    if not waiting:
+        return "Nessuna foto da catalogare senza proposte: niente da fare."
+    limit = int(raw.strip()) if raw.strip().isdigit() else int(_local_setting("MASONRY_PROPOSALS_LIMIT", "100"))
+    host = _local_setting("MASONRY_OLLAMA_HOST", "http://127.0.0.1:11434")
+    # Output in un file e invio solo se non vuoto: hermes send con stdin vuoto non ha senso.
+    script = (
+        f'out=$(mktemp); OLLAMA_HOST="{host}" python3 tools/propose_tags.py --limit {limit} > "$out" 2>&1; '
+        f'[ -s "$out" ] && hermes -p masonry-admin send -q --to telegram --file "$out"; rm -f "$out"'
+    )
+    subprocess.Popen(["bash", "-c", script], cwd=REPO, stdout=subprocess.DEVNULL,
+                     stderr=subprocess.DEVNULL, start_new_session=True)
+    n = min(limit, len(waiting))
+    return (f"🔎 Avviate le proposte per {n} foto (circa {max(1, n * 30 // 60)} min sulla workstation).\n"
+            "Ti scrivo qui quando hanno finito. Nel frattempo salva il lavoro nel pannello: "
+            "quando arrivano le proposte la pagina si ricarica.")
+
+
 COMMANDS = [
     ("archivio", stato, "Archivio e contributi in sintesi"),
     ("coda", coda, "Foto dei contributori da moderare"),
@@ -367,6 +418,7 @@ COMMANDS = [
     ("respingi", respingi, "Respinge una richiesta d'invito: /respingi <id> [motivo]"),
     ("invito", invito, "Mostra o cambia il codice d'invito: /invito [CODICE|off]"),
     ("contributori", contributori, "Chi ha contribuito e con quante foto"),
+    ("proponi", proponi, "Proposte di catalogazione subito, per le foto che non le hanno: /proponi [n]"),
     ("pubblica", pubblica, "Mostra cosa verrebbe pubblicato su GitHub (non pubblica)"),
     ("pubblicaok", pubblicaok, "Pubblica su GitHub i dati dell'archivio (commit + push)"),
 ]

@@ -85,10 +85,15 @@ function matchesFilter(
 function resumePoint(records: MasonryRecord[], suggestions: Suggestion[]) {
   const saved = readJson<Resume>(RESUME_KEY);
   if (!saved?.ids?.length) return null;
-  const suggestedIds = new Set(
-    suggestions.filter((s) => s.status === 'pending').map((s) => s.recordId),
-  );
   const byId = new Map(records.map((record) => [record.id, record]));
+  const suggestedIds = new Set(
+    suggestions
+      .filter(
+        (s) =>
+          s.status === 'pending' && byId.get(s.recordId)?.status === 'pending',
+      )
+      .map((s) => s.recordId),
+  );
   const id = saved.ids.find((candidate) => {
     const record = byId.get(candidate);
     return record && matchesFilter(record, saved.filter, suggestedIds);
@@ -160,9 +165,12 @@ export function AdminPanel({
   const [dirty, setDirty] = useState(() => Object.keys(loadDraft()).length > 0);
   const [tagDraft, setTagDraft] = useState('');
   const [excluded, setExcluded] = useState<string[]>(initialExcluded);
-  const [saving, setSaving] = useState<'idle' | 'busy' | 'done' | 'error'>(
-    'idle',
-  );
+  // Quando la pagina ha preso i dati: il server rifiuta il salvataggio se i file
+  // sono cambiati dopo (vedi tools/vite-admin-save.ts).
+  const loadedAt = useRef(Date.now());
+  const [saving, setSaving] = useState<
+    'idle' | 'busy' | 'done' | 'error' | 'stale'
+  >('idle');
   const stripRef = useRef<HTMLFieldSetElement>(null);
 
   // Dopo un'approvazione la selezione salta alla foto seguente: il rullino la
@@ -189,14 +197,20 @@ export function AdminPanel({
   const allTags = useMemo(() => knownTags(records), [records]);
 
   // Foto con proposte ancora da esaminare (utenti o modello notturno).
+  // Proposte ancora da esaminare: aperte e su foto che esistono e non sono approvate.
+  // Quelle di foto approvate o eliminate non contano piu' (restano nel file).
+  const reviewable = useMemo(() => {
+    const live = new Map(records.map((record) => [record.id, record.status]));
+    return suggestions.filter(
+      (s) =>
+        s.status === 'pending' &&
+        live.has(s.recordId) &&
+        live.get(s.recordId) !== 'approved',
+    );
+  }, [suggestions, records]);
   const suggestedIds = useMemo(
-    () =>
-      new Set(
-        suggestions
-          .filter((s) => s.status === 'pending')
-          .map((s) => s.recordId),
-      ),
-    [suggestions],
+    () => new Set(reviewable.map((s) => s.recordId)),
+    [reviewable],
   );
 
   const visible = useMemo(() => {
@@ -229,12 +243,10 @@ export function AdminPanel({
     writeJson(RESUME_KEY, { filter, ids } satisfies Resume);
   }, [selected, visible, filter]);
 
-  const openSuggestions = suggestions.filter(
-    (item) => item.recordId === selected?.id && item.status === 'pending',
+  const openSuggestions = reviewable.filter(
+    (item) => item.recordId === selected?.id,
   );
-  const pendingSuggestionCount = suggestions.filter(
-    (s) => s.status === 'pending',
-  ).length;
+  const pendingSuggestionCount = reviewable.length;
 
   // Cambiando filtro si apre la prima foto dell'elenco: altrimenti resterebbe
   // selezionata una foto che il nuovo filtro non mostra.
@@ -360,9 +372,15 @@ export function AdminPanel({
           'records.json': records,
           'suggestions.json': suggestions,
           'excluded.json': excluded,
+          __loadedAt: loadedAt.current,
         }),
       });
+      if (response.status === 409) {
+        setSaving('stale');
+        return;
+      }
       if (!response.ok) throw new Error(await response.text());
+      loadedAt.current = Date.now();
       localStorage.removeItem(DRAFT_KEY);
       setDirty(false);
       setSaving('done');
@@ -538,6 +556,14 @@ export function AdminPanel({
           <Download />
         </Button>
       </div>
+      {saving === 'stale' && (
+        <p className="w-full text-xs text-destructive">
+          Not saved: the data files changed after this page was opened (another
+          tab, the nightly proposals or the bot). Saving would overwrite those
+          changes. Reload the page: edits to records are kept as a draft, but
+          decisions on suggestions made in this tab must be redone.
+        </p>
+      )}
       {saving === 'error' && (
         <p className="w-full text-xs text-destructive">
           Save failed. Is the development server running? Alternatively,
