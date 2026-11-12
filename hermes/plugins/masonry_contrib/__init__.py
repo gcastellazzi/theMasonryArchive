@@ -533,7 +533,7 @@ def intake_photos(session_id="", user_message=None, sender_id="", platform="", *
     caption = " ".join(caption.split())
 
     words = PHOTO[queue.get_language(user_id) or "it"]
-    accepted, errors, no_gps = [], [], []
+    accepted, errors, no_gps, previews = [], [], [], []
     for raw in paths:
         source = _attachment(raw)
         if source is None:
@@ -546,6 +546,12 @@ def intake_photos(session_id="", user_message=None, sender_id="", platform="", *
             errors.append(words["errors"].get(error.code, error.message))
             continue
         accepted.append(entry["id"])
+        # Un HEIC inviato come file in chat appare come documento senza miniatura:
+        # si risponde con l'anteprima, cosi' chi lo manda vede che e' la foto giusta.
+        if Path(entry["file"]).suffix.lower() in (".heic", ".heif"):
+            preview = queue.preview_jpeg(queue.INCOMING / entry["file"])
+            if preview:
+                previews.append(f"MEDIA:{preview}")
         if entry["positionSource"] is None:
             no_gps.append(entry["id"])
 
@@ -563,6 +569,7 @@ def intake_photos(session_id="", user_message=None, sender_id="", platform="", *
         if no_gps:
             parts[-1] += words["tip"]
     parts += sorted(set(errors))
+    parts += previews
     _REPLIES[str(session_id)] = "\n\n".join(parts)
     # Il modello gira comunque: gli si chiede una risposta minima, che verra' sostituita.
     return {"context": "The attached photo has already been handled by the system. Reply with just: OK"}

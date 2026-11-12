@@ -30,8 +30,10 @@ import argparse
 import hashlib
 import json
 import re
+import shutil
 import subprocess
 import sys
+import tempfile
 import time
 import unicodedata
 import urllib.parse
@@ -167,6 +169,33 @@ class Geocoder:
             write_json(GEOCACHE, self.cache)
 
 
+def readable(photo: Path, scratch: Path) -> Path:
+    """La foto stessa, o una sua copia JPEG se ImageMagick non sa aprirla.
+
+    Gli HEIC degli iPhone recenti contengono immagini ausiliarie (HDR) che la
+    libheif inclusa nell'AppImage di ImageMagick rifiuta ("Metadata not correctly
+    assigned"). In quel caso si converte con heif-dec/heif-convert, la libheif di sistema
+    (pacchetto libheif-examples), che conserva l'EXIF; l'eventuale sidecar XMP
+    viene copiato accanto, cosi' photo_meta lo trova.
+    """
+    if photo.suffix.lower() not in (".heic", ".heif"):
+        return photo
+    probe = subprocess.run(["magick", "identify", str(photo)], capture_output=True)
+    if probe.returncode == 0:
+        return photo
+    # heif-dec dalla libheif 1.18, heif-convert prima (Ubuntu 24.04 ha la 1.17).
+    decoder = shutil.which("heif-dec") or shutil.which("heif-convert")
+    if not decoder:
+        sys.exit(f"{photo.name}: ImageMagick non apre questo HEIC e manca il convertitore "
+                 "(sudo apt install libheif-examples)")
+    copy = scratch / f"{photo.stem}.jpg"
+    subprocess.run([decoder, "-q", "95", str(photo), str(copy)], check=True, capture_output=True)
+    for sidecar in (photo.with_suffix(".xmp"), Path(f"{photo}.xmp")):
+        if sidecar.exists():
+            shutil.copyfile(sidecar, copy.with_suffix(".xmp"))
+    return copy
+
+
 def make_derivatives(image: Path, record_id: str, images_dir: Path, force: bool) -> dict[str, str]:
     """Genera le tre derivate WebP, senza metadati incorporati."""
     images_dir.mkdir(parents=True, exist_ok=True)
@@ -278,6 +307,10 @@ def ingest(args: argparse.Namespace) -> int:
     result: list[dict[str, Any]] = list(existing)
     seen_in_run: set[str] = set()
 
+    # Copie JPEG degli HEIC che ImageMagick non apre (vedi readable): spariscono a fine import.
+    scratch_dir = tempfile.TemporaryDirectory(prefix="ingest-heic-")
+    scratch = Path(scratch_dir.name)
+
     for photo in photos:
         digest = source_hash(photo)
 
@@ -293,7 +326,10 @@ def ingest(args: argparse.Namespace) -> int:
             skipped += 1
             continue
 
-        meta = read_photo(photo)
+        # Metadati e derivate da una copia leggibile; impronta e nome restano dell'originale.
+        work = readable(photo, scratch)
+        meta = read_photo(work)
+        meta.source = photo
         record = by_hash.get(digest)
         is_new = record is None
 
@@ -336,7 +372,7 @@ def ingest(args: argparse.Namespace) -> int:
             record["affiliation"] = record.get("affiliation") or args.affiliation
 
         if not args.dry_run:
-            paths = make_derivatives(photo, record["id"], images_dir, args.force)
+            paths = make_derivatives(work, record["id"], images_dir, args.force)
             record["image"] = paths["detail"]
             record["thumbnail"] = paths["card"]
             record["strip"] = paths["strip"]

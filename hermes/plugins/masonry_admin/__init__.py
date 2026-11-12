@@ -48,6 +48,15 @@ def _queue_json(*args: str):
     return json.loads(result.stdout)
 
 
+def _queue_preview(path: Path) -> Path | None:
+    """Anteprima JPEG generata dalla coda (stesso codice usato dal bot dei contributori)."""
+    code = ("import sys; sys.path.insert(0, 'tools'); import intake_queue as q; "
+            f"p = q.preview_jpeg(__import__('pathlib').Path({str(path)!r})); print(p or '')")
+    out = subprocess.run(["python3", "-c", code], cwd=REPO, capture_output=True, text=True, timeout=120)
+    found = out.stdout.strip()
+    return Path(found) if found else None
+
+
 def _split(raw: str) -> list[str]:
     try:
         return shlex.split(raw or "")
@@ -132,11 +141,13 @@ def foto(raw: str) -> str:
     n = ids.index(entry["id"]) + 1 if entry["id"] in ids else 0
     accept = f"/accetta{n}" if 0 < n <= SLOTS else f"/accetta {entry['id'][:6]} [nota]"
     lines.append(f"\n{accept}  ·  /rifiuta {entry['id'][:6]} <motivo>")
-    # Telegram non mostra l'HEIC: in quel caso basta il percorso.
-    if Path(entry["path"]).suffix.lower() in (".jpg", ".jpeg", ".png", ".webp"):
-        lines.append(f"MEDIA:{entry['path']}")
+    # Telegram non mostra l'HEIC degli iPhone: si manda un'anteprima JPEG.
+    original = Path(entry["path"])
+    if original.suffix.lower() in (".jpg", ".jpeg", ".png", ".webp"):
+        lines.append(f"MEDIA:{original}")
     else:
-        lines.append(f"(anteprima non disponibile per questo formato: {entry['path']})")
+        preview = _queue_preview(original)
+        lines.append(f"MEDIA:{preview}" if preview else f"(anteprima non disponibile: {original.name})")
     return "\n".join(lines)
 
 

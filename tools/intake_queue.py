@@ -691,6 +691,34 @@ def add_comment(user_id: str, submission_id: str, comment: str) -> dict[str, Any
         return entry
 
 
+def preview_jpeg(path: Path, size: int = 1280) -> Path | None:
+    """Anteprima JPEG di una foto ricevuta, per mostrarla su Telegram.
+
+    Telegram non visualizza gli HEIC degli iPhone (arrivano come documento), e la
+    libheif dell'AppImage di ImageMagick non apre quelli recenti: si decodifica con
+    heif-dec (pacchetto libheif-examples) e si riduce con ImageMagick. Le altre foto
+    passano direttamente da ImageMagick. None se non si riesce: si mostra il percorso.
+    """
+    out_dir = INCOMING / "previews"
+    out_dir.mkdir(parents=True, exist_ok=True)
+    out = out_dir / f"{path.stem}.jpg"
+    if out.exists() and out.stat().st_mtime >= path.stat().st_mtime:
+        return out
+    source = path
+    decoder = shutil.which("heif-dec") or shutil.which("heif-convert")  # nome dalla libheif 1.18 / prima
+    if path.suffix.lower() in (".heic", ".heif") and decoder:
+        source = out_dir / f"{path.stem}.full.jpg"
+        if subprocess.run([decoder, "-q", "92", str(path), str(source)], capture_output=True).returncode:
+            return None
+    resized = subprocess.run(
+        ["magick", str(source), "-auto-orient", "-resize", f"{size}x{size}>", "-quality", "85", str(out)],
+        capture_output=True,
+    )
+    if source != path:
+        source.unlink(missing_ok=True)
+    return out if resized.returncode == 0 and out.exists() else None
+
+
 def submissions_for(user_id: str) -> list[dict[str, Any]]:
     key = contributor_key(user_id)
     return [s for s in load_submissions() if s["contributorId"] == key]
@@ -719,6 +747,7 @@ def delete_contributor(user_id: str) -> dict[str, Any]:
                 kept.append({**entry, "contributorId": "deleted"})
             else:
                 (INCOMING / entry["file"]).unlink(missing_ok=True)
+                (INCOMING / "previews" / f"{Path(entry['file']).stem}.jpg").unlink(missing_ok=True)
                 removed += 1
         _save(INCOMING / "contributors.json", contributors)
         _save(INCOMING / "submissions.json", kept)
@@ -757,6 +786,7 @@ def review(submission_id: str, decision: str, note: str = "") -> dict[str, Any]:
                 excluded.append(entry["sha1"])
                 EXCLUDED.write_text(json.dumps(excluded, indent=2) + "\n", encoding="utf-8")
             (INCOMING / entry["file"]).unlink(missing_ok=True)
+            (INCOMING / "previews" / f"{Path(entry['file']).stem}.jpg").unlink(missing_ok=True)
         _save(INCOMING / "submissions.json", submissions)
         return entry
 

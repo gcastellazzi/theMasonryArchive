@@ -2630,5 +2630,19 @@
     "state": "Emilia-Romagna",
     "country": "Italy",
     "countryCode": "IT"
+  },
+  "40.7045,19.9498": {
+    "location": "Berat",
+    "county": "Berat County",
+    "state": "",
+    "country": "Albania",
+    "countryCode": "AL"
+  },
+  "41.5147,19.7885": {
+    "location": "Kruja",
+    "county": "Durrës County",
+    "state": "",
+    "country": "Albania",
+    "countryCode": "AL"
   }
 }
