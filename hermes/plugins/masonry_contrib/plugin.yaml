@@ -9,6 +9,7 @@ provides_tools:
   - masonry_set_language
   - masonry_add_comment
   - masonry_my_submissions
+  - masonry_request_change
   - masonry_delete_my_data
 provides_hooks:
   - post_gateway_admission

@@ -322,7 +322,13 @@ def pubblicaok(raw: str) -> str:
                 + "\n\nRiprova /pubblicaok, oppure git push dal terminale.")
     _git("fetch", "origin")  # aggiorna origin/main (lettura anonima, repository pubblico)
     sha = _git("rev-parse", "--short", "HEAD").stdout.strip()
-    return f"✅ Pubblicato ({sha}): {message}.\nIl sito si aggiorna in 2–3 minuti."
+    # Gli autori delle foto appena pubblicate ricevono il link (la pagina e' online in 2-3 minuti).
+    try:
+        notified = _queue_json("notify-published")
+    except (ValueError, OSError):
+        notified = []
+    told = f"\n✉️ Avvisati con il link: {', '.join(notified)}" if notified else ""
+    return f"✅ Pubblicato ({sha}): {message}.\nIl sito si aggiorna in 2–3 minuti.{told}"
 
 
 def contributori(raw: str) -> str:
@@ -416,6 +422,108 @@ def proponi(raw: str) -> str:
             "quando arrivano le proposte la pagina si ricarica.")
 
 
+# --------------------------------------------------------------------------
+# Proposte di catalogazione, domande agli autori, richieste di modifica
+
+
+def _reviewable() -> list[tuple[dict, list[dict]]]:
+    """Foto da catalogare con proposte aperte (stesso criterio del pannello), le piu' vecchie prima."""
+    try:
+        records = json.loads((REPO / "src" / "data" / "records.json").read_text(encoding="utf-8"))
+        suggestions = json.loads((REPO / "src" / "data" / "suggestions.json").read_text(encoding="utf-8"))
+    except (OSError, ValueError):
+        return []
+    by_record: dict[str, list[dict]] = {}
+    for item in suggestions:
+        if item.get("status") == "pending":
+            by_record.setdefault(item["recordId"], []).append(item)
+    return [(r, by_record[r["id"]]) for r in records
+            if r.get("status") != "approved" and r["id"] in by_record]
+
+
+def proposte(raw: str) -> str:
+    del raw
+    rows = _reviewable()
+    if not rows:
+        return "Nessuna proposta da esaminare."
+    lines = [f"🔎 Proposte da esaminare: {len(rows)} foto — tocca /p… per vederle", ""]
+    for n, (record, items) in enumerate(rows[:SLOTS], 1):
+        title = next((i["value"] for i in items if i.get("field") == "title"), record.get("title") or "")
+        lines.append(f"/p{n}  {record.get('location') or record['id']} — {title[:50]} ({len(items)})")
+    if len(rows) > SLOTS:
+        lines.append(f"… e altre {len(rows) - SLOTS}: esaminale nel pannello (filtro With suggestions).")
+    return "\n".join(lines)
+
+
+def _proposal_slot(n: int):
+    def show(raw: str) -> str:
+        del raw
+        rows = _reviewable()
+        if n > len(rows):
+            return f"Non c'e' una foto n. {n} con proposte: /proposte per l'elenco aggiornato."
+        record, items = rows[n - 1]
+        lines = [f"🔎 {record.get('location') or '—'} · {record['id']}"]
+        fields = [i for i in items if i.get("kind") == "text"]
+        tags = [i["value"] for i in items if i.get("kind") == "tag"]
+        lines += [f"• {i['field']}: {i['value']}" for i in fields]
+        if tags:
+            lines.append("• tag: " + ", ".join(tags))
+        authors = sorted({i.get("author", "?") for i in items})
+        lines.append(f"\nDa: {', '.join(authors)}")
+        why = next((i.get("rationale") for i in items if i.get("rationale")), "")
+        if why:
+            lines.append(f"Perche': {why[:300]}")
+        lines.append("\nAccetta o scarta nel pannello (filtro With suggestions).")
+        thumb = REPO / "public" / record.get("thumbnail", "")
+        if thumb.is_file():
+            preview = _queue_preview(thumb)
+            if preview:
+                lines.append(f"MEDIA:{preview}")
+        return "\n".join(lines)
+    return show
+
+
+def chiedi(raw: str) -> str:
+    ref, question = _id_and_note(raw)
+    if not ref or not question:
+        return ("Uso: /chiedi <id della foto o del record> <domanda>\n"
+                "Con «posizione» al posto della domanda il bot chiede il luogo all'autore e lo salva.")
+    code = ("import sys, json; sys.path.insert(0, 'tools'); import intake_queue as q\n"
+            "try:\n    e = q.ask_contributor(sys.argv[1], sys.argv[2]); print(json.dumps({'ok': e['originalName']}))\n"
+            "except q.IntakeError as err:\n    print(json.dumps({'error': err.message}))")
+    out = subprocess.run(["python3", "-c", code, ref, question], cwd=REPO, capture_output=True, text=True, timeout=120)
+    try:
+        result = json.loads(out.stdout.strip().splitlines()[-1])
+    except (ValueError, IndexError):
+        return "⚠️ " + (out.stderr.strip()[-300:] or "nessuna risposta")
+    if "error" in result:
+        return "⚠️ " + result["error"]
+    return f"📩 Domanda inviata all'autore di «{result['ok']}». La risposta ti arriva qui."
+
+
+def modifiche(raw: str) -> str:
+    del raw
+    try:
+        changes = [c for c in _queue_json("changes") if c["status"] == "open"]
+    except (ValueError, OSError):
+        return "⚠️ Elenco delle richieste non leggibile."
+    if not changes:
+        return "✏️ Nessuna richiesta di modifica aperta."
+    lines = ["✏️ Richieste di modifica aperte", ""]
+    for c in changes:
+        lines.append(f"{c['id']} · {c.get('recordId') or c['submission']} · {c['createdAt'][:10]}\n    {c['request']}")
+    lines.append("\nQuando l'hai fatta: /risolta <id> [messaggio per l'autore]")
+    return "\n".join(lines)
+
+
+def risolta(raw: str) -> str:
+    change_id, note = _id_and_note(raw)
+    if not change_id:
+        return "Uso: /risolta <id> [messaggio per l'autore]"
+    out = _queue("resolve-change", change_id, *(["--note", note] if note else []))
+    return "✅ Richiesta chiusa, l'autore e' stato avvisato." if '"status": "done"' in out else out
+
+
 COMMANDS = [
     ("archivio", stato, "Archivio e contributi in sintesi"),
     ("coda", coda, "Foto dei contributori da moderare"),
@@ -429,6 +537,10 @@ COMMANDS = [
     ("respingi", respingi, "Respinge una richiesta d'invito: /respingi <id> [motivo]"),
     ("invito", invito, "Mostra o cambia il codice d'invito: /invito [CODICE|off]"),
     ("contributori", contributori, "Chi ha contribuito e con quante foto"),
+    ("proposte", proposte, "Foto con proposte di catalogazione da esaminare (/p1, /p2…)"),
+    ("chiedi", chiedi, "Chiede qualcosa all'autore di una foto: /chiedi <id> <domanda|posizione>"),
+    ("modifiche", modifiche, "Richieste di modifica degli autori"),
+    ("risolta", risolta, "Chiude una richiesta di modifica: /risolta <id> [messaggio]"),
     ("proponi", proponi, "Proposte di catalogazione subito, per le foto che non le hanno: /proponi [n]"),
     ("pubblica", pubblica, "Mostra cosa verrebbe pubblicato su GitHub (non pubblica)"),
     ("pubblicaok", pubblicaok, "Pubblica su GitHub i dati dell'archivio (commit + push)"),
@@ -470,6 +582,7 @@ def aiuto(raw: str) -> str:
     lines = ["🧱 The Masonry Archive — comandi", ""]
     lines += [f"/{name} — {description}" for name, _, description in COMMANDS]
     lines += [
+        f"/p1 … /p{SLOTS} — proposte per la foto n. 1…{SLOTS} di /proposte",
         f"/f1 … /f{SLOTS} — apre la foto n. 1…{SLOTS} di /coda",
         f"/accetta1 … /accetta{SLOTS} — accetta la foto n. 1…{SLOTS} di /coda",
         f"/ammetti1 … /ammetti{SLOTS} — accetta la richiesta n. 1…{SLOTS} di /richieste",
@@ -488,3 +601,4 @@ def register(ctx) -> None:
         ctx.register_command(f"f{n}", _slot(n), description=f"Foto n. {n} della coda")
         ctx.register_command(f"accetta{n}", _accept_slot(n), description=f"Accetta la foto n. {n} della coda")
         ctx.register_command(f"ammetti{n}", _admit_slot(n), description=f"Accetta la richiesta d'invito n. {n}")
+        ctx.register_command(f"p{n}", _proposal_slot(n), description=f"Proposte per la foto n. {n}")

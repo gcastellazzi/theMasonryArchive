@@ -15,7 +15,7 @@ import {
   X,
 } from 'lucide-react';
 import { DivIcon } from 'leaflet';
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import {
   MapContainer,
   Marker,
@@ -183,12 +183,49 @@ function ArchiveMap({
   );
 }
 
-function App() {
-  const [activeView, setActiveView] = useState('Home');
-  const [selectedTag, setSelectedTag] = useState('all');
-  const [selectedRecord, setSelectedRecord] = useState<MasonryRecord | null>(
-    null,
+/**
+ * Link diretto a una foto pubblicata: `#/record/<id>`. E' l'indirizzo che il bot
+ * manda all'autore quando la foto va online. Solo le foto approvate: un link a
+ * una foto non ancora pubblicata non apre nulla.
+ */
+function recordFromHash(): MasonryRecord | null {
+  const match = window.location.hash.match(/^#\/record\/([\w-]+)$/);
+  if (!match) return null;
+  return (
+    records.find(
+      (record) => record.id === match[1] && record.status === 'approved',
+    ) ?? null
   );
+}
+
+function App() {
+  const [selectedRecord, setSelectedRecord] = useState<MasonryRecord | null>(
+    recordFromHash,
+  );
+  const [activeView, setActiveView] = useState(() =>
+    recordFromHash() ? 'Record' : 'Home',
+  );
+  const [selectedTag, setSelectedTag] = useState('all');
+
+  // Avanti/indietro del browser e link incollati nella barra degli indirizzi.
+  useEffect(() => {
+    const follow = () => {
+      const record = recordFromHash();
+      if (record) {
+        setSelectedRecord(record);
+        setActiveView('Record');
+      }
+    };
+    window.addEventListener('hashchange', follow);
+    return () => window.removeEventListener('hashchange', follow);
+  }, []);
+
+  function openRecord(record: MasonryRecord) {
+    setSelectedRecord(record);
+    setActiveView('Record');
+    if (record.status === 'approved')
+      window.location.hash = `#/record/${record.id}`;
+  }
   const [mapRecordIds, setMapRecordIds] = useState<string[] | null>(null);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [liveSuggestions, setLiveSuggestions] =
@@ -475,7 +512,16 @@ function App() {
           {activeView === 'Record' && selectedRecord && (
             <RecordDetail
               record={selectedRecord}
-              onBack={() => setActiveView('Explore')}
+              onBack={() => {
+                setActiveView('Explore');
+                if (window.location.hash.startsWith('#/record/')) {
+                  history.replaceState(
+                    null,
+                    '',
+                    window.location.pathname + window.location.search,
+                  );
+                }
+              }}
               onEdit={
                 ADMIN_ENABLED
                   ? () => {
@@ -651,8 +697,7 @@ function App() {
                 className="thumbnail-card"
                 title={`${record.title} — ${record.location}, ${record.country}`}
                 onClick={() => {
-                  setSelectedRecord(record);
-                  setActiveView('Record');
+                  openRecord(record);
                   window.scrollTo({ top: 0, behavior: 'smooth' });
                 }}
               >

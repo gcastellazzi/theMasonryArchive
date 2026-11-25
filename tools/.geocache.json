@@ -2644,5 +2644,33 @@
     "state": "",
     "country": "Albania",
     "countryCode": "AL"
+  },
+  "44.2238,11.0587": {
+    "location": "Savignano",
+    "county": "Bologna",
+    "state": "Emilia-Romagna",
+    "country": "Italy",
+    "countryCode": "IT"
+  },
+  "44.2236,11.0586": {
+    "location": "Savignano",
+    "county": "Bologna",
+    "state": "Emilia-Romagna",
+    "country": "Italy",
+    "countryCode": "IT"
+  },
+  "44.2236,11.0585": {
+    "location": "Savignano",
+    "county": "Bologna",
+    "state": "Emilia-Romagna",
+    "country": "Italy",
+    "countryCode": "IT"
+  },
+  "44.2237,11.0585": {
+    "location": "Savignano",
+    "county": "Bologna",
+    "state": "Emilia-Romagna",
+    "country": "Italy",
+    "countryCode": "IT"
   }
 }

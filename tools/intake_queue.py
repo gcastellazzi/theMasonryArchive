@@ -50,6 +50,7 @@ import struct
 import subprocess
 import sys
 import tempfile
+import time
 import uuid
 from datetime import datetime, timezone
 from pathlib import Path
@@ -73,6 +74,13 @@ STATUSES = ("pending", "accepted", "rejected", "ingested")
 # Il profilo Hermes che possiede il bot dei contributori: le notifiche partono
 # da li', cosi' lo studente le riceve nella stessa chat in cui ha caricato.
 CONTRIB_PROFILE = os.environ.get("MASONRY_CONTRIB_PROFILE", "masonry-contrib")
+ADMIN_PROFILE = os.environ.get("MASONRY_ADMIN_PROFILE", "masonry-admin")
+# Il sito pubblico: le foto approvate hanno un link diretto #/record/<id>.
+SITE = os.environ.get("MASONRY_SITE", "https://gcastellazzi.github.io/theMasonryArchive/")
+
+
+def record_url(record_id: str) -> str:
+    return f"{SITE}#/record/{record_id}"
 
 
 # --------------------------------------------------------------------------
@@ -484,14 +492,14 @@ def decide_request(request_id: str, approve: bool, note: str = "") -> dict[str, 
 
 
 WELCOME_APPROVED = (
-    "✅ La tua richiesta e' stata accettata: benvenuto in The Masonry Archive!\n"
-    "Scrivi IT per continuare in italiano.\n\n"
     "✅ Your request has been approved: welcome to The Masonry Archive!\n"
-    "Type EN to continue in English."
+    "Type EN to continue in English.\n\n"
+    "✅ La tua richiesta e' stata accettata: benvenuto in The Masonry Archive!\n"
+    "Scrivi IT per continuare in italiano."
 )
 REQUEST_REJECTED = (
-    "La tua richiesta di accesso a The Masonry Archive non e' stata accettata.\n"
-    "Your request to join The Masonry Archive was not approved."
+    "Your request to join The Masonry Archive was not approved.\n"
+    "La tua richiesta di accesso a The Masonry Archive non e' stata accettata."
 )
 
 
@@ -652,15 +660,49 @@ def set_position(user_id: str, submission_ids: list[str], *, lat: float | None =
     key = contributor_key(user_id)
     with locked():
         submissions = load_submissions()
-        changed = 0
+        changed, records_to_fix = 0, []
         for entry in submissions:
             if entry["id"] in submission_ids and entry["contributorId"] == key and entry["positionSource"] != "exif":
                 if lat is not None:
                     entry.update({"lat": lat, "lng": lng, "positionSource": "contributor"})
+                    if entry.get("status") == "ingested" and entry.get("recordId"):
+                        records_to_fix.append(entry["recordId"])
                 entry["locationHint"] = hint.strip()[:200] or entry.get("locationHint", "")
                 changed += 1
         _save(INCOMING / "submissions.json", submissions)
-        return changed
+    # Foto gia' nell'archivio (es. dopo /chiedi posizione): la posizione va anche nel record.
+    if records_to_fix:
+        update_record_position(records_to_fix, lat, lng, hint)
+    return changed
+
+
+def update_record_position(record_ids: list[str], lat: float, lng: float, place: str = "") -> int:
+    """Posizione arrivata dopo l'ingest: si scrive nel record (il pannello, se aperto,
+    rifiutera' il salvataggio e chiedera' di ricaricare, vedi vite-admin-save.ts)."""
+    records = _load(RECORDS, [])
+    fixed = 0
+    for record in records:
+        if record["id"] in record_ids:
+            record["lat"], record["lng"] = lat, lng
+            if place and not record.get("location"):
+                record["location"] = place.split(",")[0].strip()[:80]
+            fixed += 1
+    if fixed:
+        RECORDS.write_text(json.dumps(records, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+    return fixed
+
+
+def add_answer(user_id: str, submission_id: str, question: str, answer: str) -> dict[str, Any] | None:
+    """Risposta del contributore a una domanda dell'admin: resta sulla foto."""
+    key = contributor_key(user_id)
+    with locked():
+        submissions = load_submissions()
+        entry = next((s for s in submissions if s["id"] == submission_id and s["contributorId"] == key), None)
+        if entry is None:
+            return None
+        entry.setdefault("answers", []).append({"question": question, "answer": answer[:2000], "at": now()})
+        _save(INCOMING / "submissions.json", submissions)
+        return entry
 
 
 def get_photo_flow(user_id: str) -> dict[str, Any] | None:
@@ -791,14 +833,18 @@ def review(submission_id: str, decision: str, note: str = "") -> dict[str, Any]:
         return entry
 
 
-def geocode_place(place: str) -> tuple[float, float] | None:
-    """Coordinate di un luogo scritto a parole (Nominatim, un risultato)."""
+def _nominatim(query: str, near: tuple[float, float] | None = None) -> dict | None:
     import urllib.parse
     import urllib.request
 
-    query = urllib.parse.urlencode({"q": place, "format": "json", "limit": 1})
+    options = {"q": query, "format": "json", "limit": 5}
+    if near:
+        # Preferenza (non vincolo) per i luoghi entro ~50 km da dove il contributore era gia'.
+        lat, lng = near
+        options.update(viewbox=f"{lng - 0.5},{lat + 0.5},{lng + 0.5},{lat - 0.5}", bounded=0)
+    params = urllib.parse.urlencode(options)
     request = urllib.request.Request(
-        f"https://nominatim.openstreetmap.org/search?{query}",
+        f"https://nominatim.openstreetmap.org/search?{params}",
         headers={"User-Agent": "theMasonryArchive/0.1 (https://github.com/gcastellazzi/theMasonryArchive)"},
     )
     try:
@@ -806,9 +852,61 @@ def geocode_place(place: str) -> tuple[float, float] | None:
             results = json.loads(response.read())
     except (OSError, ValueError):
         return None
-    if not results:
+    # Un ristorante o un negozio con un nome simile non e' il luogo di una foto di muratura.
+    for result in results:
+        if result.get("class") in ("shop", "office", "craft") or result.get("type") in _NOT_PLACES:
+            continue
+        return result
+    return None
+
+
+_NOT_PLACES = {"restaurant", "cafe", "bar", "pub", "fast_food", "hotel", "guest_house", "hostel",
+               "bank", "pharmacy", "supermarket", "fuel", "parking", "bus_stop"}
+# Pezzi di testo che non sono luoghi: epoche, date, numeri.
+_NOT_A_PLACE = re.compile(r"(?i)^(?:[ivxlc]+\s*(?:sec(?:olo|\.)?|century)|(?:sec(?:olo|\.)?|century)\b.*|\d{1,4}(?:\s*(?:a\.?c\.?|d\.?c\.?|bc|ad))?|.*\b(?:secolo|century|epoca|period[oi]?)\b.*)$")
+# Parole iniziali che descrivono la foto, non il luogo: "Resti della Chiesa di …".
+_DESCRIPTIVE = re.compile(r"(?i)^(?:resti|rovine|ruderi|parte|particolare|dettaglio|muro|muratura|paramento|arco|volta|facciata|ingresso)\s+(?:dell[ao']?|del|dei|degli|di|of the|of)\s*")
+
+
+def find_place(text: str, near: tuple[float, float] | None = None) -> dict | None:
+    """Coordinate e nome di un luogo citato in un testo libero.
+
+    Le persone scrivono "Via Serra Casalecchio, Verucchio" o "Resti della Chiesa di
+    San Paterniano, IX secolo": si prova la frase intera, poi ogni pezzo fra virgole
+    o trattini (prima i piu' lunghi), e ci si ferma al primo che OpenStreetMap trova.
+    Restituisce {"lat", "lng", "name", "query"}: "name" serve a chiedere conferma,
+    perche' un pezzo generico puo' finire nel posto sbagliato. Nominatim ammette una
+    richiesta al secondo.
+    """
+    text = " ".join((text or "").split())
+    if not text or parse_coordinates(text):
         return None
-    return round(float(results[0]["lat"]), 6), round(float(results[0]["lon"]), 6)
+    pieces = [p.strip() for p in re.split(r"[,;–—]| - |\n", text) if len(p.strip()) >= 3]
+    pieces = [_DESCRIPTIVE.sub("", p).strip() for p in pieces if not _NOT_A_PLACE.match(p.strip())]
+    whole = ", ".join(pieces)
+    candidates = [c for c in dict.fromkeys([text, whole] + sorted(pieces, key=len, reverse=True)) if len(c) >= 3]
+    for index, query in enumerate(candidates[:6]):
+        if index:
+            time.sleep(1.1)
+        found = _nominatim(query, near)
+        if found:
+            return {"lat": round(float(found["lat"]), 6), "lng": round(float(found["lon"]), 6),
+                    "name": found.get("display_name", query), "query": query}
+    return None
+
+
+def last_position(user_id: str) -> tuple[float, float] | None:
+    """Dove il contributore ha scattato l'ultima foto con posizione: aiuta a scegliere fra omonimi."""
+    for entry in reversed(submissions_for(user_id)):
+        if entry.get("lat") is not None:
+            return entry["lat"], entry["lng"]
+    return None
+
+
+def geocode_place(place: str, near: tuple[float, float] | None = None) -> tuple[float, float] | None:
+    """Solo le coordinate di find_place (usato da apply)."""
+    found = find_place(place, near)
+    return (found["lat"], found["lng"]) if found else None
 
 
 def apply(dry_run: bool = False) -> list[dict[str, Any]]:
@@ -888,12 +986,14 @@ MESSAGES = {
         "accepted": "La tua foto «{name}» e' stata accettata: entrera' nell'archivio dopo la catalogazione.",
         "rejected": "La tua foto «{name}» non e' stata accettata.",
         "ingested": "La tua foto «{name}» e' entrata nell'archivio (scheda {record}). Grazie!",
+        "published": "🎉 La tua foto «{name}» e' pubblicata: {url}\nSe vuoi correggere qualcosa (descrizione, posizione…), scrivimelo qui.",
         "note": "Nota",
     },
     "en": {
         "accepted": "Your photo “{name}” has been accepted: it will join the archive once it is catalogued.",
         "rejected": "Your photo “{name}” was not accepted.",
         "ingested": "Your photo “{name}” is now in the archive (record {record}). Thank you!",
+        "published": "🎉 Your photo “{name}” is online: {url}\nIf you'd like anything corrected (description, location…), just tell me here.",
         "note": "Note",
     },
 }
@@ -914,7 +1014,8 @@ def notify(dry_run: bool = False) -> list[str]:
             if not person:
                 continue
             words = MESSAGES.get(person.get("language") or "it", MESSAGES["it"])
-            text = words[status].format(name=entry["originalName"], record=entry.get("recordId"))
+            text = words[status].format(name=entry["originalName"], record=entry.get("recordId"),
+                                        url=record_url(entry.get("recordId") or ""))
             if entry.get("reviewNote"):
                 text += f"\n{words['note']}: {entry['reviewNote']}"
             target = f"telegram:{person['telegramUserId']}"
@@ -927,6 +1028,144 @@ def notify(dry_run: bool = False) -> list[str]:
         if not dry_run:
             _save(INCOMING / "submissions.json", submissions)
     return sent
+
+
+def notify_published(dry_run: bool = False) -> list[str]:
+    """Dopo la pubblicazione: avvisa con il link chi ha mandato una foto ora approvata.
+
+    Si chiama dopo il push (/pubblicaok): prima il link non porterebbe a nulla.
+    """
+    approved = {r["id"] for r in _load(RECORDS, []) if r.get("status") == "approved"}
+    sent: list[str] = []
+    with locked():
+        submissions = load_submissions()
+        contributors = load_contributors()
+        for entry in submissions:
+            if entry.get("recordId") not in approved or entry.get("notifiedStatus") == "published":
+                continue
+            person = contributors.get(entry["contributorId"])
+            if not person:
+                continue
+            words = MESSAGES.get(person.get("language") or "it", MESSAGES["it"])
+            text = words["published"].format(name=entry["originalName"], url=record_url(entry["recordId"]))
+            if not dry_run:
+                if not send_to_contributor(person["telegramUserId"], text):
+                    continue
+                entry["notifiedStatus"] = "published"
+            sent.append(f"{entry['recordId']} → {person.get('firstName', '')} {person.get('lastName', '')}".strip())
+        if not dry_run:
+            _save(INCOMING / "submissions.json", submissions)
+    return sent
+
+
+# --------------------------------------------------------------------------
+# Domande dell'admin e richieste di modifica dei contributori
+#
+# Due canali fra le due parti, sempre passando dai bot: l'admin chiede qualcosa
+# su una foto (/chiedi) e la risposta del contributore gli torna inoltrata; il
+# contributore chiede di correggere una foto sua e la richiesta arriva all'admin.
+
+
+def send_to_admin(text: str) -> bool:
+    result = subprocess.run(["hermes", "-p", ADMIN_PROFILE, "send", "-q", "--to", "telegram", text],
+                            capture_output=True)
+    return result.returncode == 0
+
+
+def find_submission(ref: str) -> dict[str, Any] | None:
+    """Un contributo dal suo id (anche abbreviato) o dall'id del record che ne e' nato."""
+    ref = ref.strip()
+    if not ref:
+        return None
+    rows = load_submissions()
+    exact = [s for s in rows if s.get("recordId") == ref]
+    if exact:
+        return exact[-1]
+    matches = [s for s in rows if s["id"].startswith(ref)]
+    return matches[0] if len(matches) == 1 else None
+
+
+def ask_contributor(ref: str, question: str) -> dict[str, Any]:
+    """L'admin chiede qualcosa su una foto; "posizione" avvia la domanda guidata sul luogo."""
+    entry = find_submission(ref)
+    if not entry:
+        raise IntakeError("not_found", f"Nessuna foto corrisponde a «{ref}».")
+    person = load_contributors().get(entry["contributorId"])
+    if not person:
+        raise IntakeError("no_contributor", "Il contributore ha cancellato i suoi dati.")
+    language = person.get("language") or "it"
+    wants_position = question.strip().lower() in ("posizione", "position", "gps", "luogo", "dove")
+    if wants_position:
+        question = {"it": "Da dove viene questa foto? Mandami la posizione (📎 → Posizione) se sei ancora li', "
+                          "oppure scrivi l'indirizzo o il luogo.",
+                    "en": "Where was this photo taken? Send the location (📎 → Location) if you're still there, "
+                          "or type the address or place."}[language]
+    intro = {"it": "📩 Una domanda dall'archivio sulla tua foto «{name}»:\n\n{q}",
+             "en": "📩 A question from the archive about your photo “{name}”:\n\n{q}"}[language]
+    text = intro.format(name=entry["originalName"], q=question)
+    preview = preview_jpeg(INCOMING / entry["file"]) if (INCOMING / entry["file"]).exists() else None
+    if not send_to_contributor(person["telegramUserId"], text + (f"\n\nMEDIA:{preview}" if preview else "")):
+        raise IntakeError("send_failed", "Messaggio non inviato: il bot dei contributori non risponde.")
+    # La prossima risposta del contributore viene raccolta (e inoltrata) dal bot.
+    flow = get_photo_flow(person["telegramUserId"]) or {"needPosition": [], "needNote": []}
+    if wants_position:
+        flow["needPosition"] = sorted(set(flow.get("needPosition", [])) | {entry["id"]})
+    else:
+        flow["adminQuestion"] = {"submission": entry["id"], "question": question}
+    flow["at"] = now()
+    set_photo_flow(person["telegramUserId"], flow)
+    return entry
+
+
+def resolve_change(change_id: str, note: str = "") -> dict[str, Any]:
+    with locked():
+        changes = load_changes()
+        matches = [c for c in changes if c["id"].startswith(change_id) and c["status"] == "open"]
+        if len(matches) != 1:
+            raise IntakeError("not_found", f"richiesta aperta non trovata o ambigua: {change_id}")
+        change = matches[0]
+        change.update({"status": "done", "doneAt": now(), "note": note.strip()})
+        _save(INCOMING / "change_requests.json", changes)
+    person = load_contributors().get(change["contributorId"]) or {}
+    if person.get("telegramUserId"):
+        language = person.get("language") or "it"
+        text = {"it": "✅ La modifica che avevi chiesto e' stata fatta.", "en": "✅ The change you asked for has been made."}[language]
+        if change.get("recordId"):
+            text += f"\n{record_url(change['recordId'])}"
+        if note.strip():
+            text += f"\n\n{note.strip()}"
+        send_to_contributor(person["telegramUserId"], text)
+    return change
+
+
+def load_changes() -> list[dict[str, Any]]:
+    return _load(INCOMING / "change_requests.json", [])
+
+
+def request_change(user_id: str, ref: str, request: str) -> dict[str, Any]:
+    """Il contributore chiede di correggere una sua foto: si registra e si avvisa l'admin."""
+    request = " ".join((request or "").split())[:1000]
+    if not request:
+        raise IntakeError("empty", "La richiesta e' vuota.")
+    key = contributor_key(user_id)
+    mine = [s for s in load_submissions() if s["contributorId"] == key]
+    entry = next((s for s in mine if ref and (s["id"].startswith(ref) or s.get("recordId") == ref)), None)
+    if entry is None and len(mine) == 1:
+        entry = mine[0]
+    if entry is None:
+        raise IntakeError("which_photo", "Non capisco quale foto: indica il suo numero da masonry_my_submissions.")
+    person = get_contributor(user_id) or {}
+    with locked():
+        changes = load_changes()
+        change = {"id": uuid.uuid4().hex[:8], "submission": entry["id"], "recordId": entry.get("recordId"),
+                  "contributorId": key, "request": request, "createdAt": now(), "status": "open"}
+        changes.append(change)
+        _save(INCOMING / "change_requests.json", changes)
+    who = f"{person.get('firstName', '')} {person.get('lastName', '')}".strip() or "un contributore"
+    link = f"\n{record_url(entry['recordId'])}" if entry.get("recordId") else ""
+    send_to_admin(f"✏️ Richiesta di modifica da {who} per «{entry['originalName']}» "
+                  f"({entry.get('recordId') or entry['id']}):\n{request}{link}\n\n/modifiche per l'elenco")
+    return change
 
 
 def stats() -> dict[str, Any]:
@@ -972,6 +1211,11 @@ def main() -> int:
     sub.add_parser("stats", help="riepilogo della coda")
     sub.add_parser("digest", help="riepilogo per il bot admin; nulla se non c'e' niente da fare")
     sub.add_parser("requests", help="richieste d'invito in attesa")
+    sub.add_parser("changes", help="richieste di modifica dei contributori")
+    resolve = sub.add_parser("resolve-change", help="chiude una richiesta di modifica e avvisa l'autore")
+    resolve.add_argument("id")
+    resolve.add_argument("--note", default="")
+    sub.add_parser("notify-published", help="avvisa con il link chi ha foto appena pubblicate")
     approve = sub.add_parser("approve-request", help="accetta una richiesta d'invito")
     approve.add_argument("id")
     approve.add_argument("--note", default="")
@@ -1015,6 +1259,15 @@ def main() -> int:
         output = ("The Masonry Archive\n" + "\n".join(lines)) if lines else ""
         if not output:
             return 0
+    elif args.command == "changes":
+        output = load_changes()
+    elif args.command == "resolve-change":
+        try:
+            output = resolve_change(args.id, args.note)
+        except IntakeError as error:
+            sys.exit(error.message)
+    elif args.command == "notify-published":
+        output = notify_published()
     elif args.command == "requests":
         rows = [r for r in load_requests() if r["status"] == "pending"]
         output = rows if args.json else "\n".join(

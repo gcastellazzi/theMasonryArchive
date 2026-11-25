@@ -176,6 +176,13 @@ def add_comment(args, user_id, username):
     return _reply(success=True, submission={"id": entry["id"], "file": entry["originalName"], "notes": entry["notes"]})
 
 
+def request_change(args, user_id, username):
+    del username
+    change = queue.request_change(user_id, str(args.get("photo") or ""), str(args.get("request") or ""))
+    return _reply(success=True, request=change["id"],
+                  message="Richiesta inviata all'amministratore: ti risponderà qui.")
+
+
 def my_submissions(args, user_id, username):
     del args, username
     rows = [
@@ -186,6 +193,7 @@ def my_submissions(args, user_id, username):
             "status": s["status"],
             "note": s.get("reviewNote") or None,
             "record": s.get("recordId"),
+            "link": queue.record_url(s["recordId"]) if s.get("notifiedStatus") == "published" else None,
         }
         for s in queue.submissions_for(user_id)
     ]
@@ -275,6 +283,15 @@ TOOLS = [
         [],
     ),
     (
+        "masonry_request_change",
+        request_change,
+        "Forward to the administrator the user's request to correct one of their photos (description, "
+        "location, title, removal…). photo is the id or record from masonry_my_submissions; if the user "
+        "has only one photo it can be omitted.",
+        {"photo": _STRING, "request": {"type": "string", "description": "What the user wants changed, in their words"}},
+        ["request"],
+    ),
+    (
         "masonry_delete_my_data",
         delete_my_data,
         "Delete the sender's profile and all their photos not yet published. Only call with "
@@ -295,28 +312,35 @@ TOOLS = [
 # sconosciuto non tiene occupata la CPU. L'hook gira solo per questo profilo.
 
 WELCOME_LOCKED = (
-    "🧱 The Masonry Archive\n\n"
-    "🇮🇹 Questo bot raccoglie foto di murature storiche per un archivio di ricerca aperto.\n"
-    "• Hai un codice d'invito? Scrivilo qui.\n"
-    "• Non ce l'hai? Scrivi in un messaggio chi sei (nome, ente, ruolo) e perche' vuoi contribuire: "
-    "la richiesta arriva all'amministratore.\n\n"
-    "🇬🇧 This bot collects photos of historic masonry for an open research archive.\n"
-    "• Have an invitation code? Type it here.\n"
-    "• No code? Write in one message who you are (name, institution, role) and why you'd like to "
-    "contribute: your request goes to the administrator."
+    "🧱 Welcome! · Benvenuto!\n\n"
+    "🇬🇧 The Masonry Archive collects photos of historic masonry for an open research archive.\n"
+    "1. Type your invitation code here. No code? Write in one message who you are (name, "
+    "institution, role) and why you'd like to contribute: the administrator will reply here, "
+    "please wait for the answer.\n"
+    "2. Choose your language and register (5 quick questions).\n"
+    "3. Send your photos as FILES (📎 → File) so they keep their GPS position. If a photo has no "
+    "position: send your location (📎 → Location) if you are on site, or type the address if it's "
+    "an older photo from your library.\n\n"
+    "🇮🇹 The Masonry Archive raccoglie foto di murature storiche per un archivio di ricerca aperto.\n"
+    "1. Scrivi qui il codice d'invito. Non ce l'hai? Scrivi in un messaggio chi sei (nome, ente, "
+    "ruolo) e perche' vuoi contribuire: l'amministratore ti rispondera' qui, attendi la risposta.\n"
+    "2. Scegli la lingua e registrati (5 domande veloci).\n"
+    "3. Invia le foto come FILE (📎 → File), cosi' mantengono la posizione GPS. Se una foto non ha "
+    "la posizione: manda la tua posizione (📎 → Posizione) se sei sul posto, oppure scrivi "
+    "l'indirizzo se e' una foto vecchia della tua galleria."
 )
 CHOOSE_LANGUAGE = (
-    "🧱 Benvenuto in The Masonry Archive! · Welcome to The Masonry Archive!\n\n"
-    "In che lingua preferisci i messaggi? Scrivi IT o EN.\n"
-    "Which language would you like? Type IT or EN."
+    "🧱 Welcome to The Masonry Archive! · Benvenuto in The Masonry Archive!\n\n"
+    "Which language would you like? Type EN or IT.\n"
+    "In che lingua preferisci i messaggi? Scrivi EN o IT."
 )
 REQUEST_SENT = (
-    "📨 Richiesta inviata all'amministratore: riceverai qui la risposta.\n"
-    "📨 Request sent to the administrator: you'll get the answer here."
+    "📨 Request sent to the administrator: you'll get the answer here.\n"
+    "📨 Richiesta inviata all'amministratore: riceverai qui la risposta."
 )
 REQUEST_PENDING = (
-    "⏳ La tua richiesta e' gia' all'esame dell'amministratore.\n"
-    "⏳ Your request is already with the administrator."
+    "⏳ Your request is already with the administrator: please wait for the answer.\n"
+    "⏳ La tua richiesta e' gia' all'esame dell'amministratore: attendi la risposta."
 )
 # Un messaggio piu' corto non e' una presentazione ("ciao", "?"): si ripete il benvenuto.
 MIN_REQUEST_LENGTH = 20
@@ -449,10 +473,14 @@ PHOTO = {
         "received": "📥 Foto ricevuta, grazie!",
         "receivedMany": "📥 {n} foto ricevute, grazie!",
         "askPosition": (
-            "La foto non contiene la posizione GPS: da dove viene? Scrivi il luogo "
-            "(es. «Spello, Porta Venere»), le coordinate (es. 44.4938, 11.3426) "
-            "oppure manda la posizione con 📎 → Posizione."
+            "La foto non contiene la posizione GPS: da dove viene?\n"
+            "• Sei ancora sul posto? Manda la tua posizione: 📎 → Posizione.\n"
+            "• E' una foto vecchia della galleria? Scrivi l'indirizzo o il luogo "
+            "(es. «Spello, Porta Venere») oppure le coordinate (es. 44.4938, 11.3426)."
         ),
+        "confirmPlace": "📍 Ho trovato: {name}\nE' giusto? Rispondi «si», oppure mandami la posizione o un indirizzo piu' preciso.",
+        "placeNotFound": "Non trovo questo luogo sulla mappa: lo salvo cosi' e la posizione la sistemera' l'amministratore.",
+        "answerThanks": "✅ Grazie, ho girato la tua risposta all'amministratore.",
         "askNote": (
             "Perche' l'hai scattata? Scrivi una breve nota, ad esempio «evidente stato di degrado» "
             "o «fessura sopra l'arco». (Se non vuoi aggiungerla, scrivi salta.)"
@@ -472,10 +500,14 @@ PHOTO = {
         "received": "📥 Photo received, thank you!",
         "receivedMany": "📥 {n} photos received, thank you!",
         "askPosition": (
-            "The photo has no GPS position: where was it taken? Type the place "
-            "(e.g. \"Spello, Porta Venere\"), the coordinates (e.g. 44.4938, 11.3426) "
-            "or send the location with 📎 → Location."
+            "The photo has no GPS position: where was it taken?\n"
+            "• Still on site? Send your location: 📎 → Location.\n"
+            "• An older photo from your library? Type the address or the place "
+            "(e.g. \"Spello, Porta Venere\") or the coordinates (e.g. 44.4938, 11.3426)."
         ),
+        "confirmPlace": "📍 I found: {name}\nIs that right? Reply \"yes\", or send the location or a more precise address.",
+        "placeNotFound": "I can't find this place on the map: I'll keep it as written and the administrator will place it.",
+        "answerThanks": "✅ Thank you, I've passed your answer on to the administrator.",
         "askNote": (
             "Why did you take it? Write a short note, for example \"evident decay\" or "
             "\"crack above the arch\". (Type skip if you'd rather not.)"
@@ -580,6 +612,10 @@ def replace_reply(response_text="", session_id="", **kwargs):
     return _REPLIES.pop(str(session_id), None)
 
 
+YES_WORDS = {"si", "sì", "yes", "y", "ok", "okay", "esatto", "giusto", "corretto", "right", "correct", "certo"}
+NO_WORDS = {"no", "n", "non e' giusto", "non è giusto", "sbagliato", "errato", "wrong", "nope", "not right"}
+
+
 def _photo_flow_step(user_id: str, text: str):
     flow = queue.get_photo_flow(user_id)
     answer = " ".join((text or "").split())
@@ -591,19 +627,45 @@ def _photo_flow_step(user_id: str, text: str):
         queue.set_photo_flow(user_id, None)
         return None
     words = PHOTO[queue.get_language(user_id) or "it"]
-    if flow.get("needPosition"):
-        # La puntina di Telegram arriva come testo di Hermes: "[The user shared a location pin.]
-        # latitude: 44.50 longitude: 11.33 …"; altrimenti coordinate scritte o nome del luogo.
+    reply_prefix = ""
+    answered_admin = False
+
+    confirmed = False
+    if flow.get("confirm"):
+        # Luogo trovato a partire da un testo: "si" lo conferma (e la risposta finisce qui),
+        # qualunque altra cosa e' una nuova posizione da cercare.
+        found = flow.pop("confirm")
+        if answer.lower().strip(".!") in YES_WORDS:
+            queue.set_position(user_id, found["ids"], lat=found["lat"], lng=found["lng"], hint=found["name"])
+            flow["needPosition"] = []
+            confirmed = True
+        else:
+            flow["needPosition"] = found["ids"]
+            if answer.lower().strip(".!") in NO_WORDS:
+                # "No" non e' un luogo: si richiede la posizione.
+                flow["at"] = datetime.now(timezone.utc).isoformat()
+                queue.set_photo_flow(user_id, flow)
+                return {"action": "handled", "reply": words["askPosition"]}
+    if confirmed:
+        pass
+    elif flow.get("needPosition"):
+        # Puntina di Telegram ("latitude: … longitude: …"), coordinate scritte o luogo a parole.
         coords = queue.parse_coordinates(answer)
         if coords:
-            lat, lng = coords
-            try:
-                queue.set_position(user_id, flow["needPosition"], lat=lat, lng=lng)
-            except queue.IntakeError:
-                return {"action": "handled", "reply": words["askPosition"]}
+            queue.set_position(user_id, flow["needPosition"], lat=coords[0], lng=coords[1])
+            flow["needPosition"] = []
         else:
+            found = queue.find_place(answer, near=queue.last_position(user_id))
+            if found:
+                flow["confirm"] = {"ids": flow["needPosition"], "lat": found["lat"], "lng": found["lng"],
+                                   "name": found["name"]}
+                flow["needPosition"] = []
+                flow["at"] = datetime.now(timezone.utc).isoformat()
+                queue.set_photo_flow(user_id, flow)
+                return {"action": "handled", "reply": words["confirmPlace"].format(name=found["name"])}
             queue.set_position(user_id, flow["needPosition"], hint=answer)
-        flow["needPosition"] = []
+            flow["needPosition"] = []
+            reply_prefix = words["placeNotFound"] + "\n\n"
     elif flow.get("needNote"):
         if answer.lower().strip(".!") not in SKIP:
             for submission_id in flow["needNote"]:
@@ -612,9 +674,27 @@ def _photo_flow_step(user_id: str, text: str):
                 except queue.IntakeError:
                     pass  # foto gia' esaminata nel frattempo: la nota non serve piu'
         flow["needNote"] = []
+    elif flow.get("adminQuestion"):
+        # Risposta a una domanda dell'admin (/chiedi): resta sulla foto e gli viene inoltrata.
+        question = flow.pop("adminQuestion")
+        entry = queue.add_answer(user_id, question["submission"], question["question"], answer)
+        person = queue.get_contributor(user_id) or {}
+        who = f"{person.get('firstName', '')} {person.get('lastName', '')}".strip()
+        if entry:
+            queue.send_to_admin(f"💬 Risposta di {who} su «{entry['originalName']}» "
+                                f"({entry.get('recordId') or entry['id']}):\n{answer}")
+        reply_prefix = words["answerThanks"] + "\n\n"
+        answered_admin = True
+
     question = _next_question(flow, words)
-    queue.set_photo_flow(user_id, flow if question else None)
-    return {"action": "handled", "reply": question or words["done"]}
+    keep = question or flow.get("adminQuestion")
+    if keep:
+        flow["at"] = datetime.now(timezone.utc).isoformat()
+    queue.set_photo_flow(user_id, flow if keep else None)
+    if question:
+        return {"action": "handled", "reply": reply_prefix + question}
+    # Dopo una risposta all'admin basta il grazie; dopo le domande su una foto, la conferma.
+    return {"action": "handled", "reply": reply_prefix.strip() if answered_admin else reply_prefix + words["done"]}
 
 
 def _notify_admin(entry) -> None:
@@ -629,6 +709,33 @@ def _notify_admin(entry) -> None:
                      stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, start_new_session=True)
 
 
+# Menu dei comandi: Hermes pubblica i suoi ~60 comandi (/model, /yolo…) per tutte le chat,
+# e li riscrive a ogni avvio. Un menu impostato per la singola chat ha la precedenza e
+# Hermes non lo tocca: ai contributori resta solo /new.
+CONTRIB_MENU = [{"command": "new", "description": "Start over / Ricomincia la conversazione"}]
+
+
+def _set_chat_menu(user_id: str) -> None:
+    import threading
+    import urllib.parse
+    import urllib.request
+
+    def push() -> None:
+        try:
+            from hermes_constants import get_hermes_home
+
+            env = (get_hermes_home() / ".env").read_text()
+            token = next(l.split("=", 1)[1].strip() for l in env.splitlines() if l.startswith("TELEGRAM_BOT_TOKEN="))
+            data = urllib.parse.urlencode({"commands": json.dumps(CONTRIB_MENU),
+                                           "scope": json.dumps({"type": "chat", "chat_id": int(user_id)})}).encode()
+            urllib.request.urlopen(f"https://api.telegram.org/bot{token}/setMyCommands", data=data, timeout=30)
+            queue._set_preference(user_id, menuSet=True)
+        except Exception:
+            pass  # riprova al prossimo messaggio
+
+    threading.Thread(target=push, daemon=True).start()
+
+
 def gate(platform, source, text, **kwargs):
     del kwargs
     source = source or {}
@@ -636,6 +743,8 @@ def gate(platform, source, text, **kwargs):
     if platform != "telegram" or not user_id or source.get("chat_type") in ("group", "forum", "channel"):
         return None
     text = text or ""
+    if not queue._preferences().get(queue.contributor_key(user_id), {}).get("menuSet"):
+        _set_chat_menu(user_id)
 
     if queue.is_admitted(user_id):
         if queue.get_contributor(user_id):
