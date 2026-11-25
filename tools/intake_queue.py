@@ -747,10 +747,13 @@ def preview_jpeg(path: Path, size: int = 1280) -> Path | None:
     if out.exists() and out.stat().st_mtime >= path.stat().st_mtime:
         return out
     source = path
-    decoder = shutil.which("heif-dec") or shutil.which("heif-convert")  # nome dalla libheif 1.18 / prima
-    if path.suffix.lower() in (".heic", ".heif") and decoder:
+    if path.suffix.lower() in (".heic", ".heif"):
+        sys.path.insert(0, str(Path(__file__).resolve().parent))
+        from ingest_photos import heic_converters  # stessi convertitori dell'ingest
+
         source = out_dir / f"{path.stem}.full.jpg"
-        if subprocess.run([decoder, "-q", "92", str(path), str(source)], capture_output=True).returncode:
+        if not any(subprocess.run(c, capture_output=True).returncode == 0 and source.exists()
+                   for c in heic_converters(path, source)):
             return None
     resized = subprocess.run(
         ["magick", str(source), "-auto-orient", "-resize", f"{size}x{size}>", "-quality", "85", str(out)],
@@ -952,7 +955,15 @@ def apply(dry_run: bool = False) -> list[dict[str, Any]]:
             if dry_run:
                 command.append("--dry-run")
             print(f"→ {entry['id']} ({author or 'autore sconosciuto'})", flush=True)
-            subprocess.run(command, check=True)
+            # Una foto che non si riesce a elaborare (es. un HEIC che la libheif di sistema non
+            # apre) non deve bloccare le altre: si segnala, resta accettata e si va avanti.
+            result = subprocess.run(command, capture_output=True, text=True)
+            print(result.stdout.strip(), flush=True)
+            if result.returncode:
+                lines = [l for l in (result.stderr or "").strip().splitlines() if l.strip()]
+                reason = next((l for l in reversed(lines) if "Could not read" in l or "Error" in l), lines[-1] if lines else "")
+                print(f"  ⚠️ {entry['id']} non elaborata, resta accettata: {reason[:200]}", flush=True)
+                continue
         if dry_run:
             continue
         with locked():

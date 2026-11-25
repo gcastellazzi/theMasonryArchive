@@ -169,6 +169,25 @@ class Geocoder:
             write_json(GEOCACHE, self.cache)
 
 
+HEIF_PYTHON = Path.home() / ".local/share/masonry-heif/bin/python"
+
+
+def heic_converters(photo: Path, target: Path) -> list[list[str]]:
+    """Convertitori HEIC → JPEG disponibili, dal piu' leggero al piu' capace.
+
+    heif-dec (libheif >= 1.18) o heif-convert (1.17, Ubuntu 24.04) dal pacchetto
+    libheif-examples; poi pillow-heif, con una libheif recente, per le foto che la
+    1.17 rifiuta (le "ritratto" di iOS 18, con la mappa di profondita').
+    """
+    commands = []
+    decoder = shutil.which("heif-dec") or shutil.which("heif-convert")
+    if decoder:
+        commands.append([decoder, "-q", "95", str(photo), str(target)])
+    if HEIF_PYTHON.exists():
+        commands.append([str(HEIF_PYTHON), str(Path(__file__).with_name("heic_to_jpg.py")), str(photo), str(target), "95"])
+    return commands
+
+
 def readable(photo: Path, scratch: Path) -> Path:
     """La foto stessa, o una sua copia JPEG se ImageMagick non sa aprirla.
 
@@ -183,13 +202,17 @@ def readable(photo: Path, scratch: Path) -> Path:
     probe = subprocess.run(["magick", "identify", str(photo)], capture_output=True)
     if probe.returncode == 0:
         return photo
-    # heif-dec dalla libheif 1.18, heif-convert prima (Ubuntu 24.04 ha la 1.17).
-    decoder = shutil.which("heif-dec") or shutil.which("heif-convert")
-    if not decoder:
-        sys.exit(f"{photo.name}: ImageMagick non apre questo HEIC e manca il convertitore "
-                 "(sudo apt install libheif-examples)")
     copy = scratch / f"{photo.stem}.jpg"
-    subprocess.run([decoder, "-q", "95", str(photo), str(copy)], check=True, capture_output=True)
+    reasons = []
+    for command in heic_converters(photo, copy):
+        done = subprocess.run(command, capture_output=True, text=True)
+        if done.returncode == 0 and copy.exists():
+            break
+        lines = (done.stderr or done.stdout or "").strip().splitlines()
+        reasons.append(lines[-1] if lines else f"{Path(command[0]).name}: errore")
+    else:
+        sys.exit(f"{photo.name}: conversione HEIC non riuscita ({'; '.join(reasons) or 'nessun convertitore'}). "
+                 "Installa libheif-examples e pillow-heif (vedi tools/heic_to_jpg.py)")
     for sidecar in (photo.with_suffix(".xmp"), Path(f"{photo}.xmp")):
         if sidecar.exists():
             shutil.copyfile(sidecar, copy.with_suffix(".xmp"))
