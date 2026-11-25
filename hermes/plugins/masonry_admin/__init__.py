@@ -13,6 +13,7 @@ from __future__ import annotations
 
 import json
 import os
+import re
 import shlex
 import subprocess
 from pathlib import Path
@@ -141,6 +142,7 @@ def foto(raw: str) -> str:
     n = ids.index(entry["id"]) + 1 if entry["id"] in ids else 0
     accept = f"/accetta{n}" if 0 < n <= SLOTS else f"/accetta {entry['id'][:6]} [nota]"
     lines.append(f"\n{accept}  ·  /rifiuta {entry['id'][:6]} <motivo>")
+    lines.append(f"Chiedere all'autore: /chiedi {entry['id'][:6]} posizione   (o una domanda al posto di posizione)")
     # Telegram non mostra l'HEIC degli iPhone: si manda un'anteprima JPEG.
     original = Path(entry["path"])
     if original.suffix.lower() in (".jpg", ".jpeg", ".png", ".webp"):
@@ -473,7 +475,12 @@ def _proposal_slot(n: int):
         why = next((i.get("rationale") for i in items if i.get("rationale")), "")
         if why:
             lines.append(f"Perche': {why[:300]}")
-        lines.append("\nAccetta o scarta nel pannello (filtro With suggestions).")
+        author = _author_of(record["id"])
+        if author:
+            lines.append(f"\nAutore: {author}. Per scrivere all'autore:\n/chiedi p{n} posizione   oppure   /chiedi p{n} seguito dalla domanda")
+        else:
+            lines.append("\nFoto non arrivata dal bot: l'autore non si puo' contattare da qui.")
+        lines.append("Accetta o scarta le proposte nel pannello (filtro With suggestions).")
         thumb = REPO / "public" / record.get("thumbnail", "")
         if thumb.is_file():
             preview = _queue_preview(thumb)
@@ -483,11 +490,43 @@ def _proposal_slot(n: int):
     return show
 
 
+def _author_of(record_id: str) -> str:
+    """Nome dell'autore se la foto e' arrivata dal bot (solo allora lo si puo' contattare)."""
+    try:
+        for entry in _queue_json("list"):
+            if entry.get("recordId") == record_id:
+                people = {c["id"]: c for c in _queue_json("contributors")}
+                person = people.get(entry["contributorId"], {})
+                return f"{person.get('firstName', '')} {person.get('lastName', '')}".strip() or "?"
+    except (ValueError, OSError):
+        pass
+    return ""
+
+
+def _resolve_ref(ref: str) -> str:
+    """p1… (foto di /proposte) e f1… (foto di /coda) diventano l'id vero."""
+    ref = ref.strip().strip("<>\"'«»").lstrip("/")
+    slot = re.fullmatch(r"([pf])(\d+)", ref.lower())
+    if slot:
+        n = int(slot[2])
+        rows = [r["id"] for r, _ in _reviewable()] if slot[1] == "p" else [r["id"] for r in _pending()]
+        return rows[n - 1] if 0 < n <= len(rows) else ""
+    return ref
+
+
 def chiedi(raw: str) -> str:
     ref, question = _id_and_note(raw)
+    typed = ref
+    ref = _resolve_ref(ref)
+    question = question.strip().strip("<>").strip()
+    if typed and not ref:
+        listing = "/proposte" if typed.lower().lstrip("/<").startswith("p") else "/coda"
+        return f"⚠️ {typed} non c'e' piu' nell'elenco (si rinumera dopo ogni revisione): controlla {listing}."
     if not ref or not question:
-        return ("Uso: /chiedi <id della foto o del record> <domanda>\n"
-                "Con «posizione» al posto della domanda il bot chiede il luogo all'autore e lo salva.")
+        return ("Uso: /chiedi p1 Ciao, dove hai scattato questa foto?\n"
+                "Al posto di p1: f1 (foto di /coda) o l'id del record.\n"
+                "Con «posizione» come domanda il bot chiede il luogo all'autore e lo salva nel record:\n"
+                "/chiedi p1 posizione")
     code = ("import sys, json; sys.path.insert(0, 'tools'); import intake_queue as q\n"
             "try:\n    e = q.ask_contributor(sys.argv[1], sys.argv[2]); print(json.dumps({'ok': e['originalName']}))\n"
             "except q.IntakeError as err:\n    print(json.dumps({'error': err.message}))")

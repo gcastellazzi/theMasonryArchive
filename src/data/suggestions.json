@@ -60823,94 +60823,103 @@
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The image shows a wall constructed from irregularly sized and shaped stones and bricks laid in an uncoursed manner with visible mortar joints. (confidence 0.85)",
     "submittedAt": "2026-10-17T00:01:17+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-unlocated-91a306-title",
     "kind": "text",
     "field": "title",
-    "value": "Exposed historic brick wall with rough mortar"
+    "value": "Exposed historic brick wall with rough mortar",
+    "reviewedAt": "2026-11-25T10:08:40.037Z"
   },
   {
     "recordId": "unlocated-91a306",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The image shows a wall constructed from irregularly sized and shaped stones and bricks laid in an uncoursed manner with visible mortar joints. (confidence 0.85)",
     "submittedAt": "2026-10-17T00:01:17+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-unlocated-91a306-element",
     "kind": "text",
     "field": "element",
-    "value": "Wall"
+    "value": "Wall",
+    "reviewedAt": "2026-11-25T10:08:40.037Z"
   },
   {
     "recordId": "unlocated-91a306",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The image shows a wall constructed from irregularly sized and shaped stones and bricks laid in an uncoursed manner with visible mortar joints. (confidence 0.85)",
     "submittedAt": "2026-10-17T00:01:17+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-unlocated-91a306-technique",
     "kind": "text",
     "field": "technique",
-    "value": "Uncoursed rubble masonry"
+    "value": "Uncoursed rubble masonry",
+    "reviewedAt": "2026-11-25T10:08:40.037Z"
   },
   {
     "recordId": "unlocated-91a306",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The image shows a wall constructed from irregularly sized and shaped stones and bricks laid in an uncoursed manner with visible mortar joints. (confidence 0.85)",
     "submittedAt": "2026-10-17T00:01:17+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-unlocated-91a306-material",
     "kind": "text",
     "field": "material",
-    "value": "Mixed stone and brick with lime mortar"
+    "value": "Mixed stone and brick with lime mortar",
+    "reviewedAt": "2026-11-25T10:08:40.037Z"
   },
   {
     "recordId": "unlocated-91a306",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The image shows a wall constructed from irregularly sized and shaped stones and bricks laid in an uncoursed manner with visible mortar joints. (confidence 0.85)",
     "submittedAt": "2026-10-17T00:01:17+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-unlocated-91a306-tag-interior",
     "kind": "tag",
-    "value": "interior"
+    "value": "interior",
+    "reviewedAt": "2026-11-25T10:08:40.037Z"
   },
   {
     "recordId": "unlocated-91a306",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The image shows a wall constructed from irregularly sized and shaped stones and bricks laid in an uncoursed manner with visible mortar joints. (confidence 0.85)",
     "submittedAt": "2026-10-17T00:01:17+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-unlocated-91a306-tag-rubble",
     "kind": "tag",
-    "value": "rubble"
+    "value": "rubble",
+    "reviewedAt": "2026-11-25T10:08:40.037Z"
   },
   {
     "recordId": "unlocated-91a306",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The image shows a wall constructed from irregularly sized and shaped stones and bricks laid in an uncoursed manner with visible mortar joints. (confidence 0.85)",
     "submittedAt": "2026-10-17T00:01:17+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-unlocated-91a306-tag-brickwork",
     "kind": "tag",
-    "value": "brickwork"
+    "value": "brickwork",
+    "reviewedAt": "2026-11-25T10:08:40.037Z"
   },
   {
     "recordId": "unlocated-91a306",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The image shows a wall constructed from irregularly sized and shaped stones and bricks laid in an uncoursed manner with visible mortar joints. (confidence 0.85)",
     "submittedAt": "2026-10-17T00:01:17+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-unlocated-91a306-tag-mortar",
     "kind": "tag",
-    "value": "mortar"
+    "value": "mortar",
+    "reviewedAt": "2026-11-25T10:08:40.037Z"
   },
   {
     "recordId": "unlocated-91a306",
     "author": "Hermes · qwen3.5:9b",
     "rationale": "The image shows a wall constructed from irregularly sized and shaped stones and bricks laid in an uncoursed manner with visible mortar joints. (confidence 0.85)",
     "submittedAt": "2026-10-17T00:01:17+00:00",
-    "status": "pending",
+    "status": "approved",
     "id": "ai-unlocated-91a306-tag-texture",
     "kind": "tag",
-    "value": "texture"
+    "value": "texture",
+    "reviewedAt": "2026-11-25T10:08:40.037Z"
   },
   {
     "recordId": "unlocated-1e1545",
