@@ -63038,5 +63038,108 @@
     "id": "ai-unlocated-0ae3a2-tag-texture",
     "kind": "tag",
     "value": "texture"
+  },
+  {
+    "recordId": "berat-157f66",
+    "author": "Hermes · qwen3.5:9b",
+    "rationale": "The image shows a thick stone wall constructed from irregularly sized and shaped stones laid without consistent horizontal courses, characteristic of uncoursed rubble masonry, with visible signs of weathering and erosion on the surface. (confidence 0.85)",
+    "submittedAt": "2026-11-26T10:00:50+00:00",
+    "status": "approved",
+    "id": "ai-berat-157f66-title",
+    "kind": "text",
+    "field": "title",
+    "value": "Rubble stone wall with crenellations and arched base",
+    "reviewedAt": "2026-11-26T10:01:34.235Z"
+  },
+  {
+    "recordId": "berat-157f66",
+    "author": "Hermes · qwen3.5:9b",
+    "rationale": "The image shows a thick stone wall constructed from irregularly sized and shaped stones laid without consistent horizontal courses, characteristic of uncoursed rubble masonry, with visible signs of weathering and erosion on the surface. (confidence 0.85)",
+    "submittedAt": "2026-11-26T10:00:50+00:00",
+    "status": "approved",
+    "id": "ai-berat-157f66-element",
+    "kind": "text",
+    "field": "element",
+    "value": "Wall",
+    "reviewedAt": "2026-11-26T10:01:34.235Z"
+  },
+  {
+    "recordId": "berat-157f66",
+    "author": "Hermes · qwen3.5:9b",
+    "rationale": "The image shows a thick stone wall constructed from irregularly sized and shaped stones laid without consistent horizontal courses, characteristic of uncoursed rubble masonry, with visible signs of weathering and erosion on the surface. (confidence 0.85)",
+    "submittedAt": "2026-11-26T10:00:50+00:00",
+    "status": "approved",
+    "id": "ai-berat-157f66-technique",
+    "kind": "text",
+    "field": "technique",
+    "value": "Uncoursed rubble masonry",
+    "reviewedAt": "2026-11-26T10:01:34.235Z"
+  },
+  {
+    "recordId": "berat-157f66",
+    "author": "Hermes · qwen3.5:9b",
+    "rationale": "The image shows a thick stone wall constructed from irregularly sized and shaped stones laid without consistent horizontal courses, characteristic of uncoursed rubble masonry, with visible signs of weathering and erosion on the surface. (confidence 0.85)",
+    "submittedAt": "2026-11-26T10:00:50+00:00",
+    "status": "approved",
+    "id": "ai-berat-157f66-material",
+    "kind": "text",
+    "field": "material",
+    "value": "Limestone and lime mortar",
+    "reviewedAt": "2026-11-26T10:01:34.235Z"
+  },
+  {
+    "recordId": "berat-157f66",
+    "author": "Hermes · qwen3.5:9b",
+    "rationale": "The image shows a thick stone wall constructed from irregularly sized and shaped stones laid without consistent horizontal courses, characteristic of uncoursed rubble masonry, with visible signs of weathering and erosion on the surface. (confidence 0.85)",
+    "submittedAt": "2026-11-26T10:00:50+00:00",
+    "status": "approved",
+    "id": "ai-berat-157f66-tag-rubble",
+    "kind": "tag",
+    "value": "rubble",
+    "reviewedAt": "2026-11-26T10:01:34.235Z"
+  },
+  {
+    "recordId": "berat-157f66",
+    "author": "Hermes · qwen3.5:9b",
+    "rationale": "The image shows a thick stone wall constructed from irregularly sized and shaped stones laid without consistent horizontal courses, characteristic of uncoursed rubble masonry, with visible signs of weathering and erosion on the surface. (confidence 0.85)",
+    "submittedAt": "2026-11-26T10:00:50+00:00",
+    "status": "approved",
+    "id": "ai-berat-157f66-tag-stone",
+    "kind": "tag",
+    "value": "stone",
+    "reviewedAt": "2026-11-26T10:01:34.235Z"
+  },
+  {
+    "recordId": "berat-157f66",
+    "author": "Hermes · qwen3.5:9b",
+    "rationale": "The image shows a thick stone wall constructed from irregularly sized and shaped stones laid without consistent horizontal courses, characteristic of uncoursed rubble masonry, with visible signs of weathering and erosion on the surface. (confidence 0.85)",
+    "submittedAt": "2026-11-26T10:00:50+00:00",
+    "status": "approved",
+    "id": "ai-berat-157f66-tag-wall",
+    "kind": "tag",
+    "value": "wall",
+    "reviewedAt": "2026-11-26T10:01:34.235Z"
+  },
+  {
+    "recordId": "berat-157f66",
+    "author": "Hermes · qwen3.5:9b",
+    "rationale": "The image shows a thick stone wall constructed from irregularly sized and shaped stones laid without consistent horizontal courses, characteristic of uncoursed rubble masonry, with visible signs of weathering and erosion on the surface. (confidence 0.85)",
+    "submittedAt": "2026-11-26T10:00:50+00:00",
+    "status": "approved",
+    "id": "ai-berat-157f66-tag-weathering",
+    "kind": "tag",
+    "value": "weathering",
+    "reviewedAt": "2026-11-26T10:01:34.235Z"
+  },
+  {
+    "recordId": "berat-157f66",
+    "author": "Hermes · qwen3.5:9b",
+    "rationale": "The image shows a thick stone wall constructed from irregularly sized and shaped stones laid without consistent horizontal courses, characteristic of uncoursed rubble masonry, with visible signs of weathering and erosion on the surface. (confidence 0.85)",
+    "submittedAt": "2026-11-26T10:00:50+00:00",
+    "status": "approved",
+    "id": "ai-berat-157f66-tag-erosion",
+    "kind": "tag",
+    "value": "erosion",
+    "reviewedAt": "2026-11-26T10:01:34.235Z"
   }
 ]
