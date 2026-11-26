@@ -989,6 +989,10 @@ def apply(dry_run: bool = False) -> list[dict[str, Any]]:
             _save(INCOMING / "submissions.json", submissions)
             done.append(current)
             print(f"  record {record['id']} creato come pending")
+    if done:
+        # Posizioni arrivate dal contributore (luogo a parole, puntina): l'ingest non le
+        # geocodifica, quindi localita' e paese si completano qui.
+        subprocess.run([sys.executable, str(ROOT / "tools" / "fill_places.py")], check=False)
     return done
 
 

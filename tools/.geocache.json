@@ -2672,5 +2672,96 @@
     "state": "Emilia-Romagna",
     "country": "Italy",
     "countryCode": "IT"
+  },
+  "44.4160,12.1983": {
+    "location": "Ravenna",
+    "county": "Ravenna",
+    "state": "Emilia-Romagna",
+    "country": "Italy",
+    "countryCode": "IT"
+  },
+  "43.8652,12.2068": {
+    "location": "San Donato",
+    "county": "Rimini",
+    "state": "Emilia-Romagna",
+    "country": "Italy",
+    "countryCode": "IT"
+  },
+  "44.2608,12.3494": {
+    "location": "Cervia",
+    "county": "Ravenna",
+    "state": "Emilia-Romagna",
+    "country": "Italy",
+    "countryCode": "IT"
+  },
+  "44.2632,12.3506": {
+    "location": "Cervia",
+    "county": "Ravenna",
+    "state": "Emilia-Romagna",
+    "country": "Italy",
+    "countryCode": "IT"
+  },
+  "44.2627,12.3506": {
+    "location": "Cervia",
+    "county": "Ravenna",
+    "state": "Emilia-Romagna",
+    "country": "Italy",
+    "countryCode": "IT"
+  },
+  "41.4032,2.1750": {
+    "location": "Barcelona",
+    "county": "Barcelonès",
+    "state": "Catalonia",
+    "country": "Spain",
+    "countryCode": "ES"
+  },
+  "41.4028,2.1742": {
+    "location": "Barcelona",
+    "county": "Barcelonès",
+    "state": "Catalonia",
+    "country": "Spain",
+    "countryCode": "ES"
+  },
+  "34.0308,-6.8365": {
+    "location": "Rabat",
+    "county": "باشوية الرباط",
+    "state": "Rabat-Salé-Kénitra",
+    "country": "Morocco",
+    "countryCode": "MA"
+  },
+  "44.4880,11.3303": {
+    "location": "Bologna",
+    "county": "Bologna",
+    "state": "Emilia-Romagna",
+    "country": "Italy",
+    "countryCode": "IT"
+  },
+  "44.4154,12.1963": {
+    "location": "Ravenna",
+    "county": "Ravenna",
+    "state": "Emilia-Romagna",
+    "country": "Italy",
+    "countryCode": "IT"
+  },
+  "44.5855,10.7467": {
+    "location": "Casalgrande",
+    "county": "Reggio Emilia",
+    "state": "Emilia-Romagna",
+    "country": "Italy",
+    "countryCode": "IT"
+  },
+  "43.9964,12.4400": {
+    "location": "Verucchio",
+    "county": "Rimini",
+    "state": "Emilia-Romagna",
+    "country": "Italy",
+    "countryCode": "IT"
+  },
+  "45.4392,12.3270": {
+    "location": "Venice",
+    "county": "Venezia",
+    "state": "Veneto",
+    "country": "Italy",
+    "countryCode": "IT"
   }
 }

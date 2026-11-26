@@ -21,6 +21,7 @@ import {
   Marker,
   Popup,
   TileLayer,
+  useMap,
   useMapEvents,
 } from 'react-leaflet';
 import { Button } from '@/components/ui/button';
@@ -99,6 +100,71 @@ function MapZoomWatcher({ onZoom }: { onZoom: (zoom: number) => void }) {
   return null;
 }
 
+/**
+ * Leaflet misura il riquadro solo all'avvio: se poi cambia dimensione (layout che
+ * si assesta, telefono ruotato) carica i quadranti per la misura vecchia e il resto
+ * resta grigio. Qui la si rimisura a ogni cambio.
+ */
+function MapSizeWatcher() {
+  const map = useMap();
+  useEffect(() => {
+    const container = map.getContainer();
+    const observer = new ResizeObserver(() => map.invalidateSize());
+    observer.observe(container);
+    map.invalidateSize();
+    return () => observer.disconnect();
+  }, [map]);
+  return null;
+}
+
+type MapGroup = {
+  lat: number;
+  lng: number;
+  group: MasonryRecord[];
+  label: string;
+};
+
+/**
+ * Raggruppa le foto vicine in una griglia che si stringe con lo zoom (a zoom 3
+ * celle di ~7,5°, a zoom 10 di ~0,06°): un gruppo si scioglie avvicinandosi, e
+ * una foto isolata resta un puntino. Prima si raggruppava per paese, e le foto
+ * senza paese finivano tutte in un unico gruppo piazzato nella media delle loro
+ * posizioni, cioe' in mare.
+ */
+function groupByProximity(records: MasonryRecord[], zoom: number): MapGroup[] {
+  if (zoom >= 13) {
+    return records.map((record) => ({
+      lat: record.lat as number,
+      lng: record.lng as number,
+      group: [record],
+      label: record.location || record.country,
+    }));
+  }
+  const cell = 60 / 2 ** zoom;
+  const cells = new Map<string, MasonryRecord[]>();
+  records.forEach((record) => {
+    const key = `${Math.floor((record.lat as number) / cell)}:${Math.floor((record.lng as number) / cell)}`;
+    cells.set(key, [...(cells.get(key) ?? []), record]);
+  });
+  return [...cells.values()].map((group) => {
+    const places = [
+      ...new Set(
+        group.map((item) => item.country || item.location).filter(Boolean),
+      ),
+    ];
+    return {
+      lat:
+        group.reduce((sum, item) => sum + (item.lat as number), 0) /
+        group.length,
+      lng:
+        group.reduce((sum, item) => sum + (item.lng as number), 0) /
+        group.length,
+      group,
+      label: places.slice(0, 3).join(', ') + (places.length > 3 ? '…' : ''),
+    };
+  });
+}
+
 function ArchiveMap({
   visibleRecords,
   onSelectRecords,
@@ -107,22 +173,10 @@ function ArchiveMap({
   onSelectRecords: (records: MasonryRecord[]) => void;
 }) {
   const [zoom, setZoom] = useState(3);
-  const clustered = zoom < 5;
-
-  const clusterGroups = useMemo(() => {
-    const groups = new Map<string, MasonryRecord[]>();
-    visibleRecords.forEach((record) => {
-      const key = record.country;
-      groups.set(key, [...(groups.get(key) ?? []), record]);
-    });
-    return [...groups.values()].map((group) => {
-      const lat =
-        group.reduce((sum, item) => sum + (item.lat ?? 0), 0) / group.length;
-      const lng =
-        group.reduce((sum, item) => sum + (item.lng ?? 0), 0) / group.length;
-      return { lat, lng, group };
-    });
-  }, [visibleRecords]);
+  const groups = useMemo(
+    () => groupByProximity(visibleRecords, zoom),
+    [visibleRecords, zoom],
+  );
 
   return (
     <MapContainer
@@ -132,53 +186,57 @@ function ArchiveMap({
       scrollWheelZoom
       className="archive-map"
     >
+      {/* Quadranti OpenStreetMap all'indirizzo attuale: i sottodomini a/b/c.tile.…
+          sono sconsigliati e servono peggio. (CARTO ora chiede una chiave d'accesso.) */}
       <TileLayer
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+        url="https://tile.openstreetmap.org/{z}/{x}/{y}.png"
+        maxZoom={19}
       />
       <MapZoomWatcher onZoom={setZoom} />
-      {clustered
-        ? clusterGroups.map(({ lat, lng, group }) => (
-            <Marker
-              key={group.map((item) => item.id).join('-')}
-              position={[lat, lng]}
-              icon={makeClusterIcon(group.length, group[0].status)}
-            >
-              <Popup>
-                <button
-                  type="button"
-                  className="map-popup-link"
-                  onClick={() => onSelectRecords(group)}
-                >
-                  <strong>{group[0].country}</strong>
-                  <span>
-                    View {group.length} archive photo
-                    {group.length > 1 ? 's' : ''}
-                  </span>
-                </button>
-              </Popup>
-            </Marker>
-          ))
-        : visibleRecords.map((record) => (
-            <Marker
-              key={record.id}
-              position={[record.lat as number, record.lng as number]}
-              icon={makeMarkerIcon(record.status)}
-            >
-              <Popup>
-                <button
-                  type="button"
-                  className="map-popup-link"
-                  onClick={() => onSelectRecords([record])}
-                >
-                  <strong>{record.title}</strong>
-                  <span>
-                    {record.location}, {record.country} · View photo
-                  </span>
-                </button>
-              </Popup>
-            </Marker>
-          ))}
+      <MapSizeWatcher />
+      {groups.map(({ lat, lng, group, label }) =>
+        group.length > 1 ? (
+          <Marker
+            key={group.map((item) => item.id).join('-')}
+            position={[lat, lng]}
+            icon={makeClusterIcon(group.length, group[0].status)}
+          >
+            <Popup>
+              <button
+                type="button"
+                className="map-popup-link"
+                onClick={() => onSelectRecords(group)}
+              >
+                <strong>{label || 'Archive photos'}</strong>
+                <span>View {group.length} archive photos</span>
+              </button>
+            </Popup>
+          </Marker>
+        ) : (
+          <Marker
+            key={group[0].id}
+            position={[lat, lng]}
+            icon={makeMarkerIcon(group[0].status)}
+          >
+            <Popup>
+              <button
+                type="button"
+                className="map-popup-link"
+                onClick={() => onSelectRecords(group)}
+              >
+                <strong>{group[0].title}</strong>
+                <span>
+                  {[group[0].location, group[0].country]
+                    .filter(Boolean)
+                    .join(', ')}{' '}
+                  · View photo
+                </span>
+              </button>
+            </Popup>
+          </Marker>
+        ),
+      )}
     </MapContainer>
   );
 }
