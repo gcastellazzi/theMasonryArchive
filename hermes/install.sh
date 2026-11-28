@@ -95,12 +95,25 @@ cat > "$ADMIN/scripts/masonry-digest.sh" <<EOF
 cd "$REPO" && exec python3 tools/intake_queue.py digest
 EOF
 chmod +x "$ADMIN/scripts/masonry-digest.sh"
+# Resoconto del lunedi': ultimi 7 giorni, PNG con mappa e istogramma, pagina HTML.
+cat > "$ADMIN/scripts/masonry-report.sh" <<EOF
+#!/usr/bin/env bash
+# Generato da hermes/install.sh — non modificare qui.
+cd "$REPO" && exec python3 tools/weekly_report.py --days 7 --telegram
+EOF
+chmod +x "$ADMIN/scripts/masonry-report.sh"
+
 # Elenco letto una volta: `cmd | grep -q` sotto pipefail fallisce per SIGPIPE
 # proprio quando trova la riga, e il job verrebbe creato di nuovo.
 JOBS="$(hermes -p masonry-admin cron list 2>&1 || true)"
 if [[ "$JOBS" != *masonry-digest* ]]; then
   hermes -p masonry-admin cron create "0 8 * * *" --name masonry-digest \
     --no-agent --script masonry-digest.sh --deliver telegram
+fi
+
+if [[ "$JOBS" != *masonry-report* ]]; then
+  hermes -p masonry-admin cron create "0 8 * * 1" --name masonry-report \
+    --no-agent --script masonry-report.sh --deliver telegram
 fi
 
 if [[ "$JOBS" != *masonry-proposals* ]]; then

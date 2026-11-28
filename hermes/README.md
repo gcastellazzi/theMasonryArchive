@@ -68,3 +68,9 @@ Sul portatile che ospita il gateway i modelli sono lenti e il 9B esaurisce la me
 `/pubblica` mostra cosa cambierebbe sul sito (foto approvate prima e dopo, file di dati, immagini) e controlla che GitHub non abbia commit piu' recenti; `/pubblicaok` fa commit e push. Si pubblicano solo `src/data/` e `public/images/`, mai il codice.
 
 Il push usa una **deploy key** valida solo per questo repository (`~/.ssh/masonry_github`): la parte pubblica va aggiunta una volta in GitHub → Settings → Deploy keys, con *Allow write access*. Si revoca da li' in un clic.
+
+## Resoconto e promemoria
+
+- `/aiutom` mette in cima cosa aspetta una tua mossa, con nomi e motivi (lo stesso testo del riepilogo delle 8).
+- `/resoconto [giorni]` (predefinito 7) riassume foto ricevute e decise, nuovi contributori, richieste e cose da fare, e allega un PNG (numeri, mappa delle foto, foto ricevute per giorno) e una pagina HTML con l'elenco completo. Lo stesso resoconto arriva ogni lunedi' alle 8 (cron `masonry-report`). I file restano in `incoming/reports/`, fuori dal repository: contengono i nomi dei contributori. Script: `tools/weekly_report.py`; contorno delle terre in `tools/data/land-110m.json` (Natural Earth, dominio pubblico).
+- `/avvisa` manda sia i cambi di stato (accettata, rifiutata, in archivio) sia il link alle foto gia' online, un messaggio per persona. Il link parte solo per le foto presenti su GitHub (`origin/main`), anche se il push e' stato fatto dal terminale; `/pubblicaok` lo manda da se'.

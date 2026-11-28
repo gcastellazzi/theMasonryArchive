@@ -1002,6 +1002,7 @@ MESSAGES = {
         "rejected": "La tua foto «{name}» non e' stata accettata.",
         "ingested": "La tua foto «{name}» e' entrata nell'archivio (scheda {record}). Grazie!",
         "published": "🎉 La tua foto «{name}» e' pubblicata: {url}\nSe vuoi correggere qualcosa (descrizione, posizione…), scrivimelo qui.",
+        "published_many": "🎉 Le tue foto sono pubblicate:\n{items}\nSe vuoi correggere qualcosa (descrizione, posizione…), scrivimelo qui.",
         "note": "Nota",
     },
     "en": {
@@ -1009,10 +1010,27 @@ MESSAGES = {
         "rejected": "Your photo “{name}” was not accepted.",
         "ingested": "Your photo “{name}” is now in the archive (record {record}). Thank you!",
         "published": "🎉 Your photo “{name}” is online: {url}\nIf you'd like anything corrected (description, location…), just tell me here.",
+        "published_many": "🎉 Your photos are online:\n{items}\nIf you'd like anything corrected (description, location…), just tell me here.",
         "note": "Note",
     },
 }
 STATUS_MESSAGES = ("accepted", "rejected", "ingested")
+
+
+def pending_notifications(submissions: list[dict[str, Any]] | None = None) -> list[dict[str, Any]]:
+    """Contributi il cui autore non sa ancora del cambio di stato.
+
+    Chi ha gia' ricevuto il link di pubblicazione sa anche che la foto e'
+    entrata nell'archivio: non va riavvisato. E se la foto e' gia' online,
+    "e' entrata nell'archivio" e' superato: riceve il link (notify_published).
+    """
+    rows = [s for s in (load_submissions() if submissions is None else submissions)
+            if s["status"] in STATUS_MESSAGES and s["status"] != s.get("notifiedStatus")
+            and not (s["status"] == "ingested" and s.get("notifiedStatus") == "published")]
+    if any(s["status"] == "ingested" for s in rows):
+        online = published_records()
+        rows = [s for s in rows if not (s["status"] == "ingested" and s.get("recordId") in online)]
+    return rows
 
 
 def notify(dry_run: bool = False) -> list[str]:
@@ -1021,10 +1039,8 @@ def notify(dry_run: bool = False) -> list[str]:
     with locked():
         submissions = load_submissions()
         contributors = load_contributors()
-        for entry in submissions:
+        for entry in pending_notifications(submissions):
             status = entry["status"]
-            if status == entry.get("notifiedStatus") or status not in STATUS_MESSAGES:
-                continue
             person = contributors.get(entry["contributorId"])
             if not person:
                 continue
@@ -1045,29 +1061,59 @@ def notify(dry_run: bool = False) -> list[str]:
     return sent
 
 
-def notify_published(dry_run: bool = False) -> list[str]:
-    """Dopo la pubblicazione: avvisa con il link chi ha mandato una foto ora approvata.
+def published_records() -> set[str]:
+    """Record approvati nella versione su GitHub (quella che il sito mostra).
 
-    Si chiama dopo il push (/pubblicaok): prima il link non porterebbe a nulla.
+    origin/main si aggiorna sia con /pubblicaok sia con un push dal terminale.
+    Se git non risponde si usa il file locale, come prima.
     """
-    approved = {r["id"] for r in _load(RECORDS, []) if r.get("status") == "approved"}
+    result = subprocess.run(["git", "show", "origin/main:src/data/records.json"], cwd=ROOT,
+                            capture_output=True, text=True)
+    try:
+        records = json.loads(result.stdout) if result.returncode == 0 else _load(RECORDS, [])
+    except ValueError:
+        records = _load(RECORDS, [])
+    return {r["id"] for r in records if r.get("status") == "approved"}
+
+
+def unannounced(submissions: list[dict[str, Any]] | None = None) -> list[dict[str, Any]]:
+    """Contributi gia' online il cui autore non ha ancora ricevuto il link."""
+    online = published_records()
+    return [s for s in (load_submissions() if submissions is None else submissions)
+            if s.get("recordId") in online and s.get("notifiedStatus") != "published"]
+
+
+def notify_published(dry_run: bool = False) -> list[str]:
+    """Manda il link a chi ha foto pubblicate sul sito e non l'ha ancora ricevuto.
+
+    Un solo messaggio per persona, anche con piu' foto. Vale solo per le foto
+    gia' su GitHub: prima il link non porterebbe a nulla.
+    """
     sent: list[str] = []
     with locked():
         submissions = load_submissions()
         contributors = load_contributors()
-        for entry in submissions:
-            if entry.get("recordId") not in approved or entry.get("notifiedStatus") == "published":
-                continue
-            person = contributors.get(entry["contributorId"])
+        by_person: dict[str, list[dict[str, Any]]] = {}
+        for entry in unannounced(submissions):
+            by_person.setdefault(entry["contributorId"], []).append(entry)
+        for key, entries in by_person.items():
+            person = contributors.get(key)
             if not person:
                 continue
             words = MESSAGES.get(person.get("language") or "it", MESSAGES["it"])
-            text = words["published"].format(name=entry["originalName"], url=record_url(entry["recordId"]))
+            if len(entries) == 1:
+                text = words["published"].format(name=entries[0]["originalName"], url=record_url(entries[0]["recordId"]))
+            else:
+                items = "\n".join(f"• «{e['originalName']}»: {record_url(e['recordId'])}" for e in entries)
+                text = words["published_many"].format(items=items)
             if not dry_run:
                 if not send_to_contributor(person["telegramUserId"], text):
+                    print(f"  invio fallito per {key}", file=sys.stderr)
                     continue
-                entry["notifiedStatus"] = "published"
-            sent.append(f"{entry['recordId']} → {person.get('firstName', '')} {person.get('lastName', '')}".strip())
+                for entry in entries:
+                    entry["notifiedStatus"] = "published"
+            who = f"{person.get('firstName', '')} {person.get('lastName', '')}".strip()
+            sent.append(f"{who} ({len(entries)} foto)")
         if not dry_run:
             _save(INCOMING / "submissions.json", submissions)
     return sent
@@ -1190,7 +1236,8 @@ def stats() -> dict[str, Any]:
         "contributors": len(load_contributors()),
         "submissions": len(submissions),
         **counts,
-        "toNotify": sum(1 for s in submissions if s["status"] != s.get("notifiedStatus") and s["status"] in STATUS_MESSAGES),
+        "toNotify": len(pending_notifications(submissions)),
+        "toLink": len(unannounced(submissions)),
         "inviteRequests": sum(1 for r in load_requests() if r["status"] == "pending"),
         "deletionRequests": [d for d in _load(INCOMING / "deletions.json", []) if not d["handled"]],
     }
@@ -1200,9 +1247,13 @@ def stats() -> dict[str, Any]:
 # Riga di comando
 
 
-def _summary(entry: dict[str, Any], contributors: dict[str, Any]) -> str:
+def _who(entry: dict[str, Any], contributors: dict[str, Any]) -> str:
     person = contributors.get(entry["contributorId"], {})
-    who = f"{person.get('firstName', '?')} {person.get('lastName', '')}".strip()
+    return f"{person.get('firstName', '?')} {person.get('lastName', '')}".strip()
+
+
+def _summary(entry: dict[str, Any], contributors: dict[str, Any]) -> str:
+    who = _who(entry, contributors)
     where = f"{entry['lat']:.5f},{entry['lng']:.5f}" if entry.get("lat") is not None else (entry.get("locationHint") or "senza posizione")
     return f"{entry['id']}  {entry['status']:<9} {entry['createdAt'][:10]}  {who:<24} {where}  {entry['originalName']}"
 
@@ -1230,7 +1281,7 @@ def main() -> int:
     resolve = sub.add_parser("resolve-change", help="chiude una richiesta di modifica e avvisa l'autore")
     resolve.add_argument("id")
     resolve.add_argument("--note", default="")
-    sub.add_parser("notify-published", help="avvisa con il link chi ha foto appena pubblicate")
+    sub.add_parser("notify-published", help="avvisa con il link chi ha foto pubblicate").add_argument("--dry-run", action="store_true")
     approve = sub.add_parser("approve-request", help="accetta una richiesta d'invito")
     approve.add_argument("id")
     approve.add_argument("--note", default="")
@@ -1266,9 +1317,15 @@ def main() -> int:
         if summary["pending"]:
             lines.append(f"📥 {summary['pending']} foto da moderare: /coda")
         if summary["accepted"]:
-            lines.append(f"✅ {summary['accepted']} accettate da far entrare nell'archivio (apply)")
+            lines.append(f"✅ {summary['accepted']} accettate da far entrare nell'archivio: /applica")
         if summary["toNotify"]:
-            lines.append(f"✉️ {summary['toNotify']} contributori da avvisare (notify)")
+            # Con nome e motivo: un numero da solo non dice chi aspetta cosa.
+            lines.append(f"✉️ {summary['toNotify']} contributori da avvisare: /avvisa")
+            words = {"accepted": "foto accettata", "rejected": "foto non accettata", "ingested": "foto entrata in archivio"}
+            for entry in pending_notifications():
+                lines.append(f"   • {_who(entry, contributors)}: {words[entry['status']]} («{entry['originalName']}»)")
+        if summary["toLink"]:
+            lines.append(f"🔗 {summary['toLink']} foto online di cui l'autore non ha ancora il link: /avvisa")
         if summary["deletionRequests"]:
             lines.append(f"⚠️ {len(summary['deletionRequests'])} richieste di cancellazione con record pubblicati")
         output = ("The Masonry Archive\n" + "\n".join(lines)) if lines else ""
@@ -1282,7 +1339,7 @@ def main() -> int:
         except IntakeError as error:
             sys.exit(error.message)
     elif args.command == "notify-published":
-        output = notify_published()
+        output = notify_published(args.dry_run)
     elif args.command == "requests":
         rows = [r for r in load_requests() if r["status"] == "pending"]
         output = rows if args.json else "\n".join(

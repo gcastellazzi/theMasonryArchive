@@ -179,9 +179,21 @@ def applica(raw: str) -> str:
 
 
 def avvisa(raw: str) -> str:
+    """Cambi di stato (accettata, rifiutata, in archivio) e link alle foto gia' online."""
     del raw
-    out = _queue("notify")
-    return "✉️ Nessun contributore da avvisare." if out.strip() in ("[]", "") else "✉️ Avvisi inviati:\n" + out
+    try:
+        linked = _queue_json("notify-published")
+        changed = _queue_json("notify")
+    except (ValueError, OSError):
+        return "⚠️ Avvisi non riusciti:\n" + _queue("notify")
+    if not linked and not changed:
+        return "✉️ Nessun contributore da avvisare."
+    lines = ["✉️ Avvisi inviati"]
+    if linked:
+        lines += ["Link alle foto pubblicate:"] + [f"• {who}" for who in linked]
+    if changed:
+        lines += ["Cambi di stato:"] + [f"• {row}" for row in changed]
+    return "\n".join(lines)
 
 
 def _requests() -> list[dict]:
@@ -311,7 +323,10 @@ def pubblicaok(raw: str) -> str:
     if error:
         return "⚠️ " + error
     if not lines:
-        return "Niente da pubblicare."
+        # Dati gia' su GitHub (magari pushati dal terminale): restano da mandare i link.
+        notified = _queue_json("notify-published")
+        told = f"\n✉️ Avvisati con il link: {', '.join(notified)}" if notified else ""
+        return "Niente da pubblicare: i dati sono gia' su GitHub." + told
     approved_before, approved_now = _approved("HEAD"), _approved(None)
     _git("add", "--", *DATA_PATHS)
     message = f"Archive data: {approved_now} approved photos ({approved_now - approved_before:+d})"
@@ -563,14 +578,23 @@ def risolta(raw: str) -> str:
     return "✅ Richiesta chiusa, l'autore e' stato avvisato." if '"status": "done"' in out else out
 
 
+def resoconto(raw: str) -> str:
+    """Ultimi giorni in sintesi, cosa resta da fare (con nomi), grafico e pagina HTML."""
+    days = raw.strip().split()[0] if raw.strip() else "7"
+    if not days.isdigit():
+        return "Uso: /resoconto [giorni], ad esempio /resoconto 30 (predefinito 7)"
+    return _run("tools/weekly_report.py", "--days", days, "--telegram")
+
+
 COMMANDS = [
+    ("resoconto", resoconto, "Resoconto degli ultimi giorni con mappa e grafico: /resoconto [giorni]"),
     ("archivio", stato, "Archivio e contributi in sintesi"),
     ("coda", coda, "Foto dei contributori da moderare"),
     ("foto", foto, "Dettagli e anteprima di una foto: /foto <id>"),
     ("accetta", accetta, "Accetta una foto: /accetta <id> [nota]"),
     ("rifiuta", rifiuta, "Rifiuta una foto: /rifiuta <id> <motivo>"),
     ("applica", applica, "Fa entrare nell'archivio le foto accettate"),
-    ("avvisa", avvisa, "Avvisa i contributori dell'esito"),
+    ("avvisa", avvisa, "Avvisa i contributori dell'esito e manda i link alle foto pubblicate"),
     ("richieste", richieste, "Richieste d'invito in attesa"),
     ("ammetti", ammetti, "Accetta una richiesta d'invito: /ammetti <id>"),
     ("respingi", respingi, "Respinge una richiesta d'invito: /respingi <id> [motivo]"),
@@ -619,6 +643,10 @@ def _admit_slot(n: int):
 def aiuto(raw: str) -> str:
     del raw
     lines = ["🧱 The Masonry Archive — comandi", ""]
+    # In cima cosa aspetta una tua mossa, con nomi e motivi (lo stesso testo del digest delle 8).
+    todo = subprocess.run(["python3", "tools/intake_queue.py", "digest"], cwd=REPO,
+                          capture_output=True, text=True, timeout=60).stdout.strip().splitlines()[1:]
+    lines += (["📌 Da fare ora:"] + todo if todo else ["✅ Niente in sospeso."]) + [""]
     lines += [f"/{name} — {description}" for name, _, description in COMMANDS]
     lines += [
         f"/p1 … /p{SLOTS} — proposte per la foto n. 1…{SLOTS} di /proposte",
